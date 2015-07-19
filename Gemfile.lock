@@ -61,6 +61,9 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    devise_uid (0.1.1)
+      devise (>= 3.0.0)
+      railties (>= 3.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     eventmachine (1.0.7)
@@ -255,6 +258,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   devise (~> 3.5.1)
+  devise_uid (~> 0.1.1)
   factory_girl_rails (~> 4.5.0)
   ffaker (~> 2.1.0)
   guard-rspec (~> 4.6.2)

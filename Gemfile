@@ -58,3 +58,4 @@ end
 gem 'devise', '~> 3.5.1'
 gem 'kaminari', '~> 0.16.3'
 gem 'omniauth-instagram', '~> 1.0.1'
+gem 'devise_uid', '~> 0.1.1'
