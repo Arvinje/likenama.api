@@ -11,3 +11,10 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Extra files to ignore
+doc/
+*.swp
+*~
+.DS_Store
+/config/secrets.yml
