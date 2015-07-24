@@ -17,11 +17,11 @@ ActiveRecord::Schema.define(version: 20150724120818) do
   enable_extension "plpgsql"
 
   create_table "campaigns", force: :cascade do |t|
-    t.integer  "type"
+    t.integer  "campaign_type", default: 0
     t.integer  "like_value"
-    t.integer  "total_likes", default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "total_likes",   default: 0
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.integer  "owner_id"
   end
 
