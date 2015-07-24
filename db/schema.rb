@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(version: 20150724120818) do
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "campaign_id"
-    t.boolean  "paid",        default: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.boolean  "payment_status", default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "likes", ["campaign_id"], name: "index_likes_on_campaign_id", using: :btree

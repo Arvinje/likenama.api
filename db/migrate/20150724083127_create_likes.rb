@@ -3,7 +3,7 @@ class CreateLikes < ActiveRecord::Migration
     create_table :likes do |t|
       t.references :user, index: true, foreign_key: true
       t.references :campaign, index: true, foreign_key: true
-      t.boolean :paid, default: false
+      t.boolean :payment_status, default: false
 
       t.timestamps null: false
     end
