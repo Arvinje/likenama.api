@@ -26,8 +26,8 @@ RSpec.describe User, type: :model do
   end
 
   describe "ActiveRecord associations" do
-    it { should have_many :likes }
-    it { should have_many(:campaigns).through :likes }
+    it { should have_many(:likes).dependent :nullify }
+    it { should have_many(:campaigns).through(:likes) }
   end
 
   describe ".from_omniauth" do
