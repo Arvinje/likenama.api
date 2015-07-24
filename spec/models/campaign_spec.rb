@@ -9,6 +9,7 @@ RSpec.describe Campaign, type: :model do
   describe "ActiveModel validations" do
     it { should validate_presence_of :type }
     it { should validate_presence_of :like_value }
+    it { should validate_presence_of :owner }
 
     it { should validate_numericality_of(:type).only_integer }
     it { should validate_numericality_of(:like_value).only_integer }
@@ -23,7 +24,7 @@ RSpec.describe Campaign, type: :model do
 
   describe "#like" do
     let(:user) { create :user }
-    let(:campaign) { create :campaign }
+    let(:campaign) { create :campaign, owner: user }
 
     context "when a campaign is liked by a user" do
       it "should add the user to the liking_users" do

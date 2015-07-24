@@ -6,6 +6,7 @@ class Campaign < ActiveRecord::Base
   validates :type, presence: true, numericality: { only_integer: true }
   validates :like_value, presence: true, numericality: { only_integer: true }
   validates :total_likes, numericality: { only_integer: true }
+  validates :owner, presence: true
 
   def like(user)
     if self.liking_users << user
