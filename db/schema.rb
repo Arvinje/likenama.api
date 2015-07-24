@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20150724083127) do
   enable_extension "plpgsql"
 
   create_table "campaigns", force: :cascade do |t|
-    t.integer  "type_id"
+    t.integer  "type"
     t.integer  "like_value"
     t.integer  "total_likes", default: 0
     t.datetime "created_at",              null: false
