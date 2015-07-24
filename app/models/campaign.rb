@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
+  belongs_to :owner, class_name: 'User'
 
   validates :type, presence: true, numericality: { only_integer: true }
   validates :like_value, presence: true, numericality: { only_integer: true }

@@ -18,6 +18,7 @@ RSpec.describe Campaign, type: :model do
   describe "ActiveRecord associations" do
     it { should have_many(:likes).dependent :destroy }
     it { should have_many(:liking_users).through(:likes).source(:user) }
+    it { should belong_to(:owner).class_name('User') }
   end
 
   describe "#like" do
