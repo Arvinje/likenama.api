@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Campaign, type: :model do
 
-  it { should respond_to :type }
+  it { should respond_to :campaign_type }
   it { should respond_to :like_value }
   it { should respond_to :total_likes }
 
   describe "ActiveModel validations" do
-    it { should validate_presence_of :type }
+    it { should validate_presence_of :campaign_type }
     it { should validate_presence_of :like_value }
     it { should validate_presence_of :owner }
 
-    it { should validate_numericality_of(:type).only_integer }
+    it { should validate_numericality_of(:campaign_type).only_integer }
     it { should validate_numericality_of(:like_value).only_integer }
     it { should validate_numericality_of(:total_likes).only_integer }
   end
@@ -41,4 +41,26 @@ RSpec.describe Campaign, type: :model do
       end
     end
   end
+
+  describe "#liked_by?" do
+    let(:user) { create :user }
+    let(:campaign) { create :campaign, owner: user }
+
+    context "when the campaign has already been liked by the user" do
+      before do
+        campaign.like user
+        campaign.reload
+      end
+      it "should return true" do
+        expect(campaign.liked_by? user).to eql true
+      end
+    end
+
+    context "when the campaign is not liked by the user" do
+      it "should return false" do
+        expect(campaign.liked_by? user).to eql false
+      end
+    end
+  end
+
 end
