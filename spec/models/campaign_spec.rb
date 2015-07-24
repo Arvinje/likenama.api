@@ -38,7 +38,7 @@ RSpec.describe Campaign, type: :model do
 
       it "should increase the total_likes by 1" do
         expect{ campaign.like user }.to change{ campaign.total_likes }.by(1)
-        expect{ campaign.like user }.to_not change{ campaign.total_likes } 
+        expect{ campaign.like user }.to_not change{ campaign.total_likes }
       end
     end
   end
