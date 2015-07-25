@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :campaigns, foreign_key: :owner_id
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    where(provider: auth.provider, omni_id: auth.uid).first_or_create do |user|
       user.provider = auth.provider
       user.omni_id = auth.uid
       user.password = Devise.friendly_token[0,20]

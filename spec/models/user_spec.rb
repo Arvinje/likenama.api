@@ -35,13 +35,13 @@ RSpec.describe User, type: :model do
     before :each do
       class Param;attr_accessor :provider, :uid;end
       @params = Param.new
-      @user = create :user, provider: "instagram", omni_id: "1456", email: "instagram_1456@likenama.com"
+      @params.provider = "instagram"
+      @params.uid = "1452336"
     end
 
     context "when a current user signs in" do
       before :each do
-        @params.provider = "instagram"
-        @params.uid = "1456"
+        @user = create :user, provider: @params.provider, omni_id: @params.uid, email: "#{@params.provider}_#{@params.uid}@likenama.com"
       end
 
       it "should return a currently signed-up user" do
@@ -50,11 +50,6 @@ RSpec.describe User, type: :model do
     end
 
     context "when a new user registers" do
-      before :each do
-        @params.provider = "instagram"
-        @params.uid = "1452336"
-      end
-
       it "should return a newly created user" do
         expect(User.from_omniauth(@params).email).to eql "#{@params.provider}_#{@params.uid}@likenama.com"
       end
