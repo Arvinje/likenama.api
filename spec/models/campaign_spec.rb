@@ -5,6 +5,7 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :campaign_type }
   it { should respond_to :like_value }
   it { should respond_to :total_likes }
+  it { should respond_to :owner_id }
 
   describe "ActiveModel validations" do
     it { should validate_presence_of :campaign_type }
@@ -20,6 +21,7 @@ RSpec.describe Campaign, type: :model do
     it { should have_many(:likes).dependent :destroy }
     it { should have_many(:liking_users).through(:likes).source(:user) }
     it { should belong_to(:owner).class_name('User') }
+    it { should have_many(:instagram_details).dependent(:destroy) }
   end
 
   describe "#like" do
