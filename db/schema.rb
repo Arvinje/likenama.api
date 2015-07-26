@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725081017) do
+ActiveRecord::Schema.define(version: 20150726131409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,20 @@ ActiveRecord::Schema.define(version: 20150725081017) do
   end
 
   add_index "campaigns", ["owner_id"], name: "index_campaigns_on_owner_id", using: :btree
+
+  create_table "instagram_details", force: :cascade do |t|
+    t.string   "short_code",  default: ""
+    t.text     "description", default: ""
+    t.string   "phone",       default: ""
+    t.string   "website",     default: ""
+    t.text     "address",     default: ""
+    t.integer  "waiting",     default: 0
+    t.integer  "campaign_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "instagram_details", ["campaign_id"], name: "index_instagram_details_on_campaign_id", using: :btree
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
