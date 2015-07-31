@@ -12,7 +12,6 @@ RSpec.describe Campaign, type: :model do
     it { should validate_presence_of :like_value }
     it { should validate_presence_of :owner }
 
-    #it { should validate_numericality_of(:campaign_type).only_integer }
     it { should validate_numericality_of(:like_value).only_integer }
     it { should validate_numericality_of(:total_likes).only_integer }
   end
@@ -21,7 +20,8 @@ RSpec.describe Campaign, type: :model do
     it { should have_many(:likes).dependent :destroy }
     it { should have_many(:liking_users).through(:likes).source(:user) }
     it { should belong_to(:owner).class_name('User') }
-    it { should have_many(:instagram_details).dependent(:destroy) }
+    it { should have_one(:instagram_detail).dependent(:destroy) }
+    it { should accept_nested_attributes_for :instagram_detail }
   end
 
   describe "#like" do

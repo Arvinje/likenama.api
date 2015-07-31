@@ -11,21 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726131409) do
+ActiveRecord::Schema.define(version: 20150731175109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "campaigns", force: :cascade do |t|
-    t.integer  "campaign_type", default: 0
-    t.integer  "like_value"
-    t.integer  "total_likes",   default: 0
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "owner_id"
-  end
-
-  add_index "campaigns", ["owner_id"], name: "index_campaigns_on_owner_id", using: :btree
+# Could not dump table "campaigns" because of following StandardError
+#   Unknown type 'campaign_type' for column 'campaign_type'
 
   create_table "instagram_details", force: :cascade do |t|
     t.string   "short_code",  default: ""
@@ -44,9 +36,8 @@ ActiveRecord::Schema.define(version: 20150726131409) do
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "campaign_id"
-    t.boolean  "payment_status", default: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "likes", ["campaign_id"], name: "index_likes_on_campaign_id", using: :btree
