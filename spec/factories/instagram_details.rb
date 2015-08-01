@@ -5,7 +5,7 @@ FactoryGirl.define do
     phone { (rand() * 10**8).round.to_s }
     website { FFaker::Internet.http_url }
     address { FFaker::AddressAU.full_address }
-    waiting 1
+    waiting { rand(0..20) }
     campaign
   end
 

@@ -3,7 +3,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   before_action :authenticate_with_token!
 
   def index
-    respond_with Campaign.all
+    render json: Campaign.all
   end
 
   def create
@@ -16,7 +16,16 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   end
 
   def show
-    respond_with Campaign.find(params[:id])
+    render json: Campaign.find(params[:id])
+  end
+
+  def update
+    campaign = current_user.campaigns.find(params[:id])
+    if campaign.update(campaign_params)
+      render json: campaign, status: 200, location: [:api, campaign]
+    else
+      render json: { errors: campaign.errors }, status: 422
+    end
   end
 
   private
