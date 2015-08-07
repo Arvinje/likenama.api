@@ -1,5 +1,4 @@
 class Api::V1::CampaignsController < Api::V1::ApiController
-  respond_to :json
   before_action :authenticate_with_token!
 
   def index
