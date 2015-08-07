@@ -30,6 +30,16 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE TYPE campaign_type AS ENUM (
+    'instagram',
+    'web'
+);
+
+
+--
+-- Name: payment_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE payment_type AS ENUM (
     'like_getter',
     'money_getter'
 );
@@ -50,7 +60,8 @@ CREATE TABLE campaigns (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     owner_id integer,
-    campaign_type campaign_type
+    campaign_type campaign_type,
+    payment_type payment_type
 );
 
 
@@ -364,4 +375,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150725081017');
 INSERT INTO schema_migrations (version) VALUES ('20150726131409');
 
 INSERT INTO schema_migrations (version) VALUES ('20150731175109');
+
+INSERT INTO schema_migrations (version) VALUES ('20150802124712');
 
