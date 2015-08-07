@@ -1,7 +1,7 @@
-class AddCampaignTypeToUsers < ActiveRecord::Migration
+class AddCampaignTypeToCampaigns < ActiveRecord::Migration
   def up
     execute <<-SQL
-      CREATE TYPE campaign_type AS ENUM ('like_getter', 'money_getter');
+      CREATE TYPE campaign_type AS ENUM ('instagram', 'web');
     SQL
 
     add_column :campaigns, :campaign_type, :campaign_type, index: true
