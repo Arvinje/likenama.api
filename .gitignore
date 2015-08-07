@@ -18,3 +18,4 @@ doc/
 *~
 .DS_Store
 /config/secrets.yml
+README.md
