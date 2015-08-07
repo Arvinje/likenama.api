@@ -44,6 +44,8 @@ group :development, :test do
 
   gem 'thin'
   gem 'pry-rails'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'ffaker', '~> 2.1.0'
 end
 
 group :test do
@@ -51,8 +53,6 @@ group :test do
   gem 'guard-rspec', '~> 4.6.2', require: false
   gem 'terminal-notifier-guard', '~> 1.6.4'
   gem 'shoulda-matchers', '~> 2.8.0'
-  gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'ffaker', '~> 2.1.0'
 end
 
 gem 'devise', '~> 3.5.1'
@@ -60,3 +60,4 @@ gem 'kaminari', '~> 0.16.3'
 gem 'omniauth-instagram', '~> 1.0.1'
 gem 'devise_uid', '~> 0.1.1'
 gem 'active_model_serializers', '~> 0.9.3'
+gem 'instagram', '~> 1.1.5'
