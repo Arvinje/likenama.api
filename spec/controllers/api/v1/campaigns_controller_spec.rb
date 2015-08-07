@@ -40,7 +40,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     context "when is not created" do
       before do
         user = create :user
-        @invalid_campaign_attributes = { campaign_type: "money_getter" }
+        @invalid_campaign_attributes = { payment_type: "money_getter" }
         api_authorization_header user.auth_token
         post :create, { user_id: user.id, campaign: @invalid_campaign_attributes }
       end
