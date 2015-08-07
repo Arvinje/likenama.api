@@ -3,12 +3,14 @@ require 'rails_helper'
 RSpec.describe Campaign, type: :model do
 
   it { should respond_to :campaign_type }
+  it { should respond_to :payment_type }
   it { should respond_to :like_value }
   it { should respond_to :total_likes }
   it { should respond_to :owner_id }
 
   describe "ActiveModel validations" do
     it { should validate_presence_of :campaign_type }
+    it { should validate_presence_of :payment_type }
     it { should validate_presence_of :like_value }
     it { should validate_presence_of :owner }
 
@@ -62,6 +64,59 @@ RSpec.describe Campaign, type: :model do
     context "when the campaign is not liked by the user" do
       it "should return false" do
         expect(campaign.liked_by? user).to eql false
+      end
+    end
+  end
+
+  describe "#check_like!" do
+
+    context "when it's a instagram campaign" do
+      context "when user's access token is invalid" do
+        before do
+          @user = create :user
+          @campaign = create :campaign, owner: @user
+          create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
+        end
+
+        it "should return false" do
+          expect(@campaign.check_like!(@user, instagram_access_token: "***REMOVED***")).to eql false
+        end
+      end
+
+      context "when the sent shortcode is invalid" do
+        before do
+          @user = create :user
+          @campaign = create :campaign, owner: @user
+          create :instagram_detail, campaign: @campaign, short_code: "54gQzsdgGi6UK"
+        end
+
+        it "should return false" do
+          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql false
+        end
+      end
+
+      context "when user has liked the instagram photo" do
+        before do
+          @user = create :user
+          @campaign = create :campaign, owner: @user
+          create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
+        end
+
+        it "should return true" do
+          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql true
+        end
+      end
+
+      context "when user has not liked the instagram photo" do
+        before do
+          @user = create :user
+          @campaign = create :campaign, owner: @user
+          create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.not_liked_instagram_shortcode
+        end
+
+        it "should return false" do
+          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql false
+        end
       end
     end
   end
