@@ -28,29 +28,51 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe "#like" do
-    let(:user) { create :user }
-    let(:campaign) { create :campaign, owner: user }
-
     context "when a campaign is liked by a user" do
+    let(:user) { create :user }
+    let(:campaign) { create :campaign }
+
       it "should add the user to the liking_users" do
         campaign.like user
         expect(campaign.liking_users).to include user
       end
 
       it "should return true when a campaign gets liked successfully" do
+        campaign.like user
         expect(campaign.like user).to eql true
       end
 
       it "should increase the total_likes by 1" do
-        expect{ campaign.like user }.to change{ campaign.total_likes }.by(1)
+        expect{ campaign.like user }.to change{ campaign.total_likes }.by 1
         expect{ campaign.like user }.to_not change{ campaign.total_likes }
+        expect(campaign.total_likes).to eql 1
+      end
+    end
+
+    context "when it's a like_getter campaign" do
+      let(:user) { create :user }
+      let(:campaign) { create :campaign, payment_type: "like_getter" }
+
+      it "should increase the user's like credit by the like_value" do
+        expect{ campaign.like user }.to change{ user.like_credit }.by campaign.like_value
+        expect{ campaign.like user }.to_not change{ user.like_credit }
+      end
+    end
+
+    context "when it's a money_getter campaign" do
+      let(:user) { create :user }
+      let(:campaign) { create :campaign, payment_type: "money_getter"}
+
+      it "should increase the user's coin credit by the like_value" do
+        expect{ campaign.like user }.to change{ user.coin_credit }.by campaign.like_value
+        expect{ campaign.like user }.to_not change{ user.coin_credit }
       end
     end
   end
 
   describe "#liked_by?" do
     let(:user) { create :user }
-    let(:campaign) { create :campaign, owner: user }
+    let(:campaign) { create :campaign }
 
     context "when the campaign has already been liked by the user" do
       before do
@@ -75,7 +97,7 @@ RSpec.describe Campaign, type: :model do
       context "when user's access token is invalid" do
         before do
           @user = create :user
-          @campaign = create :campaign, owner: @user
+          @campaign = create :campaign
           create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
         end
 
@@ -87,7 +109,7 @@ RSpec.describe Campaign, type: :model do
       context "when the sent shortcode is invalid" do
         before do
           @user = create :user
-          @campaign = create :campaign, owner: @user
+          @campaign = create :campaign
           create :instagram_detail, campaign: @campaign, short_code: "54gQzsdgGi6UK"
         end
 
@@ -99,7 +121,7 @@ RSpec.describe Campaign, type: :model do
       context "when user has liked the instagram photo" do
         before do
           @user = create :user
-          @campaign = create :campaign, owner: @user
+          @campaign = create :campaign
           create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
         end
 
@@ -111,7 +133,7 @@ RSpec.describe Campaign, type: :model do
       context "when user has not liked the instagram photo" do
         before do
           @user = create :user
-          @campaign = create :campaign, owner: @user
+          @campaign = create :campaign
           create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.not_liked_instagram_shortcode
         end
 
