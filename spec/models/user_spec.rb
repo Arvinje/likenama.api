@@ -13,9 +13,18 @@ RSpec.describe User, type: :model do
     it { should respond_to :provider }
     it { should respond_to :omni_id }
     it { should respond_to :auth_token }
+    it { should respond_to :like_credit }
+    it { should respond_to :coin_credit }
+  describe "ActiveModel validations" do
 
+  end
     it { should validate_presence_of :email }
     it { should validate_presence_of :password }
+    it { should validate_presence_of :like_credit }
+    it { should validate_presence_of :coin_credit }
+
+    it { should validate_numericality_of(:like_credit).only_integer }
+    it { should validate_numericality_of(:coin_credit).only_integer }
 
     it { should validate_confirmation_of :password }
 

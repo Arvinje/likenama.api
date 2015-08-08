@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   before_create :generate_authentication_token!
-  
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :uid, :database_authenticatable, :registerable,
@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :campaigns, foreign_key: :owner_id
 
   validates :auth_token, uniqueness: true
+  validates :like_credit, presence: true, numericality: { only_integer: true }
+  validates :coin_credit, presence: true, numericality: { only_integer: true }
 
   def generate_authentication_token!
     begin
