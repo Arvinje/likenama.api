@@ -11,7 +11,7 @@ class Campaign < ActiveRecord::Base
   validates :campaign_type, presence: true
   validates :payment_type, presence: true
   validates :like_value, presence: true, numericality: { only_integer: true }
-  validates :total_likes, numericality: { only_integer: true }
+  validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
 
   accepts_nested_attributes_for :instagram_detail

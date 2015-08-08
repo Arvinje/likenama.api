@@ -12,6 +12,7 @@ RSpec.describe Campaign, type: :model do
     it { should validate_presence_of :campaign_type }
     it { should validate_presence_of :payment_type }
     it { should validate_presence_of :like_value }
+    it { should validate_presence_of :total_likes }
     it { should validate_presence_of :owner }
 
     it { should validate_numericality_of(:like_value).only_integer }
