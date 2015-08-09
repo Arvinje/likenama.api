@@ -98,7 +98,8 @@ CREATE TABLE instagram_details (
     waiting integer DEFAULT 0,
     campaign_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    photo_url character varying
 );
 
 
@@ -381,4 +382,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150731175109');
 INSERT INTO schema_migrations (version) VALUES ('20150802124712');
 
 INSERT INTO schema_migrations (version) VALUES ('20150808155022');
+
+INSERT INTO schema_migrations (version) VALUES ('20150809061405');
 
