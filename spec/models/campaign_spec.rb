@@ -24,7 +24,7 @@ RSpec.describe Campaign, type: :model do
     it { should have_many(:liking_users).through(:likes).source(:user) }
     it { should belong_to(:owner).class_name('User') }
     it { should have_one(:instagram_detail).dependent(:destroy) }
-    it { should accept_nested_attributes_for :instagram_detail }
+    it { should accept_nested_attributes_for(:instagram_detail).update_only(true) }
   end
 
   describe "#like" do
@@ -103,18 +103,6 @@ RSpec.describe Campaign, type: :model do
 
         it "should return false" do
           expect(@campaign.check_like!(@user, instagram_access_token: "***REMOVED***")).to eql false
-        end
-      end
-
-      context "when the sent shortcode is invalid" do
-        before do
-          @user = create :user
-          @campaign = create :campaign
-          create :instagram_detail, campaign: @campaign, short_code: "54gQzsdgGi6UK"
-        end
-
-        it "should return false" do
-          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql false
         end
       end
 
