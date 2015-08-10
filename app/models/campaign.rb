@@ -1,7 +1,7 @@
 class Campaign < ActiveRecord::Base
 
-  enum campaign_type: { instagram: 'instagram', web: 'web' }
-  enum payment_type: { like_getter: 'like_getter', money_getter: 'money_getter' }
+  enum campaign_type: { instagram: 'instagram', web: 'web' }  # uses postgres enums
+  enum payment_type: { like_getter: 'like_getter', money_getter: 'money_getter' }   # uses postgres enums
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
@@ -14,7 +14,7 @@ class Campaign < ActiveRecord::Base
   validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
 
-  accepts_nested_attributes_for :instagram_detail
+  accepts_nested_attributes_for :instagram_detail, update_only: true
 
   def like(user)
     unless self.liked_by? user

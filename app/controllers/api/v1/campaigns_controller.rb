@@ -19,17 +19,22 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   end
 
   def update
-    campaign = current_user.campaigns.find(params[:id])
-    if campaign.update(campaign_params)
-      render json: campaign, status: 200, location: [:api, campaign]
+    campaign = current_user.campaigns.find_by id: params[:id]
+    if campaign
+      if campaign.update(campaign_params)
+        render json: campaign, status: 200, location: [:api, campaign]
+      else
+        render json: { errors: campaign.errors }, status: 422
+      end
     else
-      render json: { errors: campaign.errors }, status: 422
+      errors = { base: ["the requested campaign could not be found"] }
+      render json: { errors: errors }, status: 422
     end
   end
 
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :like_value, instagram_detail_attributes: [:id, :short_code, :description, :phone, :website, :address, :waiting])
+    params.require(:campaign).permit(:campaign_type, :payment_type, :like_value, instagram_detail_attributes: [:short_code, :description, :phone, :website, :address, :waiting])
   end
 end
