@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CampaignsController, type: :controller do
+
+  before do
+    allow(KeyValue).to receive(:instagram_money_getter_value).and_return(2)
+    allow(KeyValue).to receive(:instagram_like_getter_value).and_return(1)
+  end
+
   describe "GET #index" do
     before do
       user = create :user
@@ -31,14 +37,14 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should render json representation for the campaign just created" do
         campaign_response = json_response[:campaign]
-        expect(campaign_response[:like_value]).to eql @campaign_attributes[:like_value]
+        expect(campaign_response[:instagram_detail][:short_code]).to eql @campaign_attributes[:instagram_detail_attributes][:short_code]
       end
 
       it { should respond_with 201 }
     end
 
     context "when is not created" do
-      context "when like_value field is empty" do
+      context "when campaign_type field is empty" do
         before do
           user = create :user
           @invalid_campaign_attributes = { payment_type: "money_getter" }
@@ -53,7 +59,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
         it "should render the json errors on why the user could not be created" do
           campaign_response = json_response
-          expect(campaign_response[:errors][:like_value]).to include "can't be blank"
+          expect(campaign_response[:errors][:campaign_type]).to include "can't be blank"
         end
 
         it { should respond_with 422 }
@@ -94,7 +100,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
     it "should return the requested campaign" do
       campaigns_response = json_response[:campaign]
-      expect(campaigns_response[:like_value]).to eql instagram_detail.campaign.like_value
+      expect(campaigns_response[:campaign_type]).to eql instagram_detail.campaign.campaign_type
       expect(campaigns_response[:instagram_detail][:short_code]).to eql instagram_detail.short_code
     end
     it { should respond_with 200 }
@@ -110,7 +116,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
     context "when the requested campaign doesn't exist" do
       before do
-        patch :update, { id: 235464, campaign: { like_value: 2322, instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode } } }
+        patch :update, { id: 235464, campaign: { instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode } } }
       end
 
       it "should render an errors json" do
@@ -128,12 +134,12 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
     context "when is successfully updated" do
       before do
-        patch :update, { id: @campaign.id, campaign: { like_value: 2322, instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode } } }
+        patch :update, { id: @campaign.id, campaign: { instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode } } }
       end
 
       it "should render json representation for the updated campaign" do
         campaign_response = json_response[:campaign]
-        expect(campaign_response[:like_value]).to eql 2322
+        expect(campaign_response[:campaign_type]).to eql @campaign.campaign_type
         expect(campaign_response[:instagram_detail][:short_code]).to eql Rails.application.secrets.liked_instagram_shortcode
       end
 
