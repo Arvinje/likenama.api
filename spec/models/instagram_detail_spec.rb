@@ -36,7 +36,7 @@ RSpec.describe InstagramDetail, type: :model do
         @valid_detail.save
       end
 
-      it "should raise a validation failure" do
+      it "should raise no exceptions" do
         expect(@valid_detail).to be_valid
       end
     end
