@@ -1,20 +1,31 @@
 class Campaign < ActiveRecord::Base
 
-  enum campaign_type: { instagram: 'instagram', web: 'web' }  # uses postgres enums
-  enum payment_type: { like_getter: 'like_getter', money_getter: 'money_getter' }   # uses postgres enums
+  before_save :set_like_value
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
   belongs_to :owner, class_name: 'User'
   has_one :instagram_detail, inverse_of: :campaign, dependent: :destroy
 
-  validates :campaign_type, presence: true
-  validates :payment_type, presence: true
-  validates :like_value, presence: true, numericality: { only_integer: true }
+  # Edit these two when adding new types, also add new postgres enums when needed
+  validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }
+  validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
   validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
 
   accepts_nested_attributes_for :instagram_detail, update_only: true
+
+
+  def set_like_value
+    case self.campaign_type
+    when "instagram"
+      if self.payment_type == "money_getter"
+        self.like_value = KeyValue.instagram_money_getter_value
+      elsif self.payment_type == "like_getter"
+        self.like_value = KeyValue.instagram_like_getter_value
+      end
+    end
+  end
 
   def like(user)
     unless self.liked_by? user

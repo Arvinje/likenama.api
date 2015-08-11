@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Campaign, type: :model do
 
+  before do
+    allow(KeyValue).to receive(:instagram_money_getter_value).and_return(2)
+    allow(KeyValue).to receive(:instagram_like_getter_value).and_return(1)
+  end
+
   it { should respond_to :campaign_type }
   it { should respond_to :payment_type }
   it { should respond_to :like_value }
@@ -11,11 +16,9 @@ RSpec.describe Campaign, type: :model do
   describe "ActiveModel validations" do
     it { should validate_presence_of :campaign_type }
     it { should validate_presence_of :payment_type }
-    it { should validate_presence_of :like_value }
     it { should validate_presence_of :total_likes }
     it { should validate_presence_of :owner }
 
-    it { should validate_numericality_of(:like_value).only_integer }
     it { should validate_numericality_of(:total_likes).only_integer }
   end
 
@@ -25,6 +28,30 @@ RSpec.describe Campaign, type: :model do
     it { should belong_to(:owner).class_name('User') }
     it { should have_one(:instagram_detail).dependent(:destroy) }
     it { should accept_nested_attributes_for(:instagram_detail).update_only(true) }
+  end
+
+  describe "#set_like_value" do
+    context "it's an instagram campaign" do
+      context "it's a money_getter campaign" do
+        let(:campaign) { build :campaign, campaign_type: "instagram", payment_type: "money_getter" }
+        before do
+          campaign.set_like_value
+        end
+        it "should assign the respective like_value to the campaign" do
+          expect(campaign.like_value).to eql KeyValue.instagram_money_getter_value
+        end
+      end
+
+      context "it's a like_getter campaign" do
+        let(:campaign) { build :campaign, campaign_type: "instagram", payment_type: "like_getter" }
+        before do
+          campaign.set_like_value
+        end
+        it "should assign the respective like_value to the campaign" do
+          expect(campaign.like_value).to eql KeyValue.instagram_like_getter_value
+        end
+      end
+    end
   end
 
   describe "#like" do
