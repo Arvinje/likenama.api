@@ -35,6 +35,6 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :like_value, instagram_detail_attributes: [:short_code, :description, :phone, :website, :address, :waiting])
+    params.require(:campaign).permit(:campaign_type, :payment_type, instagram_detail_attributes: [:short_code, :description, :phone, :website, :address, :waiting])
   end
 end
