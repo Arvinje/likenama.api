@@ -36,6 +36,22 @@ RSpec.describe Campaign, type: :model do
     it { expect(campaign).to callback(:set_like_value).before(:save) }
   end
 
+  describe "#instagram_only" do
+    context "when the campaign_type is equal to 'instagram'" do
+      let(:campaign) { build :campaign, campaign_type: 'instagram' }
+      it "should return false" do
+        expect(campaign.instagram_only).to eql false
+      end
+    end
+
+    context "when the campaign_type is equal to something else" do
+      let(:campaign) { build :campaign, campaign_type: 'web' }
+      it "should return true" do
+        expect(campaign.instagram_only).to eql true
+      end
+    end
+  end
+
   describe "#set_like_value" do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do

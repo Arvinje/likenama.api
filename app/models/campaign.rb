@@ -13,8 +13,20 @@ class Campaign < ActiveRecord::Base
   validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
 
-  accepts_nested_attributes_for :instagram_detail, update_only: true
+  validate  :must_have_one_association
 
+  accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
+
+
+  def instagram_only
+    self.campaign_type == "instagram" ? false : true
+  end
+
+  def must_have_one_association
+    if self.instagram_detail.nil? # || self.web_detail.nil? || ...
+      errors[:base] << "must have some details"
+    end
+  end
 
   def set_like_value
     case self.campaign_type
