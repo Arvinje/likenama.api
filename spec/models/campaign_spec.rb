@@ -30,6 +30,12 @@ RSpec.describe Campaign, type: :model do
     it { should accept_nested_attributes_for(:instagram_detail).update_only(true) }
   end
 
+  describe "Callbacks" do
+    let(:campaign) { create :campaign }
+
+    it { expect(campaign).to callback(:set_like_value).before(:save) }
+  end
+
   describe "#set_like_value" do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do

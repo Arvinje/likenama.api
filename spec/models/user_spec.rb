@@ -15,6 +15,7 @@ RSpec.describe User, type: :model do
     it { should respond_to :auth_token }
     it { should respond_to :like_credit }
     it { should respond_to :coin_credit }
+
   describe "ActiveModel validations" do
 
   end
@@ -40,6 +41,12 @@ RSpec.describe User, type: :model do
     it { should have_many(:likes).dependent :nullify }
     it { should have_many(:liked_campaigns).through(:likes).source(:campaign) }
     it { should have_many(:campaigns).with_foreign_key(:owner_id) }
+  end
+
+  describe "Callbacks" do
+    let(:user) { create :user }
+
+    it { expect(user).to callback(:generate_authentication_token!).before(:create) }
   end
 
   describe "#generate_authentication_token!" do
