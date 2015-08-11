@@ -53,6 +53,7 @@ group :test do
   gem 'guard-rspec', '~> 4.6.2', require: false
   gem 'terminal-notifier-guard', '~> 1.6.4'
   gem 'shoulda-matchers', '~> 2.8.0'
+  gem 'shoulda-callback-matchers', '~> 1.1.3'
 end
 
 gem 'devise', '~> 3.5.1'
