@@ -2,7 +2,23 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   before_action :authenticate_with_token!
 
   def index
-    render json: Campaign.all
+    user_campaigns = current_user.campaigns
+    unless user_campaigns.empty?
+      render json: user_campaigns, status: 200
+    else
+      errors = { base: ["no available campaign"] }
+      render json: { errors: errors }, status: 422
+    end
+  end
+
+  def next
+    campaign = Campaign.for_user current_user
+    unless campaign.nil?
+      render json: campaign, serializer: CampaignSerializer, status: 200, location: [:api, campaign]
+    else
+      errors = { base: ["no available campaign"] }
+      render json: { errors: errors }, status: 422
+    end
   end
 
   def create

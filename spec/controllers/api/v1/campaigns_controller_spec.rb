@@ -8,21 +8,75 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
   end
 
   describe "GET #index" do
-    before do
-      user = create :user
-      5.times do
-        campaign = create :campaign
-        create :instagram_detail, campaign: campaign
+    context "when user has already created some campaigns" do
+      before do
+        user = create :user
+        5.times do
+          create :campaign, owner: user
+        end
+        api_authorization_header user.auth_token
+        get :index
       end
-      api_authorization_header user.auth_token
-      get :index
+
+      it "should return 5 records from database" do
+        campaigns_response = json_response[:campaigns]
+        expect(campaigns_response.size).to eql 5
+      end
+
+      it { should respond_with 200 }
     end
 
-    it "should return 5 records from database" do
-      campaigns_response = json_response[:campaigns]
-      expect(campaigns_response.size).to eql 5
+    context "when user has not created any campaign" do
+      before do
+        user = create :user
+        api_authorization_header user.auth_token
+        get :index
+      end
+
+      it "should return a 'no more campaigns' error" do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "no available campaign"
+      end
+
+      it { should respond_with 422 }
     end
-    it { should respond_with 200 }
+  end
+
+  describe "GET #next" do
+    before do
+      @user = create :user
+      @campaigns = []
+      5.times do
+        @campaigns << create(:campaign)
+      end
+      api_authorization_header @user.auth_token
+    end
+
+    context "when user has already liked one of the campaigns" do
+      before do
+        @campaigns.first.like @user
+        get :next
+      end
+      it "should return the next record" do
+        campaign_response = json_response[:campaign]
+        expect(campaign_response[:instagram_detail][:website]).to eql @campaigns[1].instagram_detail.website
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context "when user has liked all of the campaigns" do
+      before do
+        @campaigns.each { |c| c.like @user }
+        get :next
+      end
+
+      it "should return a 'no more campaigns' error" do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "no available campaign"
+      end
+    end
+
   end
 
   describe "POST #create" do
