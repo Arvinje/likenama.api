@@ -20,6 +20,24 @@ RSpec.describe Campaign, type: :model do
     it { should validate_presence_of :owner }
 
     it { should validate_numericality_of(:total_likes).only_integer }
+
+    describe "#must_have_one_association" do
+      context "when no detail got specified" do
+        before do
+          owner = create :user
+          @campaign = Campaign.new(attributes_for(:campaign))
+          @campaign.owner = create :user
+          @campaign.save
+        end
+        subject { @campaign }
+
+        it "should raise an error" do
+          expect(@campaign.errors.full_messages).to include "must have some details"
+        end
+
+        it { should_not be_valid }
+      end
+    end
   end
 
   describe "ActiveRecord associations" do

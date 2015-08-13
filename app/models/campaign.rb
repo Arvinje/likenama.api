@@ -17,14 +17,17 @@ class Campaign < ActiveRecord::Base
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
 
+  def self.for_user(user) # Returns campaigns that are not liked by the user. Replace self.all later with a correctly scoped Campaign
+    (self.all - self.joins(:likes).where('likes.user_id = ?', user.id)).first
+  end
 
   def instagram_only
     self.campaign_type == "instagram" ? false : true
   end
 
   def must_have_one_association
-    if self.instagram_detail.nil? # || self.web_detail.nil? || ...
-      errors[:base] << "must have some details"
+    if self.instagram_detail.nil? # && self.web_detail.nil? && ...
+      self.errors[:base] << "must have some details"
     end
   end
 
