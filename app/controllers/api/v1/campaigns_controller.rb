@@ -1,5 +1,4 @@
 class Api::V1::CampaignsController < Api::V1::ApiController
-  before_action :authenticate_with_token!
 
   def index
     user_campaigns = current_user.campaigns

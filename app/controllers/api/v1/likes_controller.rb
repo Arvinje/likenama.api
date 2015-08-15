@@ -1,5 +1,4 @@
 class Api::V1::LikesController < Api::V1::ApiController
-  before_action :authenticate_with_token!
 
   def create
     campaign = Campaign.find_by id: params[:campaign_id]
