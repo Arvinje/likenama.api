@@ -61,7 +61,8 @@ CREATE TABLE campaigns (
     updated_at timestamp without time zone NOT NULL,
     owner_id integer,
     campaign_type campaign_type,
-    payment_type payment_type
+    payment_type payment_type,
+    price_id integer
 );
 
 
@@ -187,6 +188,39 @@ ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
 
 
 --
+-- Name: prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE prices (
+    id integer NOT NULL,
+    campaign_value integer DEFAULT 0,
+    users_share integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    campaign_type campaign_type
+);
+
+
+--
+-- Name: prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -273,6 +307,13 @@ ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -309,6 +350,14 @@ ALTER TABLE ONLY likes
 
 
 --
+-- Name: prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY prices
+    ADD CONSTRAINT prices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -321,6 +370,13 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX index_campaigns_on_owner_id ON campaigns USING btree (owner_id);
+
+
+--
+-- Name: index_campaigns_on_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_campaigns_on_price_id ON campaigns USING btree (price_id);
 
 
 --
@@ -402,6 +458,14 @@ ALTER TABLE ONLY likes
 
 
 --
+-- Name: fk_rails_933b12bfd8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT fk_rails_933b12bfd8 FOREIGN KEY (price_id) REFERENCES prices(id);
+
+
+--
 -- Name: fk_rails_a0a47c1dbb; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -440,4 +504,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150808155022');
 INSERT INTO schema_migrations (version) VALUES ('20150809061405');
 
 INSERT INTO schema_migrations (version) VALUES ('20150811073548');
+
+INSERT INTO schema_migrations (version) VALUES ('20150815102402');
+
+INSERT INTO schema_migrations (version) VALUES ('20150815102516');
+
+INSERT INTO schema_migrations (version) VALUES ('20150815114332');
 
