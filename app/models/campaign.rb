@@ -6,12 +6,14 @@ class Campaign < ActiveRecord::Base
   has_many :liking_users, through: :likes, source: :user
   belongs_to :owner, class_name: 'User'
   has_one :instagram_detail, inverse_of: :campaign, dependent: :destroy
+  belongs_to :price
 
   # Edit these two when adding new types, also add new postgres enums when needed
   validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
   validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
+  validates :price, presence: true
 
   validate  :must_have_one_association
 

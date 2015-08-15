@@ -12,12 +12,14 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :like_value }
   it { should respond_to :total_likes }
   it { should respond_to :owner_id }
+  it { should respond_to :price_id }
 
   describe "ActiveModel validations" do
     it { should validate_presence_of :campaign_type }
     it { should validate_presence_of :payment_type }
     it { should validate_presence_of :total_likes }
     it { should validate_presence_of :owner }
+    it { should validate_presence_of :price }
 
     it { should validate_numericality_of(:total_likes).only_integer }
 
@@ -41,11 +43,12 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe "ActiveRecord associations" do
-    it { should have_many(:likes).dependent :destroy }
-    it { should have_many(:liking_users).through(:likes).source(:user) }
-    it { should belong_to(:owner).class_name('User') }
-    it { should have_one(:instagram_detail).dependent(:destroy) }
-    it { should accept_nested_attributes_for(:instagram_detail).update_only(true) }
+    it { is_expected.to have_many(:likes).dependent :destroy }
+    it { is_expected.to have_many(:liking_users).through(:likes).source(:user) }
+    it { is_expected.to belong_to(:owner).class_name('User') }
+    it { is_expected.to have_one(:instagram_detail).dependent(:destroy) }
+    it { is_expected.to accept_nested_attributes_for(:instagram_detail).update_only(true) }
+    it { is_expected.to belong_to(:price) }
   end
 
   describe "Callbacks" do
