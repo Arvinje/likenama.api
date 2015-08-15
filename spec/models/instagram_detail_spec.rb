@@ -63,7 +63,9 @@ RSpec.describe InstagramDetail, type: :model do
       let(:instagram_detail) { build :instagram_detail }
       it "should assign the photo_url for the requested shortcode" do
         instagram_detail.get_instagram_photo_url
-        expect(instagram_detail.photo_url).to eql "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/11420731_1451437075163975_977025466_n.jpg"
+        # Apparently Instagram changes the content url every now and then, so we just check if it's a valid Instagram url.
+        res = instagram_detail.photo_url.include? "https://scontent.cdninstagram.com"
+        expect(res).to be true
       end
 
       it "should return true" do
