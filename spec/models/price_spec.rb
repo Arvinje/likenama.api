@@ -19,4 +19,22 @@ RSpec.describe Price, type: :model do
   describe "ActiveRecord associations" do
     it { is_expected.to have_many :campaigns }
   end
+
+  describe "#instagram_like_getter" do
+    let(:price) { create :price, campaign_type: 'instagram', payment_type: 'like_getter' }
+
+    it "returns the last registered price for instagram like_getter campaigns" do
+      price
+      expect(Price.instagram_like_getter.campaign_value).to eql price.campaign_value
+    end
+  end
+
+  describe "#instagram_money_getter" do
+    let(:price) { create :price, campaign_type: 'instagram', payment_type: 'money_getter' }
+
+    it "returns the last registered price for instagram like_getter campaigns" do
+      price
+      expect(Price.instagram_money_getter.campaign_value).to eql price.campaign_value
+    end
+  end
 end

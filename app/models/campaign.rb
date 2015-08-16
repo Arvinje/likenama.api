@@ -16,8 +16,27 @@ class Campaign < ActiveRecord::Base
   validates :owner, presence: true
 
   validate  :must_have_one_association
+  validate  :must_have_enough_credit
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
+
+  def must_have_enough_credit
+    if self.payment_type == "money_getter"
+
+    elsif self.payment_type == "like_getter"
+
+    end
+    case self.payment_type
+    when "money_getter"
+      if self.budget > self.owner.coin_credit
+        errors[:budget] << "user doesn't have enough credit"
+      end
+    when "like_getter"
+      if self.budget > self.owner.like_credit
+        errors[:budget] << "user doesn't have enough credit"
+      end
+    end
+  end
 
   def set_price
     case self.campaign_type

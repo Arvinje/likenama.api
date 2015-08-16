@@ -42,6 +42,33 @@ RSpec.describe Campaign, type: :model do
         it { should_not be_valid }
       end
     end
+
+    describe "#must_have_enough_credit" do
+      context "when it's a like_getter campaign" do
+        context "when user's credit is bigger than requested budget" do
+          before do
+            @owner = create :user, like_credit: 2
+            @campaign = build :campaign, budget: 6, owner: @owner
+            @campaign.save
+          end
+          it "should raise an error" do
+            expect(@campaign.errors[:budget]).to include "user doesn't have enough credit"
+          end
+        end
+      end
+      context "when it's a money_getter campaign" do
+        context "when user's credit is bigger than requested budget" do
+          before do
+            @owner = create :user, coin_credit: 2
+            @campaign = build :campaign, budget: 6, owner: @owner
+            @campaign.save
+          end
+          it "should raise an error" do
+            expect(@campaign.errors[:budget]).to include "user doesn't have enough credit"
+          end
+        end
+      end
+    end
   end
 
   describe "ActiveRecord associations" do
