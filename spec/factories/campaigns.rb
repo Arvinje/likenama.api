@@ -9,6 +9,9 @@ FactoryGirl.define do
     after(:build) do |campaign|
       campaign.instagram_detail ||= FactoryGirl.build(:instagram_detail, campaign: campaign)
     end
+    after(:build) do |campaign|
+      campaign.price = FactoryGirl.create(:price, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+    end
   end
 
 end
