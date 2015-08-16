@@ -11,6 +11,7 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :payment_type }
   it { should respond_to :like_value }
   it { should respond_to :total_likes }
+  it { should respond_to :budget }
   it { should respond_to :owner_id }
   it { should respond_to :price_id }
 
@@ -18,9 +19,11 @@ RSpec.describe Campaign, type: :model do
     it { should validate_presence_of :campaign_type }
     it { should validate_presence_of :payment_type }
     it { should validate_presence_of :total_likes }
+    it { should validate_presence_of :budget }
     it { should validate_presence_of :owner }
 
     it { should validate_numericality_of(:total_likes).only_integer }
+    it { should validate_numericality_of(:budget).only_integer }
 
     describe "#must_have_one_association" do
       context "when no detail got specified" do
@@ -115,9 +118,9 @@ RSpec.describe Campaign, type: :model do
         expect{ campaign.like user }.to_not change{ user.like_credit }
       end
 
-      it "decreases the owner like_credit by the price's campaign_value" do
-        expect { campaign.like user }.to change { campaign.owner.like_credit }.by (campaign.price.campaign_value * -1)
-        expect { campaign.like user }.to_not change { campaign.owner.like_credit }
+      it "decreases the campaign's budget by the price's campaign_value" do
+        expect { campaign.like user }.to change { campaign.budget }.by (campaign.price.campaign_value * -1)
+        expect { campaign.like user }.to_not change { campaign.budget }
       end
     end
 
@@ -130,9 +133,9 @@ RSpec.describe Campaign, type: :model do
         expect{ campaign.like user }.to_not change{ user.coin_credit }
       end
 
-      it "decreases the owner coin_credit by the price's campaign_value" do
-        expect { campaign.like user }.to change { campaign.owner.coin_credit }.by (campaign.price.campaign_value * -1)
-        expect { campaign.like user }.to_not change { campaign.owner.coin_credit }
+      it "decreases the campaign's budget by the price's campaign_value" do
+        expect { campaign.like user }.to change { campaign.budget }.by (campaign.price.campaign_value * -1)
+        expect { campaign.like user }.to_not change { campaign.budget }
       end
     end
   end

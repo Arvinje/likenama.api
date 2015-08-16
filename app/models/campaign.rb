@@ -12,6 +12,7 @@ class Campaign < ActiveRecord::Base
   validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
   validates :total_likes, presence: true, numericality: { only_integer: true }
+  validates :budget, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :owner, presence: true
 
   validate  :must_have_one_association
@@ -50,10 +51,10 @@ class Campaign < ActiveRecord::Base
         case self.payment_type  # whether its payment_type is like_getter or money_getter
         when "like_getter"
           user.like_credit += self.price.users_share   # adds like_credit based on the price's users_share
-          self.owner.like_credit -= self.price.campaign_value
+          self.budget -= self.price.campaign_value     # Decreases campaign budget by the price's campaign_value
         when "money_getter"
           user.coin_credit += self.price.users_share   # adds coin_credit based on the price's users_share
-          self.owner.coin_credit -= self.price.campaign_value
+          self.budget -= self.price.campaign_value     # Decreases campaign budget by the price's campaign_value
         end
         true
       else
@@ -67,7 +68,7 @@ class Campaign < ActiveRecord::Base
     Like.exists?(campaign_id: self.id, user_id: user.id)
   end
 
-  def check_like!(user, opts = {})
+  def check_like!(user, opts = {})    # Performs special ops based on campaign_type
     case self.campaign_type
     when "instagram"
       begin
