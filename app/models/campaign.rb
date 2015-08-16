@@ -1,6 +1,5 @@
 class Campaign < ActiveRecord::Base
 
-  before_save :set_like_value
   before_save :set_price
 
   has_many :likes, dependent: :destroy
@@ -44,26 +43,17 @@ class Campaign < ActiveRecord::Base
     end
   end
 
-  def set_like_value
-    case self.campaign_type
-    when "instagram"
-      if self.payment_type == "money_getter"
-        self.like_value = KeyValue.instagram_money_getter_value
-      elsif self.payment_type == "like_getter"
-        self.like_value = KeyValue.instagram_like_getter_value
-      end
-    end
-  end
-
   def like(user)
     unless self.liked_by? user
       if self.liking_users << user
         self.total_likes += 1
         case self.payment_type  # whether its payment_type is like_getter or money_getter
         when "like_getter"
-          user.like_credit += self.like_value   # adds like_credit based on campaign's like_value
+          user.like_credit += self.price.users_share   # adds like_credit based on the price's users_share
+          self.owner.like_credit -= self.price.campaign_value
         when "money_getter"
-          user.coin_credit += self.like_value   # adds coin_credit based on campaign's like_value
+          user.coin_credit += self.price.users_share   # adds coin_credit based on the price's users_share
+          self.owner.coin_credit -= self.price.campaign_value
         end
         true
       else

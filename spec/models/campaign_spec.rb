@@ -53,7 +53,6 @@ RSpec.describe Campaign, type: :model do
   describe "Callbacks" do
     let(:campaign) { create :campaign }
 
-    it { expect(campaign).to callback(:set_like_value).before(:save) }
     it { expect(campaign).to callback(:set_price).before(:save) }
   end
 
@@ -85,34 +84,10 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#set_like_value" do
-    context "it's an instagram campaign" do
-      context "it's a money_getter campaign" do
-        let(:campaign) { build :campaign, campaign_type: "instagram", payment_type: "money_getter" }
-        before do
-          campaign.set_like_value
-        end
-        it "should assign the respective like_value to the campaign" do
-          expect(campaign.like_value).to eql KeyValue.instagram_money_getter_value
-        end
-      end
-
-      context "it's a like_getter campaign" do
-        let(:campaign) { build :campaign, campaign_type: "instagram", payment_type: "like_getter" }
-        before do
-          campaign.set_like_value
-        end
-        it "should assign the respective like_value to the campaign" do
-          expect(campaign.like_value).to eql KeyValue.instagram_like_getter_value
-        end
-      end
-    end
-  end
-
   describe "#like" do
     context "when a campaign is liked by a user" do
     let(:user) { create :user }
-    let(:campaign) { create :campaign }
+    let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
 
       it "should add the user to the liking_users" do
         campaign.like user
@@ -133,21 +108,31 @@ RSpec.describe Campaign, type: :model do
 
     context "when it's a like_getter campaign" do
       let(:user) { create :user }
-      let(:campaign) { create :campaign, payment_type: "like_getter" }
+      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'like_getter' }
 
-      it "should increase the user's like credit by the like_value" do
-        expect{ campaign.like user }.to change{ user.like_credit }.by campaign.like_value
+      it "should increase the user's like credit by the price's users_share" do
+        expect{ campaign.like user }.to change{ user.like_credit }.by campaign.price.users_share
         expect{ campaign.like user }.to_not change{ user.like_credit }
+      end
+
+      it "decreases the owner like_credit by the price's campaign_value" do
+        expect { campaign.like user }.to change { campaign.owner.like_credit }.by (campaign.price.campaign_value * -1)
+        expect { campaign.like user }.to_not change { campaign.owner.like_credit }
       end
     end
 
     context "when it's a money_getter campaign" do
       let(:user) { create :user }
-      let(:campaign) { create :campaign, payment_type: "money_getter"}
+      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter'}
 
-      it "should increase the user's coin credit by the like_value" do
-        expect{ campaign.like user }.to change{ user.coin_credit }.by campaign.like_value
+      it "should increase the user's coin credit by user's share" do
+        expect{ campaign.like user }.to change{ user.coin_credit }.by campaign.price.users_share
         expect{ campaign.like user }.to_not change{ user.coin_credit }
+      end
+
+      it "decreases the owner coin_credit by the price's campaign_value" do
+        expect { campaign.like user }.to change { campaign.owner.coin_credit }.by (campaign.price.campaign_value * -1)
+        expect { campaign.like user }.to_not change { campaign.owner.coin_credit }
       end
     end
   end
@@ -191,7 +176,7 @@ RSpec.describe Campaign, type: :model do
       context "when user has liked the instagram photo" do
         before do
           @user = create :user
-          @campaign = create :campaign
+          @campaign = create :campaign, campaign_type: 'instagram', payment_type: 'money_getter'
           create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
         end
 
