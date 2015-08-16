@@ -62,7 +62,8 @@ CREATE TABLE campaigns (
     owner_id integer,
     campaign_type campaign_type,
     payment_type payment_type,
-    price_id integer
+    price_id integer,
+    budget integer DEFAULT 0
 );
 
 
@@ -513,4 +514,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150815102516');
 INSERT INTO schema_migrations (version) VALUES ('20150815114332');
 
 INSERT INTO schema_migrations (version) VALUES ('20150815131523');
+
+INSERT INTO schema_migrations (version) VALUES ('20150816030259');
 
