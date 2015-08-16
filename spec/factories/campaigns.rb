@@ -5,6 +5,7 @@ FactoryGirl.define do
     like_value { (rand() * 100000).to_i }
     total_likes 0
     price
+    budget { (rand() * 10000).to_i }
     association :owner, factory: :user
     after(:build) do |campaign|
       campaign.instagram_detail ||= FactoryGirl.build(:instagram_detail, campaign: campaign)
