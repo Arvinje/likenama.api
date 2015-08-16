@@ -6,7 +6,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
     allow(KeyValue).to receive(:instagram_money_getter_value).and_return(2)
     allow(KeyValue).to receive(:instagram_like_getter_value).and_return(1)
   end
-  
+
   describe "POST #create" do
     let(:user) { create :user }
     before do
