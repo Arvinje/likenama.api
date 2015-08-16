@@ -197,7 +197,8 @@ CREATE TABLE prices (
     users_share integer DEFAULT 0,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    campaign_type campaign_type
+    campaign_type campaign_type,
+    payment_type payment_type
 );
 
 
@@ -510,4 +511,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150815102402');
 INSERT INTO schema_migrations (version) VALUES ('20150815102516');
 
 INSERT INTO schema_migrations (version) VALUES ('20150815114332');
+
+INSERT INTO schema_migrations (version) VALUES ('20150815131523');
 
