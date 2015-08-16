@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
 
   before_save :set_like_value
+  before_save :set_price
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
@@ -13,11 +14,21 @@ class Campaign < ActiveRecord::Base
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
   validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
-  validates :price, presence: true
 
   validate  :must_have_one_association
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
+
+  def set_price
+    case self.campaign_type
+    when 'instagram'
+      if self.payment_type == 'money_getter'
+        self.price = Price.where(campaign_type: 'instagram', payment_type: 'money_getter').last
+      elsif self.payment_type == 'like_getter'
+        self.price = Price.where(campaign_type: 'instagram', payment_type: 'like_getter').last
+      end
+    end
+  end
 
   def self.for_user(user) # Returns campaigns that are not liked by the user. Replace self.all later with a correctly scoped Campaign
     (self.all - self.joins(:likes).where('likes.user_id = ?', user.id)).first

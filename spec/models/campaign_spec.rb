@@ -19,7 +19,6 @@ RSpec.describe Campaign, type: :model do
     it { should validate_presence_of :payment_type }
     it { should validate_presence_of :total_likes }
     it { should validate_presence_of :owner }
-    it { should validate_presence_of :price }
 
     it { should validate_numericality_of(:total_likes).only_integer }
 
@@ -55,6 +54,19 @@ RSpec.describe Campaign, type: :model do
     let(:campaign) { create :campaign }
 
     it { expect(campaign).to callback(:set_like_value).before(:save) }
+    it { expect(campaign).to callback(:set_price).before(:save) }
+  end
+
+  describe "#set_price" do
+    context "it's an instagram campaign" do
+      context "it's a money_getter campaign" do
+        let(:campaign) { build :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
+        it "assigns the respective price to the campaign" do
+          campaign.save
+          expect(campaign.price.campaign_value).to eql Price.where(campaign_type: 'instagram', payment_type: 'money_getter').last.campaign_value
+        end
+      end
+    end
   end
 
   describe "#instagram_only" do
