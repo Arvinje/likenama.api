@@ -63,7 +63,7 @@ CREATE TABLE campaigns (
     campaign_type campaign_type,
     payment_type payment_type,
     price_id integer,
-    budget integer DEFAULT 0
+    budget integer
 );
 
 
