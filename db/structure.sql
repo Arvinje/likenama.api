@@ -223,6 +223,39 @@ ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
 
 
 --
+-- Name: product_details; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE product_details (
+    id integer NOT NULL,
+    code text DEFAULT ''::text,
+    description text DEFAULT ''::text,
+    product_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: product_details_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE product_details_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: product_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE product_details_id_seq OWNED BY product_details.id;
+
+
+--
 -- Name: products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -231,7 +264,7 @@ CREATE TABLE products (
     title character varying,
     description text,
     price integer,
-    details text,
+    available boolean DEFAULT true,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -382,6 +415,13 @@ ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY product_details ALTER COLUMN id SET DEFAULT nextval('product_details_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq'::regclass);
 
 
@@ -437,6 +477,14 @@ ALTER TABLE ONLY likes
 
 ALTER TABLE ONLY prices
     ADD CONSTRAINT prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_details_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY product_details
+    ADD CONSTRAINT product_details_pkey PRIMARY KEY (id);
 
 
 --
@@ -616,4 +664,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150816030259');
 INSERT INTO schema_migrations (version) VALUES ('20150822115857');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822120244');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822145356');
 
