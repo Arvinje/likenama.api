@@ -233,6 +233,23 @@ RSpec.describe Campaign, type: :model do
 
   describe "#check_like!" do
 
+    context "when campaign has not enough budget" do
+      let(:user) { create :user }
+      before :all do
+        @campaign = create :campaign, campaign_type: 'instagram'
+        @campaign.budget = @campaign.price.campaign_value - 1
+        @campaign.save
+      end
+
+      it "returns false" do
+        expect(@campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1))
+      end
+
+      it "returns error for not having enough budget" do
+        expect(@campaign.errors[:base]).to include "the campaign's ran out of budget"
+      end
+    end
+
     context "when it's a instagram campaign" do
       context "when user's access token is invalid" do
         before do
