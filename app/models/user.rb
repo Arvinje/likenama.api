@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :likes, dependent: :nullify
   has_many :liked_campaigns, through: :likes, source: :campaign
   has_many :campaigns, foreign_key: :owner_id
+  has_many :purchases
+  has_many :purchased_products, through: :purchases, source: :product
 
   validates :auth_token, uniqueness: true
   validates :like_credit, presence: true, numericality: { only_integer: true }

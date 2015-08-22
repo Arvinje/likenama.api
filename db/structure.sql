@@ -223,6 +223,72 @@ ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
 
 
 --
+-- Name: products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE products (
+    id integer NOT NULL,
+    title character varying,
+    description text,
+    price integer,
+    details text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE products_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE products_id_seq OWNED BY products.id;
+
+
+--
+-- Name: purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE purchases (
+    id integer NOT NULL,
+    user_id integer,
+    product_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE purchases_id_seq OWNED BY purchases.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -316,6 +382,20 @@ ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases ALTER COLUMN id SET DEFAULT nextval('purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -357,6 +437,22 @@ ALTER TABLE ONLY likes
 
 ALTER TABLE ONLY prices
     ADD CONSTRAINT prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: products_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY purchases
+    ADD CONSTRAINT purchases_pkey PRIMARY KEY (id);
 
 
 --
@@ -516,4 +612,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150815114332');
 INSERT INTO schema_migrations (version) VALUES ('20150815131523');
 
 INSERT INTO schema_migrations (version) VALUES ('20150816030259');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822115857');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822120244');
 

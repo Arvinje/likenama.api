@@ -38,9 +38,11 @@ RSpec.describe User, type: :model do
   end
 
   describe "ActiveRecord associations" do
-    it { should have_many(:likes).dependent :nullify }
-    it { should have_many(:liked_campaigns).through(:likes).source(:campaign) }
-    it { should have_many(:campaigns).with_foreign_key(:owner_id) }
+    it { is_expected.to have_many(:likes).dependent :nullify }
+    it { is_expected.to have_many(:liked_campaigns).through(:likes).source(:campaign) }
+    it { is_expected.to have_many(:campaigns).with_foreign_key(:owner_id) }
+    it { is_expected.to have_many(:purchases) }
+    it { is_expected.to have_many(:purchased_products).through(:purchases).source(:product) }
   end
 
   describe "Callbacks" do
