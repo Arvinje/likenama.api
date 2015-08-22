@@ -16,24 +16,25 @@ class Campaign < ActiveRecord::Base
   validates :owner, presence: true
 
   validate  :must_have_one_association
-  validate  :must_have_enough_credit
+  #validate  :must_have_enough_credit
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
 
   def must_have_enough_credit
-    if self.payment_type == "money_getter"
-
-    elsif self.payment_type == "like_getter"
-
-    end
     case self.payment_type
     when "money_getter"
-      if self.budget > self.owner.coin_credit
-        errors[:budget] << "user doesn't have enough credit"
+      if self.budget > self.owner.coin_credit   # when user has not enough credit to create a campaign
+        self.errors[:budget] << "user doesn't have enough credit"
+      end
+      if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
+        self.errors[:budget] << "campaign doesn't have enough budget"
       end
     when "like_getter"
-      if self.budget > self.owner.like_credit
-        errors[:budget] << "user doesn't have enough credit"
+      if self.budget > self.owner.like_credit   # when user has not enough credit to create a campaign
+        self.errors[:budget] << "user doesn't have enough credit"
+      end
+      if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
+        self.errors[:budget] << "campaign doesn't have enough budget"
       end
     end
   end
@@ -42,9 +43,9 @@ class Campaign < ActiveRecord::Base
     case self.campaign_type
     when 'instagram'
       if self.payment_type == 'money_getter'
-        self.price = Price.where(campaign_type: 'instagram', payment_type: 'money_getter').last
+        self.price = Price.instagram_money_getter
       elsif self.payment_type == 'like_getter'
-        self.price = Price.where(campaign_type: 'instagram', payment_type: 'like_getter').last
+        self.price = Price.instagram_like_getter
       end
     end
   end

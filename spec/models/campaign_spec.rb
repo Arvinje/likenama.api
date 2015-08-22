@@ -42,33 +42,76 @@ RSpec.describe Campaign, type: :model do
         it { should_not be_valid }
       end
     end
-
+=begin
     describe "#must_have_enough_credit" do
       context "when it's a like_getter campaign" do
-        context "when user's credit is bigger than requested budget" do
+        context "when the requested budget is bigger than user's credit" do
           before do
             @owner = create :user, like_credit: 2
-            @campaign = build :campaign, budget: 6, owner: @owner
+            @campaign = build :campaign, payment_type: 'like_getter', budget: 6, owner: @owner
             @campaign.save
           end
+          subject { @campaign }
+
           it "should raise an error" do
             expect(@campaign.errors[:budget]).to include "user doesn't have enough credit"
           end
+
+          it { should_not be_valid }
+        end
+
+        context "when the requested budget is not enough even for a like" do
+          before do
+            @campaign = build :campaign, campaign_type: 'instagram', payment_type: 'like_getter', budget: 5
+            @campaign.price.campaign_value = 10
+            @campaign.price.save
+            @campaign.save
+            puts @campaign.errors.inspect
+          end
+          subject { @campaign }
+
+          it "raises an error" do
+            expect(@campaign.errors[:budget]).to include "campaign doesn't have enough budget"
+          end
+
+          it { should_not be_valid }
         end
       end
       context "when it's a money_getter campaign" do
-        context "when user's credit is bigger than requested budget" do
+        context "when the requested budget is bigger than user's credit" do
           before do
             @owner = create :user, coin_credit: 2
-            @campaign = build :campaign, budget: 6, owner: @owner
+            @campaign = build :campaign, payment_type: 'money_getter', budget: 6, owner: @owner
             @campaign.save
           end
+          subject { @campaign }
+
           it "should raise an error" do
             expect(@campaign.errors[:budget]).to include "user doesn't have enough credit"
           end
+
+          it { should_not be_valid }
+        end
+
+        context "when the requested budget is not enough even for a like" do
+          before :all do
+            @campaign = build :campaign, campaign_type: 'instagram', payment_type: 'money_getter', budget: 6
+            p = @campaign.price
+            p.campaign_value = 15
+            p.save
+            @campaign.save
+          end
+          subject { @campaign }
+
+          it "raises an error" do
+            expect(@campaign.errors[:budget]).to include "campaign doesn't have enough budget"
+          end
+
+          it { should_not be_valid }
         end
       end
     end
+=end
   end
 
   describe "ActiveRecord associations" do
