@@ -44,6 +44,9 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
   describe "GET #next" do
     before do
+      Campaign.all.each do |campaign|   # makes sure that there's no other campaign left to be liked
+        campaign.destroy
+      end
       @user = create :user
       @campaigns = []
       5.times do
