@@ -10,8 +10,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
   describe "POST #create" do
     let(:user) { create :user }
     before do
-      @campaign = create :campaign
-      create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
+      @campaign = create :campaign, instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode }
       api_authorization_header user.auth_token
     end
 
@@ -34,8 +33,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
 
     context "when user has not liked the photo" do
       before do
-        @campaign = create :campaign
-        create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.not_liked_instagram_shortcode
+        @campaign = create :campaign, instagram_detail_attributes: { short_code: Rails.application.secrets.not_liked_instagram_shortcode }
         post :create, { campaign_id: @campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
       end
 
