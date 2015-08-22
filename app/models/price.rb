@@ -9,6 +9,11 @@ class Price < ActiveRecord::Base
   validates :campaign_type, presence: true
   validates :payment_type, presence: true
 
-  scope :instagram_money_getter, -> { where(campaign_type: 'instagram', payment_type: 'money_getter').last }
-  scope :instagram_like_getter, -> { where(campaign_type: 'instagram', payment_type: 'like_getter').last }
+  def self.instagram_money_getter
+    self.where(campaign_type: 'instagram', payment_type: 'money_getter').last
+  end
+
+  def self.instagram_like_getter
+    self.where(campaign_type: 'instagram', payment_type: 'like_getter').last
+  end
 end
