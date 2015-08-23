@@ -230,6 +230,7 @@ CREATE TABLE product_details (
     id integer NOT NULL,
     code text DEFAULT ''::text,
     description text DEFAULT ''::text,
+    available boolean DEFAULT true,
     product_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -296,7 +297,7 @@ ALTER SEQUENCE products_id_seq OWNED BY products.id;
 CREATE TABLE purchases (
     id integer NOT NULL,
     user_id integer,
-    product_id integer,
+    product_detail_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
