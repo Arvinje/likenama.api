@@ -1,5 +1,5 @@
 class Product < ActiveRecord::Base
-  has_many :details, class_name: 'ProductDetail'
+  has_many :details, class_name: 'ProductDetail', dependent: :destroy
 
   validates :title, presence: true
   validates :description, presence: true
