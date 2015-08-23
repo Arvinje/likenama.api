@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         resources :likes, only: [:create]
       end
       match 'campaigns/next', to: 'campaigns#next', via: :get
+      resources :products, only: [:index]
     end
   end
 end
