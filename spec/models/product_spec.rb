@@ -15,8 +15,7 @@ RSpec.describe Product, type: :model do
   end
 
   describe "ActiveRecord associations" do
-    it { is_expected.to have_many :purchases }
-    it { is_expected.to have_many(:buyers).through(:purchases).source(:user) }
-    it { is_expected.to have_many :product_details }
+    it { is_expected.to have_many(:details).class_name('ProductDetail') }
+    it { is_expected.to accept_nested_attributes_for :details }
   end
 end

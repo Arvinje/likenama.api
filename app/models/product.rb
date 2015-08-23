@@ -1,9 +1,9 @@
 class Product < ActiveRecord::Base
-  has_many :product_details
-  has_many :purchases
-  has_many :buyers, through: :purchases, source: :user
+  has_many :details, class_name: 'ProductDetail'
 
   validates :title, presence: true
   validates :description, presence: true
   validates :price, presence: true, numericality: { only_integer: true }
+
+  accepts_nested_attributes_for :details
 end
