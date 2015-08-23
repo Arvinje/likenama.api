@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
         product.available = false
         product.save
       end
-      true
+      requested_detail
     else
       self.errors[:coin_credit] << "doesn't have enough credit"
       false

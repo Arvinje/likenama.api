@@ -84,8 +84,9 @@ RSpec.describe User, type: :model do
         end
       end
 
-      it "returns true" do
-        expect(user.buy product).to eql true
+      it "returns the requested product_detail" do
+        product_detail = product.details.available.first
+        expect(user.buy product).to eql product_detail
       end
     end
 
