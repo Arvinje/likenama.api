@@ -6,4 +6,6 @@ class Product < ActiveRecord::Base
   validates :price, presence: true, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :details
+
+  scope :available, -> { where available: true }
 end
