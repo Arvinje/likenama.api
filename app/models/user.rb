@@ -10,11 +10,30 @@ class User < ActiveRecord::Base
   has_many :liked_campaigns, through: :likes, source: :campaign
   has_many :campaigns, foreign_key: :owner_id
   has_many :purchases
-  has_many :purchased_products, through: :purchases, source: :product
+  has_many :purchased_products, through: :purchases, source: :product_detail
 
   validates :auth_token, uniqueness: true
   validates :like_credit, presence: true, numericality: { only_integer: true }
   validates :coin_credit, presence: true, numericality: { only_integer: true }
+
+  def buy(product)
+    if product.price <= self.coin_credit
+      self.coin_credit -= product.price   # reduces user's coin_credit by the product's price
+      requested_detail = product.details.available.first
+      self.purchased_products << requested_detail   # adds the detail to purchased_products of the user
+      requested_detail.available = false    # makes the details unavailable
+      requested_detail.save
+      self.save
+      if product.details.available.blank?   # makes the product unavailable when there's no more details left
+        product.available = false
+        product.save
+      end
+      true
+    else
+      self.errors[:coin_credit] << "doesn't have enough credit"
+      false
+    end
+  end
 
   def generate_authentication_token!
     begin
