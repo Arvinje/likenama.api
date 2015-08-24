@@ -3,7 +3,8 @@ class CreateCampaigns < ActiveRecord::Migration
     create_table :campaigns do |t|
       t.integer :like_value
       t.integer :total_likes, default: 0
-
+      t.references :waiting
+      
       t.timestamps null: false
     end
   end

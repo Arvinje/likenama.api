@@ -6,7 +6,6 @@ class CreateInstagramDetails < ActiveRecord::Migration
       t.string :phone, default: ""
       t.string :website, default: ""
       t.text :address, default: ""
-      t.integer :waiting, default: 0
       t.references :campaign, index: true
 
       t.timestamps null: false

@@ -205,7 +205,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
     context "when there's an invalid parameter and it's not updated" do
       before do
-        patch :update, { id: @campaign.id, campaign: { instagram_detail_attributes: { short_code: "3434dfsrgsfb", waiting: "dfdf" } } }
+        patch :update, { id: @campaign.id, campaign: { instagram_detail_attributes: { short_code: "3434dfsrgsfb" } } }
       end
 
       it "should render an errors json" do
@@ -216,7 +216,6 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       it "should render the json errors on why the campaign could not be updated" do
         campaign_response = json_response
         expect(campaign_response[:errors][:'instagram_detail.short_code']).to include "invalid shortcode"
-        expect(campaign_response[:errors][:'instagram_detail.waiting']).to include "is not a number"
       end
 
       it { should respond_with 422 }

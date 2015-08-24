@@ -57,6 +57,7 @@ CREATE TABLE campaigns (
     id integer NOT NULL,
     like_value integer,
     total_likes integer DEFAULT 0,
+    waiting_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     owner_id integer,
@@ -98,7 +99,6 @@ CREATE TABLE instagram_details (
     phone character varying DEFAULT ''::character varying,
     website character varying DEFAULT ''::character varying,
     address text DEFAULT ''::text,
-    waiting integer DEFAULT 0,
     campaign_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -379,6 +379,39 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
+-- Name: waitings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE waitings (
+    id integer NOT NULL,
+    period integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    campaign_type campaign_type,
+    payment_type payment_type
+);
+
+
+--
+-- Name: waitings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE waitings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: waitings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE waitings_id_seq OWNED BY waitings.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -439,6 +472,13 @@ ALTER TABLE ONLY purchases ALTER COLUMN id SET DEFAULT nextval('purchases_id_seq
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY waitings ALTER COLUMN id SET DEFAULT nextval('waitings_id_seq'::regclass);
 
 
 --
@@ -511,6 +551,14 @@ ALTER TABLE ONLY purchases
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: waitings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY waitings
+    ADD CONSTRAINT waitings_pkey PRIMARY KEY (id);
 
 
 --
@@ -670,4 +718,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150822120244');
 INSERT INTO schema_migrations (version) VALUES ('20150822145356');
 
 INSERT INTO schema_migrations (version) VALUES ('20150824074337');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824125110');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824134029');
 

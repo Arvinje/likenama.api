@@ -6,6 +6,7 @@ FactoryGirl.define do
     total_likes 0
     available true
     price
+    waiting
     budget { (rand() * 10000).to_i }
     association :owner, factory: :user
     after(:build) do |campaign|
@@ -13,6 +14,9 @@ FactoryGirl.define do
     end
     after(:build) do |campaign|
       campaign.price = FactoryGirl.create(:price, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+    end
+    after(:build) do |campaign|
+      campaign.waiting = FactoryGirl.create(:waiting, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
     end
   end
 

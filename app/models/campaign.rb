@@ -8,6 +8,7 @@ class Campaign < ActiveRecord::Base
   belongs_to :owner, class_name: 'User'
   has_one :instagram_detail, inverse_of: :campaign, dependent: :destroy
   belongs_to :price
+  belongs_to :waiting
 
   # Edit these two when adding new types, also add new postgres enums when needed
   validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }

@@ -5,7 +5,6 @@ class InstagramDetail < ActiveRecord::Base
 
   validates :short_code, presence: true
   validates :campaign, presence: true
-  validates :waiting, numericality: { only_integer: true }
   validates :photo_url, presence: true
 
   def must_have_valid_short_code

@@ -12,7 +12,6 @@ RSpec.describe InstagramDetail, type: :model do
   it { should respond_to :phone }
   it { should respond_to :website }
   it { should respond_to :address }
-  it { should respond_to :waiting }
   it { should respond_to :campaign_id }
   it { should respond_to :photo_url }
 
@@ -20,8 +19,6 @@ RSpec.describe InstagramDetail, type: :model do
     it { should validate_presence_of :short_code }
     it { should validate_presence_of :campaign }
     it { should validate_presence_of :photo_url }
-
-    it { should validate_numericality_of(:waiting).only_integer }
   end
 
   describe "ActiveRecord associations" do

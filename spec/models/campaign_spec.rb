@@ -15,6 +15,7 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :available }
   it { should respond_to :owner_id }
   it { should respond_to :price_id }
+  it { should respond_to :waiting_id }
 
   describe "ActiveModel validations" do
     it { should validate_presence_of :campaign_type }
@@ -119,6 +120,7 @@ RSpec.describe Campaign, type: :model do
     it { is_expected.to have_one(:instagram_detail).dependent(:destroy) }
     it { is_expected.to accept_nested_attributes_for(:instagram_detail).update_only(true) }
     it { is_expected.to belong_to(:price) }
+    it { is_expected.to belong_to(:waiting) }
   end
 
   describe "Callbacks" do

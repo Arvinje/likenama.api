@@ -1,6 +1,5 @@
 TODO
 =====
-[ ] Implement available option for campaign.
 [ ] Implement a user controller
 [ ] Validate campaign budget before saving.
 [ ] Add something to expire campaign automatically when it runs out of the respective credit.
