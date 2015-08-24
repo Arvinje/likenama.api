@@ -26,14 +26,11 @@ class Campaign < ActiveRecord::Base
   scope :finished, -> { where available: false }
 
   def set_waiting
-    case self.campaign_type
-    when 'instagram'
-      if self.payment_type == 'money_getter'
-        self.waiting = Waiting.instagram_money_getter
-      elsif self.payment_type == 'like_getter'
-        self.waiting = Waiting.instagram_like_getter
-      end
-    end
+    self.waiting = Waiting.where(campaign_type: self.campaign_type, payment_type: self.payment_type).last
+  end
+
+  def set_price
+    self.price = Price.where(campaign_type: self.campaign_type, payment_type: self.payment_type).last
   end
 
   def set_availability
@@ -55,17 +52,6 @@ class Campaign < ActiveRecord::Base
       end
       if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
         self.errors[:budget] << "campaign doesn't have enough budget"
-      end
-    end
-  end
-
-  def set_price
-    case self.campaign_type
-    when 'instagram'
-      if self.payment_type == 'money_getter'
-        self.price = Price.instagram_money_getter
-      elsif self.payment_type == 'like_getter'
-        self.price = Price.instagram_like_getter
       end
     end
   end
