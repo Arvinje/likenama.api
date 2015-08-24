@@ -222,8 +222,8 @@ RSpec.describe Campaign, type: :model do
 
   describe "#like" do
     context "when a campaign is liked by a user" do
-    let(:user) { create :user }
-    let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
+      let(:user) { create :user }
+      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
 
       it "should add the user to the liking_users" do
         campaign.like user
@@ -239,6 +239,20 @@ RSpec.describe Campaign, type: :model do
         expect{ campaign.like user }.to change{ campaign.total_likes }.by 1
         expect{ campaign.like user }.to_not change{ campaign.total_likes }
         expect(campaign.total_likes).to eql 1
+      end
+    end
+
+    context "when a campaign receives its last like" do
+      before do
+        user = create :user
+        @campaign = create :campaign, campaign_type: 'instagram', payment_type: 'money_getter', budget: 70
+        @campaign.price = create :price, campaign_type: 'instagram', payment_type: 'money_getter', campaign_value: 50, users_share: 20
+        @campaign.save
+        @campaign.like user
+      end
+
+      it "sets campaign's availability to false" do
+        expect(@campaign.available).to eql false
       end
     end
 

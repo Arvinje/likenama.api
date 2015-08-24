@@ -82,6 +82,7 @@ class Campaign < ActiveRecord::Base
           user.coin_credit += self.price.users_share   # adds coin_credit based on the price's users_share
           self.budget -= self.price.campaign_value     # Decreases campaign budget by the price's campaign_value
         end
+        self.available = false if self.budget < self.price.campaign_value
         self.save
         user.save
         true
