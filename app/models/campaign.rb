@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
 
   before_save :set_price
+  before_save :set_waiting
   before_save :set_availability
 
   has_many :likes, dependent: :destroy
@@ -23,6 +24,17 @@ class Campaign < ActiveRecord::Base
 
   scope :available, -> { where available: true }
   scope :finished, -> { where available: false }
+
+  def set_waiting
+    case self.campaign_type
+    when 'instagram'
+      if self.payment_type == 'money_getter'
+        self.waiting = Waiting.instagram_money_getter
+      elsif self.payment_type == 'like_getter'
+        self.waiting = Waiting.instagram_like_getter
+      end
+    end
+  end
 
   def set_availability
     self.available = true if self.available.nil?

@@ -128,6 +128,19 @@ RSpec.describe Campaign, type: :model do
 
     it { expect(campaign).to callback(:set_availability).before(:save) }
     it { expect(campaign).to callback(:set_price).before(:save) }
+    it { expect(campaign).to callback(:set_waiting).before(:save) }
+  end
+
+  describe "#set_waiting" do
+    context "it's an instagram campaign" do
+      context "it's a money_getter campaign" do
+        let(:campaign) { build :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
+        it "assigns the respective waiting to the campaign" do
+          campaign.save
+          expect(campaign.waiting.period).to eql Waiting.where(campaign_type: 'instagram', payment_type: 'money_getter').last.period
+        end
+      end
+    end
   end
 
   describe "#set_availability" do
