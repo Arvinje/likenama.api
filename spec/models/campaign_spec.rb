@@ -127,7 +127,27 @@ RSpec.describe Campaign, type: :model do
   describe "Callbacks" do
     let(:campaign) { create :campaign }
 
+    it { expect(campaign).to callback(:set_availability).before(:validation) }
     it { expect(campaign).to callback(:set_price).before(:save) }
+  end
+
+  describe "#set_availability" do
+    context "when 'available' has not been set" do
+      let(:campaign) { build :campaign, available: nil }
+
+      it "sets it to true" do
+        campaign.set_availability
+        expect(campaign.available).to eql true
+      end
+    end
+    context "when there's 'available' is set to false" do
+      let(:campaign) { build :campaign, available: false }
+
+      it "keeps 'available' as false" do
+        campaign.set_availability
+        expect(campaign.available).to eql false
+      end
+    end
   end
 
   describe "#for_user" do
