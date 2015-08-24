@@ -12,7 +12,6 @@ class Campaign < ActiveRecord::Base
   # Edit these two when adding new types, also add new postgres enums when needed
   validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
-  validates :total_likes, presence: true, numericality: { only_integer: true }
   validates :budget, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :owner, presence: true
 

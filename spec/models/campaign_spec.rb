@@ -19,17 +19,14 @@ RSpec.describe Campaign, type: :model do
   describe "ActiveModel validations" do
     it { should validate_presence_of :campaign_type }
     it { should validate_presence_of :payment_type }
-    it { should validate_presence_of :total_likes }
     it { should validate_presence_of :budget }
     it { should validate_presence_of :owner }
 
-    it { should validate_numericality_of(:total_likes).only_integer }
     it { should validate_numericality_of(:budget).only_integer }
 
     describe "#must_have_one_association" do
       context "when no detail got specified" do
         before do
-          owner = create :user
           @campaign = Campaign.new(attributes_for(:campaign))
           @campaign.owner = create :user
           @campaign.save
