@@ -12,6 +12,7 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :like_value }
   it { should respond_to :total_likes }
   it { should respond_to :budget }
+  it { should respond_to :available }
   it { should respond_to :owner_id }
   it { should respond_to :price_id }
 
@@ -127,6 +128,36 @@ RSpec.describe Campaign, type: :model do
     let(:campaign) { create :campaign }
 
     it { expect(campaign).to callback(:set_price).before(:save) }
+  end
+
+  describe "#for_user" do
+    context "when there are some available and finished campaigns" do
+      before do
+        @user = create :user
+        Campaign.all.each { |c| c.destroy }
+        2.times { @available = create :campaign, available: true }
+        2.times { @finished = create :campaign, available: false }
+        @liked = create :campaign, available: true
+      end
+
+      it "returns first not-liked available campaign" do
+        @liked.like @user
+        expect(Campaign.for_user(@user)).to eql Campaign.first
+      end
+
+      it "returns next not-liked available campaign" do
+        @liked.like @user
+        Campaign.first.like @user
+        expect(Campaign.for_user(@user)).to eql @available
+      end
+
+      it "returns blank array when no campaign's available" do
+        @liked.like @user
+        Campaign.first.like @user
+        @available.like @user
+        expect(Campaign.for_user(@user).blank?).to eql true
+      end
+    end
   end
 
   describe "#set_price" do

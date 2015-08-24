@@ -4,6 +4,7 @@ FactoryGirl.define do
     payment_type { ["like_getter", "money_getter"].sample }
     like_value { (rand() * 100000).to_i }
     total_likes 0
+    available true
     price
     budget { (rand() * 10000).to_i }
     association :owner, factory: :user

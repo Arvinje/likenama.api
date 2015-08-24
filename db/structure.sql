@@ -63,7 +63,8 @@ CREATE TABLE campaigns (
     campaign_type campaign_type,
     payment_type payment_type,
     price_id integer,
-    budget integer
+    budget integer,
+    available boolean
 );
 
 
@@ -667,4 +668,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150822115857');
 INSERT INTO schema_migrations (version) VALUES ('20150822120244');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822145356');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824074337');
 

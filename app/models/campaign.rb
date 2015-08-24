@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
 
   before_save :set_price
+  before_validation :set_availability
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
@@ -19,6 +20,13 @@ class Campaign < ActiveRecord::Base
   #validate  :must_have_enough_credit
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
+
+  scope :available, -> { where available: true }
+  scope :finished, -> { where available: false }
+
+  def set_availability
+    self.available = true if self.available.nil?
+  end
 
   def must_have_enough_credit
     case self.payment_type
@@ -50,8 +58,8 @@ class Campaign < ActiveRecord::Base
     end
   end
 
-  def self.for_user(user) # Returns campaigns that are not liked by the user. Replace self.all later with a correctly scoped Campaign
-    (self.all - self.joins(:likes).where('likes.user_id = ?', user.id)).first
+  def self.for_user(user) # Returns available campaigns that are not liked by the user
+    (self.available - self.available.joins(:likes).where('likes.user_id = ?', user.id)).first
   end
 
   def instagram_only
