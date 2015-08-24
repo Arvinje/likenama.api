@@ -1,7 +1,7 @@
 class Campaign < ActiveRecord::Base
 
   before_save :set_price
-  before_validation :set_availability
+  before_save :set_availability
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user

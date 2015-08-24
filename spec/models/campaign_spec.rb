@@ -124,7 +124,7 @@ RSpec.describe Campaign, type: :model do
   describe "Callbacks" do
     let(:campaign) { create :campaign }
 
-    it { expect(campaign).to callback(:set_availability).before(:validation) }
+    it { expect(campaign).to callback(:set_availability).before(:save) }
     it { expect(campaign).to callback(:set_price).before(:save) }
   end
 
