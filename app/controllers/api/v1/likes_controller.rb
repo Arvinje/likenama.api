@@ -4,7 +4,7 @@ class Api::V1::LikesController < Api::V1::ApiController
     campaign = Campaign.find_by id: params[:campaign_id]
     unless campaign.nil?
       if campaign.check_like!(current_user, like_params)
-        render json: current_user, status: 201
+        render json: current_user, serializer: Api::V1::UserSerializer, status: 201
       else
         render json: { errors: campaign.errors }, status: 422
       end

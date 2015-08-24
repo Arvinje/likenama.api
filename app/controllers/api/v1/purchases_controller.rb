@@ -3,7 +3,7 @@ class Api::V1::PurchasesController < Api::V1::ApiController
 
   def create
     if purchased_detail = current_user.buy(Product.find_by(id: params[:product_id]))
-      render json: purchased_detail, serializer: DetailSerializer, root: 'details'
+      render json: purchased_detail, serializer: Api::V1::DetailSerializer, root: 'details'
     else
       render json: { errors: current_user.errors }, status: 422
     end
