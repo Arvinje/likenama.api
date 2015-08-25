@@ -2,11 +2,6 @@ require 'rails_helper'
 
 RSpec.describe InstagramDetail, type: :model do
 
-  before do
-    allow(KeyValue).to receive(:instagram_money_getter_value).and_return(2)
-    allow(KeyValue).to receive(:instagram_like_getter_value).and_return(1)
-  end
-
   it { should respond_to :short_code }
   it { should respond_to :description }
   it { should respond_to :phone }

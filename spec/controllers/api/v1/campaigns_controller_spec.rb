@@ -2,11 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::CampaignsController, type: :controller do
 
-  before do
-    allow(KeyValue).to receive(:instagram_money_getter_value).and_return(2)
-    allow(KeyValue).to receive(:instagram_like_getter_value).and_return(1)
-  end
-
   describe "GET #index" do
     context "when user has already created some campaigns" do
       before do

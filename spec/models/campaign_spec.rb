@@ -2,11 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Campaign, type: :model do
 
-  before do
-    allow(KeyValue).to receive(:instagram_money_getter_value).and_return(2)
-    allow(KeyValue).to receive(:instagram_like_getter_value).and_return(1)
-  end
-
   it { should respond_to :campaign_type }
   it { should respond_to :payment_type }
   it { should respond_to :like_value }
