@@ -7,7 +7,7 @@ FactoryGirl.define do
     available true
     price
     waiting
-    budget { (rand() * 10000).to_i }
+    budget 1000
     association :owner, factory: :user
     after(:build) do |campaign|
       campaign.instagram_detail ||= FactoryGirl.build(:instagram_detail, campaign: campaign)

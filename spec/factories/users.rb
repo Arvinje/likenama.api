@@ -3,7 +3,7 @@ FactoryGirl.define do
     email { FFaker::Internet.email }
     password "12345678"
     password_confirmation "12345678"
-    coin_credit { (rand() * 100000).to_i }
-    like_credit { (rand() * 100000).to_i }
+    coin_credit 10000
+    like_credit 20000
   end
 end
