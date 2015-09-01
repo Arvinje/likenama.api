@@ -118,7 +118,6 @@ RSpec.describe Campaign, type: :model do
   describe "Callbacks" do
     let(:campaign) { create :campaign }
 
-    it { expect(campaign).to callback(:set_availability).before(:save) }
     it { expect(campaign).to callback(:set_price).before(:save) }
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
@@ -131,25 +130,6 @@ RSpec.describe Campaign, type: :model do
           campaign.save
           expect(campaign.waiting.period).to eql Waiting.where(campaign_type: 'instagram', payment_type: 'money_getter').last.period
         end
-      end
-    end
-  end
-
-  describe "#set_availability" do
-    context "when 'available' has not been set" do
-      let(:campaign) { build :campaign, available: nil }
-
-      it "sets it to true" do
-        campaign.set_availability
-        expect(campaign.available).to eql true
-      end
-    end
-    context "when there's 'available' is set to false" do
-      let(:campaign) { build :campaign, available: false }
-
-      it "keeps 'available' as false" do
-        campaign.set_availability
-        expect(campaign.available).to eql false
       end
     end
   end

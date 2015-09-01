@@ -2,7 +2,6 @@ class Campaign < ActiveRecord::Base
 
   before_save :set_price
   before_save :set_waiting
-  before_save :set_availability
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
@@ -31,10 +30,6 @@ class Campaign < ActiveRecord::Base
 
   def set_price
     self.price = Price.where(campaign_type: self.campaign_type, payment_type: self.payment_type).last
-  end
-
-  def set_availability
-    self.available = true if self.available.nil?
   end
 
   def must_have_enough_credit
