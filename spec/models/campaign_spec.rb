@@ -8,6 +8,7 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :total_likes }
   it { should respond_to :budget }
   it { should respond_to :available }
+  it { should respond_to :verified }
   it { should respond_to :owner_id }
   it { should respond_to :price_id }
   it { should respond_to :waiting_id }
@@ -281,6 +282,24 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe "#check_like!" do
+
+    context "when campaign is not available" do
+      let(:nil_campaign) { create :campaign, available: nil }
+      let(:false_campaign) { create :campaign, available: false }
+      let(:user) { create :user }
+
+      it "returns false" do
+        expect(nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
+        expect(false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
+      end
+
+      it "returns an error" do
+        nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
+        false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
+        expect(nil_campaign.errors[:base]).to include "the campaign's not available"
+        expect(false_campaign.errors[:base]).to include "the campaign's not available"
+      end
+    end
 
     context "when campaign has not enough budget" do
       let(:user) { create :user }

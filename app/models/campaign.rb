@@ -97,6 +97,11 @@ class Campaign < ActiveRecord::Base
   end
 
   def check_like!(user, opts = {})    # Performs special ops based on campaign_type
+    unless self.available == true
+      self.errors[:base] << "the campaign's not available"
+      false
+    end
+
     unless self.price.campaign_value <= self.budget
       self.errors[:base] << "the campaign's ran out of budget"
       false
