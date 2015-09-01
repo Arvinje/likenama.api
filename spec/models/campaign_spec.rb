@@ -301,6 +301,24 @@ RSpec.describe Campaign, type: :model do
       end
     end
 
+    context "when campaign is not verified" do
+      let(:nil_campaign) { create :campaign, verified: nil }
+      let(:false_campaign) { create :campaign, verified: false }
+      let(:user) { create :user }
+
+      it "returns false" do
+        expect(nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
+        expect(false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
+      end
+
+      it "returns an error" do
+        nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
+        false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
+        expect(nil_campaign.errors[:base]).to include "the campaign's not verified"
+        expect(false_campaign.errors[:base]).to include "the campaign's not verified"
+      end
+    end
+
     context "when campaign has not enough budget" do
       let(:user) { create :user }
       before :all do

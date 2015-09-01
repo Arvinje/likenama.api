@@ -5,6 +5,7 @@ FactoryGirl.define do
     like_value { (rand() * 100000).to_i }
     total_likes 0
     available true
+    verified true
     price
     waiting
     budget 1000

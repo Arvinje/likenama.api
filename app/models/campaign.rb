@@ -102,6 +102,11 @@ class Campaign < ActiveRecord::Base
       false
     end
 
+    unless self.verified == true
+      self.errors[:base] << "the campaign's not verified"
+      false
+    end
+
     unless self.price.campaign_value <= self.budget
       self.errors[:base] << "the campaign's ran out of budget"
       false
