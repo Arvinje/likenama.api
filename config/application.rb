@@ -44,6 +44,8 @@ module LikeNama
       g.helper = false
     end
 
+    config.filter_parameters += [:instagram_access_token]
+
     config.autoload_paths += %W(\#{config.root}/lib)
   end
 end
