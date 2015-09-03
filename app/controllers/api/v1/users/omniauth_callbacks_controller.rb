@@ -4,13 +4,13 @@ class Api::V1::Users::OmniauthCallbacksController < ApplicationController
     if user.persisted?
       user.generate_authentication_token!
       user.save
-      redirect_to "SOMETHING"
+      instagram_access_token = request.env["omniauth.auth"].credentials.token
+      redirect_to anchor: "#{instagram_access_token}"
     else
-      redirect_to "http://localhost:3000/api/users/auth/#error"
+      redirect_to anchor: "error"
     end
   end
 
   def failure
-    redirect_to "http://localhost:3000/api/users/auth/#error"
   end
 end
