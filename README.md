@@ -2,7 +2,6 @@
 
 ## Todo
 
-* Implement campaign confirmation.
 * Implement a payment method.
 * Better error handling in controllers.
 * Find a better logging solution.
