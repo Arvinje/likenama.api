@@ -5,5 +5,9 @@ FactoryGirl.define do
     password_confirmation "12345678"
     coin_credit 10000
     like_credit 20000
+    factory :instagram_user do
+      provider "instagram"
+      omni_id "46569725"
+    end
   end
 end
