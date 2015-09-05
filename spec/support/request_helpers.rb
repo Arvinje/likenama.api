@@ -7,7 +7,7 @@ module Request
 
   module HeadersHelpers
     def api_header(version = 1)
-      request.headers['Accept'] = "application/vnd.marketplace.v#{version}"
+      request.headers['Accept'] = "application/vnd.likenama.v#{version}"
     end
 
     def api_response_format(format = Mime::JSON)
