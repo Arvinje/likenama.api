@@ -24,7 +24,29 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
         expect(products_response.first[:title]).to eql @product.title
       end
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
+    end
+
+    context "when there's no product available" do
+      let(:user) { create :user }
+      before do
+        Product.all.each { |p| p.destroy }    # cleans the products and product_details tables
+        3.times { create :product, available: false }
+        api_authorization_header user.auth_token
+        get :index
+      end
+
+      it "should render an errors json" do
+        campaign_response = json_response
+        expect(campaign_response).to have_key :errors
+      end
+
+      it "should render the json errors on why the user could not be created" do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+      end
+
+      it { should respond_with :not_found }
     end
   end
 

@@ -13,12 +13,17 @@ RSpec.describe Api::V1::PurchasesController, type: :controller do
         post :create, { product_id: bad_id }
       end
 
-      it "renders json errors" do
-        product_response = json_response
-        expect(product_response[:errors][:base]).to include "wrong product_id"
+      it "should render an errors json" do
+        campaign_response = json_response
+        expect(campaign_response).to have_key :errors
       end
 
-      it { is_expected.to respond_with 422 }
+      it "should render the json errors on why the user could not be created" do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+      end
+
+      it { is_expected.to respond_with :not_found }
     end
 
     context "when user purchases the product successfully" do
@@ -35,6 +40,8 @@ RSpec.describe Api::V1::PurchasesController, type: :controller do
         expect(product_response[:details][:product][:title]).to eql @requested_product.title
         expect(product_response[:details][:code]).to eql @requested_product.details.first.code
       end
+
+      it { is_expected.to respond_with :created }
     end
 
     context "when user doesn't have enough credit" do
@@ -51,7 +58,7 @@ RSpec.describe Api::V1::PurchasesController, type: :controller do
         expect(product_response[:errors][:coin_credit]).to include "doesn't have enough credit"
       end
 
-      it { is_expected.to respond_with 422 }
+      it { is_expected.to respond_with :unprocessable_entity }
     end
   end
 end

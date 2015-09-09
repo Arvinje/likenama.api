@@ -23,7 +23,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
         expect(campaign_response[:user][:uid]).to eql user.uid
       end
 
-      it { should respond_with 201 }
+      it { should respond_with :created }
     end
 
     context "when user has not liked the photo" do
@@ -46,7 +46,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
         expect(campaign_response[:errors][:base]).to include "user has not liked the photo"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :unprocessable_entity }
     end
 
     context "when the campaign_id is not valid" do
@@ -61,10 +61,10 @@ RSpec.describe Api::V1::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested campaign could not be found"
+        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :not_found }
     end
   end
 end

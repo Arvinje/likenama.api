@@ -1,16 +1,11 @@
 class Api::V1::LikesController < Api::V1::ApiController
 
   def create
-    campaign = Campaign.find_by id: params[:campaign_id]
-    unless campaign.nil?
-      if campaign.check_like!(current_user, like_params)
-        render json: current_user, serializer: Api::V1::UserSerializer, status: 201
-      else
-        render json: { errors: campaign.errors }, status: 422
-      end
+    campaign = Campaign.find params[:campaign_id]
+    if campaign.check_like!(current_user, like_params)
+      render json: current_user, serializer: Api::V1::UserSerializer, status: :created
     else
-      errors = { base: ["the requested campaign could not be found"] }
-      render json: { errors: errors }, status: 422
+      render json: { errors: campaign.errors }, status: :unprocessable_entity
     end
   end
 

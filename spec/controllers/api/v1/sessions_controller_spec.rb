@@ -13,7 +13,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(session_response[:auth_token]).to eql @user.auth_token
       end
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :created }
     end
 
     context 'user has not signed up before' do
@@ -21,12 +21,17 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         post :create, { user: { uid: "235536435234522426434" } }
       end
 
-      it "renders a respective json error" do
-        user_response = json_response
-        expect(user_response[:errors][:base]).to include "user not registered"
+      it "should render an errors json" do
+        campaign_response = json_response
+        expect(campaign_response).to have_key :errors
       end
 
-      it { is_expected.to respond_with 404 }
+      it "should render the json errors on why the user could not be created" do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+      end
+
+      it { is_expected.to respond_with :not_found }
     end
   end
 end

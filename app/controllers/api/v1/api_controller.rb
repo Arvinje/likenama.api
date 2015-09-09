@@ -1,8 +1,18 @@
 class Api::V1::ApiController < ActionController::Base
   respond_to :json
   protect_from_forgery with: :null_session
-  
-  before_action :authenticate_with_token!
 
   include Authenticable
+
+  before_action :authenticate_with_token!
+
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_notfound
+
+  protected
+  
+  def handle_notfound
+    errors = { base: ["the requested record(s) cannot be found"] }
+    render json: { errors: errors }, status: 404
+  end
+
 end

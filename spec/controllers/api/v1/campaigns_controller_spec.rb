@@ -18,7 +18,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         expect(campaigns_response.size).to eql 5
       end
 
-      it { should respond_with 200 }
+      it { should respond_with :ok }
     end
 
     context "when user has not created any campaign" do
@@ -33,7 +33,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         expect(campaign_response[:errors][:base]).to include "no available campaign"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :not_found }
     end
   end
 
@@ -60,7 +60,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         expect(campaign_response[:instagram_detail][:website]).to eql @campaigns[1].instagram_detail.website
       end
 
-      it { should respond_with 200 }
+      it { should respond_with :ok }
     end
 
     context "when user has liked all of the campaigns" do
@@ -92,7 +92,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         expect(campaign_response[:instagram_detail][:short_code]).to eql @campaign_attributes[:instagram_detail_attributes][:short_code]
       end
 
-      it { should respond_with 201 }
+      it { should respond_with :created }
     end
 
     context "when is not created" do
@@ -114,7 +114,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
           expect(campaign_response[:errors][:campaign_type]).to include "can't be blank"
         end
 
-        it { should respond_with 422 }
+        it { should respond_with :unprocessable_entity }
       end
 
       context "when the shortcode is invalid" do
@@ -136,26 +136,49 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
           expect(campaign_response[:errors][:'instagram_detail.short_code']).to include "invalid shortcode"
         end
 
-        it { should respond_with 422 }
+        it { should respond_with :unprocessable_entity }
       end
     end
   end
 
   describe "GET #show" do
-    let(:campaign) { create :campaign }
-    let(:instagram_detail) { create :instagram_detail, campaign: campaign }
-    before do
-      user = create :user
-      api_authorization_header user.auth_token
-      get :show, id: instagram_detail.campaign.id
+    context "when the requested campaign is not available" do
+      before do
+        user = create :user
+        api_authorization_header user.auth_token
+        get :show, id: 35346854643
+      end
+
+      it "should render an errors json" do
+        campaign_response = json_response
+        expect(campaign_response).to have_key :errors
+      end
+
+      it 'returns not found error' do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+      end
+
+      it { should respond_with :not_found }
     end
 
-    it "should return the requested campaign" do
-      campaigns_response = json_response[:campaign]
-      expect(campaigns_response[:campaign_type]).to eql instagram_detail.campaign.campaign_type
-      expect(campaigns_response[:instagram_detail][:short_code]).to eql instagram_detail.short_code
+    context "when the requested campaign is available" do
+      let(:campaign) { create :campaign }
+      let(:instagram_detail) { create :instagram_detail, campaign: campaign }
+      before do
+        user = create :user
+        api_authorization_header user.auth_token
+        get :show, id: instagram_detail.campaign.id
+      end
+
+      it "should return the requested campaign" do
+        campaigns_response = json_response[:campaign]
+        expect(campaigns_response[:campaign_type]).to eql instagram_detail.campaign.campaign_type
+        expect(campaigns_response[:instagram_detail][:short_code]).to eql instagram_detail.short_code
+      end
+
+      it { should respond_with :ok }
     end
-    it { should respond_with 200 }
   end
 
   describe "PUT/PATCH #update" do
@@ -178,10 +201,10 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should render the json errors on why the campaign could not be updated" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested campaign could not be found"
+        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :not_found }
     end
 
     context "when is successfully updated" do
@@ -195,7 +218,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         expect(campaign_response[:instagram_detail][:short_code]).to eql Rails.application.secrets.liked_instagram_shortcode
       end
 
-      it { should respond_with 200 }
+      it { should respond_with :ok }
     end
 
     context "when there's an invalid parameter and it's not updated" do
@@ -213,7 +236,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         expect(campaign_response[:errors][:'instagram_detail.short_code']).to include "invalid shortcode"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :unprocessable_entity }
     end
   end
 end
