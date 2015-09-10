@@ -341,7 +341,7 @@ RSpec.describe Campaign, type: :model do
         before do
           @user = create :user
           @campaign = create :campaign
-          create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
+          create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
         end
 
         it "should return false" do
@@ -353,7 +353,7 @@ RSpec.describe Campaign, type: :model do
         before do
           @user = create :user
           @campaign = create :campaign, campaign_type: 'instagram', payment_type: 'money_getter'
-          create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.liked_instagram_shortcode
+          create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
         end
 
         it "should return true" do
@@ -365,7 +365,7 @@ RSpec.describe Campaign, type: :model do
         before do
           @user = create :user
           @campaign = create :campaign
-          create :instagram_detail, campaign: @campaign, short_code: Rails.application.secrets.not_liked_instagram_shortcode
+          create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.not_liked_instagram_shortcode}"
         end
 
         it "should return false" do
