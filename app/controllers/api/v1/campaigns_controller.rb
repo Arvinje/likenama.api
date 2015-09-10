@@ -5,8 +5,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
     unless user_campaigns.empty?
       render json: user_campaigns, each_serializer: Api::V1::CampaignSerializer, status: :ok
     else
-      errors = { base: ["no available campaign"] }
-      render json: { errors: errors }, status: :not_found
+      handle_notfound
     end
   end
 
@@ -15,8 +14,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
     unless campaign.nil?
       render json: campaign, serializer: Api::V1::CampaignSerializer, status: :ok, location: [:api, campaign]
     else
-      errors = { base: ["no available campaign"] }
-      render json: { errors: errors }, status: :not_found
+      handle_notfound
     end
   end
 
@@ -45,6 +43,6 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, instagram_detail_attributes: [:short_code, :description, :phone, :website, :address])
+    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, instagram_detail_attributes: [:url, :description, :phone, :website, :address])
   end
 end
