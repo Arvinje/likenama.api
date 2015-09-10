@@ -11,7 +11,7 @@ FactoryGirl.define do
     budget 1000
     association :owner, factory: :user
     after(:build) do |campaign|
-      campaign.instagram_detail ||= FactoryGirl.build(:instagram_detail, campaign: campaign)
+      campaign.instagram_detail ||= FactoryGirl.create(:instagram_detail, campaign: campaign)
     end
     after(:build) do |campaign|
       FactoryGirl.create(:price, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
