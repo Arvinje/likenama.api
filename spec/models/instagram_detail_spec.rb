@@ -8,16 +8,20 @@ RSpec.describe InstagramDetail, type: :model do
   it { should respond_to :website }
   it { should respond_to :address }
   it { should respond_to :campaign_id }
+  it { should respond_to :url }
   it { should respond_to :photo_url }
 
   describe "ActiveModel validations" do
     it { should validate_presence_of :short_code }
     it { should validate_presence_of :campaign }
-    it { should validate_presence_of :photo_url }
   end
 
   describe "ActiveRecord associations" do
     it { should belong_to :campaign }
+  end
+
+  describe "Callbacks" do
+    let(:instagram_detail) { create :instagram_detail }
   end
 
   describe "#must_have_valid_short_code" do
@@ -34,7 +38,7 @@ RSpec.describe InstagramDetail, type: :model do
     end
 
     context "when it's an invalid shortcode" do
-      let(:instagram_detail) { build :instagram_detail, short_code: "435gsfgEF445352" }
+      let(:instagram_detail) { build :instagram_detail, url: "https://instagram.com/p/435gsfgEF445352" }
       before do
         @failed_detail = instagram_detail
         @failed_detail.save
@@ -45,7 +49,7 @@ RSpec.describe InstagramDetail, type: :model do
       end
 
       it "should give the reason on the error" do
-        expect(@failed_detail.errors.messages[:short_code]).to include "invalid shortcode"
+        expect(@failed_detail.errors.messages[:url]).to include "invalid url"
       end
     end
   end
@@ -66,9 +70,35 @@ RSpec.describe InstagramDetail, type: :model do
     end
 
     context "when it's an invalid shortcode" do
-      let(:instagram_detail) { build :instagram_detail, short_code: "435gsfgEF445352" }
+      let(:instagram_detail) { build :instagram_detail, url: "https://instagram.com/p/435gsfgEF445352" }
       it "should return false" do
         expect(instagram_detail.get_instagram_photo_url).to eql false
+      end
+    end
+  end
+
+  describe "#set_shortcode" do
+    context "when it's a valid url" do
+      before do
+        @instagram_detail = build :instagram_detail, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
+        @instagram_detail.set_shortcode
+      end
+
+      it "extract shortcode out of the url" do
+        expect(@instagram_detail.short_code).to eql Rails.application.secrets.liked_instagram_shortcode
+      end
+    end
+
+    context "when it's an invalid url" do
+      let(:instagram_detail) { build :instagram_detail, url: "http://sdfsdf.com/p/32r23tewdgfdsg" }
+
+      it "returns false" do
+        expect(instagram_detail.set_shortcode).to be false
+      end
+
+      it "doesn't extract shortcode out of the url" do
+        instagram_detail.set_shortcode
+        expect(instagram_detail.short_code).not_to eql "32r23tewdgfdsg"
       end
     end
   end
