@@ -3,7 +3,7 @@ class Api::V1::SessionsController < Api::V1::ApiController
 
   def create
     user = User.find_by! uid: session_params[:uid]
-    render json: user, serializer: Api::V1::SessionSerializer, status: :created
+    render json: user, serializer: Api::V1::SessionSerializer, status: :ok
   end
 
   private

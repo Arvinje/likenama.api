@@ -13,7 +13,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(session_response[:auth_token]).to eql @user.auth_token
       end
 
-      it { is_expected.to respond_with :created }
+      it { is_expected.to respond_with :ok }
     end
 
     context 'user has not signed up before' do
