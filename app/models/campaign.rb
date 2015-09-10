@@ -84,12 +84,12 @@ class Campaign < ActiveRecord::Base
         self.available = false if self.budget < self.price.campaign_value
         self.save
         user.save
-        true
+        return true
       else
-        false
+        return false
       end
     end
-    true
+    return true
   end
 
   def liked_by?(user)
@@ -99,17 +99,17 @@ class Campaign < ActiveRecord::Base
   def check_like!(user, opts = {})    # Performs special ops based on campaign_type
     unless self.available == true
       self.errors[:base] << "the campaign's not available"
-      false
+      return false
     end
 
     unless self.verified == true
       self.errors[:base] << "the campaign's not verified"
-      false
+      return false
     end
 
     unless self.price.campaign_value <= self.budget
       self.errors[:base] << "the campaign's ran out of budget"
-      false
+      return false
     end
     case self.campaign_type
     when "instagram"
@@ -120,11 +120,11 @@ class Campaign < ActiveRecord::Base
           self.like user
         else
           self.errors[:base] << "user has not liked the photo"
-          false
+          return false
         end
       rescue StandardError => e
         self.errors[:base] << e.message   # controller provides this error as the reason to the request
-        false
+        return false
       end
     end
   end
