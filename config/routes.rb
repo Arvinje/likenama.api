@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       get 'users/self' => 'users#self'
       resources :sessions, only: [:create]
       resources :campaigns, only: [:index, :new, :create, :show, :update] do
-        resources :likes, only: [:create]
+        resource :like, only: [:create]
       end
       get 'campaigns/next' => 'campaigns#next'
       resources :products, only: [:index] do
