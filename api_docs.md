@@ -10,6 +10,26 @@ Headers
 
 **Authorization:** `[USER'S auth_token]`
 
+### Errors
+* Invalid/Expired auth_token:
+
+```json
+{
+  "errors": {
+    "base": [
+      "not authenticated"
+    ]
+  }
+}
+```
+* HTTP Status Codes:
+  * OK: `200`
+  * Created: `201`
+  * Not Found: `404`
+  * Created: `201`
+  * Unprocessable Entity: `422`
+  * Server Error: `500`
+
 Registration and logging
 ------------------------
 
