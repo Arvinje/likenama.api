@@ -3,7 +3,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   def index
     user_campaigns = current_user.campaigns
     unless user_campaigns.empty?
-      render json: user_campaigns, each_serializer: Api::V1::CampaignSerializer, status: :ok
+      render json: user_campaigns, each_serializer: Api::V1::UsersCampaignSerializer, status: :ok
     else
       handle_notfound
     end
@@ -26,7 +26,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   def create
     campaign = current_user.campaigns.build(campaign_params)
     if campaign.save
-      render json: campaign, serializer: Api::V1::CampaignSerializer, status: :created, location: [:api, campaign]
+      head :created
     else
       render json: { errors: campaign.errors }, status: :unprocessable_entity
     end

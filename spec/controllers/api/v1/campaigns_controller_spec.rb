@@ -118,11 +118,6 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         post :create, { campaign: @campaign_attributes }
       end
 
-      it "should render json representation for the campaign just created" do
-        campaign_response = json_response[:campaign]
-        expect(campaign_response[:instagram_detail][:url]).to eql @campaign_attributes[:instagram_detail_attributes][:url]
-      end
-
       it { should respond_with :created }
     end
 
