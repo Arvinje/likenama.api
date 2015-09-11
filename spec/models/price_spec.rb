@@ -20,7 +20,7 @@ RSpec.describe Price, type: :model do
     it { is_expected.to have_many :campaigns }
   end
 
-  describe "#instagram_like_getter" do
+  describe ".instagram_like_getter" do
     let(:price) { create :price, campaign_type: 'instagram', payment_type: 'like_getter' }
 
     it "returns the last registered price for instagram like_getter campaigns" do
@@ -29,12 +29,27 @@ RSpec.describe Price, type: :model do
     end
   end
 
-  describe "#instagram_money_getter" do
+  describe ".instagram_money_getter" do
     let(:price) { create :price, campaign_type: 'instagram', payment_type: 'money_getter' }
 
     it "returns the last registered price for instagram like_getter campaigns" do
       price
       expect(Price.instagram_money_getter.campaign_value).to eql price.campaign_value
+    end
+  end
+
+  describe ".available_prices" do
+    before do
+      @instagram_like_getter_price = Price.create campaign_type: 'instagram', payment_type: 'like_getter', campaign_value: 200, users_share: 50
+      @instagram_money_getter_price = Price.create campaign_type: 'instagram', payment_type: 'money_getter', campaign_value: 100, users_share: 70
+    end
+
+    it "returns an array containing latest instagram like_getter price object" do
+      expect(Price.available_prices).to include @instagram_like_getter_price
+    end
+    
+    it "returns an array containing latest instagram money_getter price object" do
+      expect(Price.available_prices).to include @instagram_money_getter_price
     end
   end
 end

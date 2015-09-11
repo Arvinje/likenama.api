@@ -6,6 +6,10 @@ class Price < ActiveRecord::Base
   validates :campaign_type, presence: true
   validates :payment_type, presence: true
 
+  def self.available_prices
+    [self.instagram_money_getter, self.instagram_like_getter]
+  end
+
   def self.instagram_money_getter
     self.where(campaign_type: 'instagram', payment_type: 'money_getter').last
   end
