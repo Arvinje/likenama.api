@@ -84,6 +84,30 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
   end
 
+  describe "GET #new" do
+    let(:user) { create :user }
+    before do
+      api_authorization_header user.auth_token
+      get :new
+    end
+
+    it "renders a json for all available prices" do
+      expect(json_response).to have_key :prices
+    end
+
+    it "renders json representation of instagram_like_getter price" do
+      prices_response = json_response[:prices]
+      expect(prices_response[0][:campaign_value]).to eql Price.instagram_like_getter.campaign_value
+    end
+
+    it "renders json representation of instagram_money_getter price" do
+      prices_response = json_response[:prices]
+      expect(prices_response[1][:campaign_value]).to eql Price.instagram_money_getter.campaign_value
+    end
+
+    it { is_expected.to respond_with :ok }
+  end
+
   describe "POST #create" do
     context "when is successfully created" do
       before do

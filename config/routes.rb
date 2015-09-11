@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       get 'users/self' => 'users#self'
       resources :sessions, only: [:create]
-      resources :campaigns, only: [:index, :create, :show, :update] do
+      resources :campaigns, only: [:index, :new, :create, :show, :update] do
         resources :likes, only: [:create]
       end
       get 'campaigns/next' => 'campaigns#next'

@@ -18,6 +18,11 @@ class Api::V1::CampaignsController < Api::V1::ApiController
     end
   end
 
+  def new
+    prices = Price.available_prices
+    render json: prices, each_serializer: Api::V1::PriceSerializer, root: 'prices', status: 200
+  end
+
   def create
     campaign = current_user.campaigns.build(campaign_params)
     if campaign.save
