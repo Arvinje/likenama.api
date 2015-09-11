@@ -1,6 +1,15 @@
 Likenama API Documentation
 ==========================
 
+Headers
+-------
+
+**Accept:** `application/vnd.likenama.v1,application/json`
+
+**Content-type:** `application/json`
+
+**Authorization:** `[USER'S auth_token]`
+
 Registration and logging
 ------------------------
 
@@ -11,8 +20,10 @@ Registration and logging
 #### Response:
 * Success:
  * **URL:**
-  `http://likenama.com/api/v1/users/auth/instagram/callback#access_token=46569720.5106fe6.31dm6ecbf60448f0ae396b8ffd2aa671&uid=T6S5tMRNp1FsDoUJtebR`
 
+  ```
+  http://likenama.com/api/v1/users/auth/instagram/callback#access_token=46569720.5106fe6.31dm6ecbf60448f0ae396b8ffd2aa671&uid=T6S5tMRNp1FsDoUJtebR
+  ```
   * **Access token:** `46569720.5106fe6.31dm6ecbf60448f0ae396b8ffd2aa671`
 
   * **UID:** `T6S5tMRNp1FsDoUJtebR`
@@ -20,15 +31,22 @@ Registration and logging
 * Failure:
   * Instagram Failure:
     * **URL:**
-    `http://likenama.com/api/v1/users/auth/instagram/callback?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.&state=e900deb141cb46508838cee83840e5677f992f195517a7f4`
+
+    ```
+    http://likenama.com/api/v1/users/auth/instagram/callback?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.&state=e900deb141cb46508838cee83840e5677f992f195517a7f4
+    ```
   * App Failure:
     * **URL:**
-    `http://likenama.com/api/v1/users/auth/instagram/callback#error`
+
+    ```
+    http://likenama.com/api/v1/users/auth/instagram/callback#error
+    ```
 
 ### Signing in
 * **Method:** `POST`
 * **Endpoint:** `/api/sessions`
 * **Request Content:**
+
   ```json
   {
     "user": {
@@ -40,6 +58,7 @@ Registration and logging
 #### Response
 * Success:
   * **Content:**
+
     ```json
     {
       "session": {
@@ -50,6 +69,7 @@ Registration and logging
   * **Status:** `200`
 * Failure
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -72,6 +92,7 @@ Campaigns
 #### Response
 * Success (user has some campaigns):
   * **Content:**
+
     ```json
     {
       "campaigns": [
@@ -111,6 +132,7 @@ Campaigns
   * **Status:** `200`
 * Failure (when there's no campaign available)
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -130,6 +152,7 @@ Campaigns
 #### Response
 * Success (when user has liked the photo):
   * **Content:**
+
     ```json
     {
       "prices": [
@@ -152,6 +175,7 @@ Campaigns
 * **Method:** `POST`
 * **Endpoint:** `/api/campaigns`
 * **Request Content:**
+
   ```json
   {
     "campaign": {
@@ -159,8 +183,6 @@ Campaigns
       "payment_type": "money_getter",
       "like_value": "97789",
       "total_likes": "0",
-      "available": true,
-      "verified": true,
       "budget": "1000",
       "instagram_detail_attributes": {
         "url": "https://instagram.com/p/***REMOVED***",
@@ -179,6 +201,7 @@ Campaigns
   * **Status:** `201`
 * Failure (when Instagram url is wrong)
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -198,6 +221,7 @@ Campaigns
 #### Response
 * Success (when there's a campaign available):
   * **Content:**
+
     ```json
     {
       "campaign": {
@@ -219,6 +243,7 @@ Campaigns
   * **Status:** `200`
 * Failure (when there's no campaign available)
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -234,6 +259,7 @@ Campaigns
 * **Method:** `POST`
 * **Endpoint:** `/api/campaigns/[CAMPAIGN-ID]/like`
 * **Request Content:**
+
   ```json
   {
     "like": {
@@ -245,6 +271,7 @@ Campaigns
 #### Response
 * Success (when user has liked the photo):
   * **Content:**
+
     ```json
     {
       "user": {
@@ -257,6 +284,7 @@ Campaigns
   * **Status:** `200`
 * Failure (when user didn't like the photo)
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -279,6 +307,7 @@ Shop
 #### Response
 * Success:
   * **Content:**
+
     ```json
     {
       "products": [
@@ -300,6 +329,7 @@ Shop
   * **Status:** `200`
 * Failure (when there are no products available)
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -319,6 +349,7 @@ Shop
 #### Response
 * Success:
   * **Content:**
+
     ```json
     {
       "details": {
@@ -336,6 +367,7 @@ Shop
   * **Status:** `200`
 * Failure (when it's out of stock)
   * **Content:**
+
     ```json
     {
       "errors": {
@@ -348,6 +380,7 @@ Shop
   * **Status:** `404`
 * Failure (when user doesn't have enough credit)
   * **Content:**
+
     ```json
     {
       "errors": {
