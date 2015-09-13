@@ -90,12 +90,24 @@ class Campaign < ActiveRecord::Base
     begin
       client = Instagram.client(access_token: instagram_access_token)
       media = client.media_shortcode(self.instagram_detail.short_code)
-      if media.user_has_liked   # returns true if the user has liked the Instagram photo, otherwise returns false
+      if media.user_has_liked == true   # returns true if the user has liked the Instagram photo, otherwise returns false
         self.like user
+      elsif media.user_has_liked.nil?
+        return false
       else
         self.errors[:base] << "user has not liked the photo"
         return false
       end
+    rescue Instagram::BadRequest => e
+      if e.message.include? "access_token provided is invalid"
+        self.errors[:base] << "invalid instagram access token"
+      elsif e.message.include? "invalid media id"
+        mark_to_be_checked
+        self.errors[:base] << "campaign expired"
+      else
+        self.errors[:base] << e.message   # controller provides this error as the reason to the request
+      end
+      return false
     rescue StandardError => e
       self.errors[:base] << e.message   # controller provides this error as the reason to the request
       return false
@@ -181,6 +193,17 @@ class Campaign < ActiveRecord::Base
     return false if last_like.nil?
 
     Time.now - last_like.created_at < self.waiting.period
+  end
+
+  private
+
+  # Marks a campaign to be checked manually by admins
+  # Specially regarding deleted source of the campaign case
+  # Sets 'available' to false and 'verified' to nil.
+  def mark_to_be_checked
+    self.available = false
+    self.verified = nil
+    self.save
   end
 
 end

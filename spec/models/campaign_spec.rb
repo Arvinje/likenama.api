@@ -328,7 +328,7 @@ RSpec.describe Campaign, type: :model do
       end
 
       it "returns false" do
-        expect(@campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1))
+        expect(@campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
       end
 
       it "returns error for not having enough budget" do
@@ -336,9 +336,32 @@ RSpec.describe Campaign, type: :model do
       end
     end
 
-    context "when it's a instagram campaign" do
+    context "when the source becomes unavailable" do
+      context "when it's an instagram campaign" do
+        before :all do
+          @campaign = create :campaign
+          @campaign.instagram_detail.short_code = "2345325"
+          @user = create :user
+        end
+
+        it "returns false" do
+          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
+        end
+
+        it "returns respective error in errors hash" do
+          expect(@campaign.errors[:base]).to include "campaign expired"
+        end
+
+        it "marks the campaign to be checked" do
+          expect(@campaign.available).to be false
+          expect(@campaign.verified).to be nil
+        end
+      end
+    end
+
+    context "when it's an instagram campaign" do
       context "when user's access token is invalid" do
-        before do
+        before :all do
           @user = create :user
           @campaign = create :campaign
           create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
@@ -346,6 +369,10 @@ RSpec.describe Campaign, type: :model do
 
         it "should return false" do
           expect(@campaign.check_like!(@user, instagram_access_token: "***REMOVED***")).to eql false
+        end
+
+        it "returns respective error in errors hash" do
+          expect(@campaign.errors[:base]).to include "invalid instagram access token"
         end
       end
 
@@ -362,7 +389,7 @@ RSpec.describe Campaign, type: :model do
       end
 
       context "when user has not liked the instagram photo" do
-        before do
+        before :all do
           @user = create :user
           @campaign = create :campaign
           create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.not_liked_instagram_shortcode}"
@@ -370,6 +397,10 @@ RSpec.describe Campaign, type: :model do
 
         it "should return false" do
           expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql false
+        end
+
+        it "returns respective error in errors hash" do
+          expect(@campaign.errors[:base]).to include "user has not liked the photo"
         end
       end
     end
