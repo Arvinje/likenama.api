@@ -5,7 +5,7 @@ Likenama
 
 ### Version 1
 
-* Validate the duration between liking campaigns.
+* [IMPORTANT] Complete the docs.
 * Implement a payment method.
 * Implement control panel.
   * Latest actions.
