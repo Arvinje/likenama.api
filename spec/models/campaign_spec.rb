@@ -4,7 +4,6 @@ RSpec.describe Campaign, type: :model do
 
   it { should respond_to :campaign_type }
   it { should respond_to :payment_type }
-  it { should respond_to :like_value }
   it { should respond_to :total_likes }
   it { should respond_to :budget }
   it { should respond_to :available }

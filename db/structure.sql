@@ -55,7 +55,6 @@ SET default_with_oids = false;
 
 CREATE TABLE campaigns (
     id integer NOT NULL,
-    like_value integer,
     total_likes integer DEFAULT 0,
     waiting_id integer,
     created_at timestamp without time zone NOT NULL,

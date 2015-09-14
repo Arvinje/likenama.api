@@ -87,6 +87,8 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
   describe "GET #new" do
     let(:user) { create :user }
     before do
+      create :price, campaign_type: 'instagram', payment_type: 'like_getter'
+      create :price, campaign_type: 'instagram', payment_type: 'money_getter'
       api_authorization_header user.auth_token
       get :new
     end
