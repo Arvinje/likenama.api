@@ -1,10 +1,10 @@
-Likenama API Documentation
+Likenama API Documentation V1
 ==========================
 
-Headers
+Request Headers
 -------
 
-**Accept:** `application/vnd.likenama.v1,application/json`
+**Accept:** `application/vnd.likenama.v1`
 
 **Content-type:** `application/json`
 
@@ -26,7 +26,6 @@ Headers
   * OK: `200`
   * Created: `201`
   * Not Found: `404`
-  * Created: `201`
   * Unprocessable Entity: `422`
   * Server Error: `500`
 
@@ -170,7 +169,7 @@ Campaigns
 * **Request Content:** `none`
 
 #### Response
-* Success (when user has liked the photo):
+* Success:
   * **Content:**
 
     ```json
@@ -199,9 +198,8 @@ Campaigns
   ```json
   {
     "campaign": {
-      "campaign_type": "instagram",
-      "payment_type": "money_getter",
-      "like_value": "97789",
+      "campaign_type": "instagram",   // Always the same
+      "payment_type": "money_getter", // Always the same
       "total_likes": "0",
       "budget": "1000",
       "instagram_detail_attributes": {
@@ -227,6 +225,45 @@ Campaigns
       "errors": {
         "instagram_detail.url": [
           "invalid url"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when user has not enough credit to create a campaign)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "budget": [
+          "user doesn't have enough credit"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when the budget is not enough even for a like)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "budget": [
+          "campaign doesn't have enough budget"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when no parameter respective to Instagram gets sent)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "must have some details"
         ]
       }
     }
@@ -310,6 +347,84 @@ Campaigns
       "errors": {
         "base": [
           "user has not liked the photo"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when during the action, the campaign ran out of budget)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "the campaign's ran out of budget"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when during the action, the campaign got unverified)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "the campaign's not verified"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when during the action, the campaign got unavailable)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "the campaign's not available"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when the period between each like isn't enough)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "you have to wait between each like"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when the instagram access token is invalid)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "invalid instagram access token"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
+* Failure (when during the action, the campaign's source picture got deleted)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "campaign expired"
         ]
       }
     }
