@@ -13,11 +13,11 @@ class Campaign < ActiveRecord::Base
   # Edit these two when adding new types, also add new postgres enums when needed
   validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
-  validates :budget, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :budget, presence: true, numericality: { only_integer: true }
   validates :owner, presence: true
 
   validate  :must_have_one_association
-  validate  :must_have_enough_credit
+  validate  :must_have_enough_credit, on: :create # Must validate just on create, 'cause prevent the last like to be persistent.
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
 
