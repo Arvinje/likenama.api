@@ -41,18 +41,18 @@ Registration and logging
  * **URL:**
 
   ```
-  http://likenama.com/api/v1/users/auth/instagram/callback#access_token=46569720.5106fe6.31dm6ecbf60448f0ae396b8ffd2aa671&uid=T6S5tMRNp1FsDoUJtebR
+  http://localhost:3000/session#token=KZr33Txs87bqh59zD8py***REMOVED***
   ```
   * **Access token:** `46569720.5106fe6.31dm6ecbf60448f0ae396b8ffd2aa671`
 
-  * **UID:** `T6S5tMRNp1FsDoUJtebR`
+  * **UID:** `KZr33Txs87bqh59zD8py`
 
 * Failure:
   * Instagram Failure:
     * **URL:**
 
     ```
-    http://likenama.com/api/v1/users/auth/instagram/callback?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.&state=e900deb141cb46508838cee83840e5677f992f195517a7f4
+    http://localhost:3000/users/auth/instagram/callback?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.&state=feded9a3593be61a726d9a14fddadf7604de80eba540f12f
     ```
   * App Failure:
     * **URL:**
