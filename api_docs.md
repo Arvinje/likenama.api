@@ -58,7 +58,7 @@ Registration and logging
     * **URL:**
 
     ```
-    http://likenama.com/api/v1/users/auth/instagram/callback#error
+    http://likenama.com/users/auth/instagram/callback#error
     ```
 
 ### Signing in
