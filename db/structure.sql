@@ -50,6 +50,39 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: bundles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE bundles (
+    id integer NOT NULL,
+    price integer DEFAULT 0,
+    coins integer DEFAULT 0,
+    free_coins integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: bundles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE bundles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bundles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE bundles_id_seq OWNED BY bundles.id;
+
+
+--
 -- Name: campaigns; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -333,6 +366,40 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: transactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE transactions (
+    id integer NOT NULL,
+    id_get character varying DEFAULT ''::character varying,
+    trans_id character varying DEFAULT ''::character varying,
+    user_id integer,
+    bundle_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -415,6 +482,13 @@ ALTER SEQUENCE waitings_id_seq OWNED BY waitings.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY bundles ALTER COLUMN id SET DEFAULT nextval('bundles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq'::regclass);
 
 
@@ -471,6 +545,13 @@ ALTER TABLE ONLY purchases ALTER COLUMN id SET DEFAULT nextval('purchases_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -479,6 +560,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY waitings ALTER COLUMN id SET DEFAULT nextval('waitings_id_seq'::regclass);
+
+
+--
+-- Name: bundles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY bundles
+    ADD CONSTRAINT bundles_pkey PRIMARY KEY (id);
 
 
 --
@@ -543,6 +632,14 @@ ALTER TABLE ONLY products
 
 ALTER TABLE ONLY purchases
     ADD CONSTRAINT purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -724,4 +821,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150824125110');
 INSERT INTO schema_migrations (version) VALUES ('20150824134029');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901104732');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914201021');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914202028');
 

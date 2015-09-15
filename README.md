@@ -5,19 +5,18 @@ Likenama
 
 ### Version 1
 
-* [IMPORTANT] Complete the docs.
 * Implement a payment method.
 * Implement control panel.
   * Latest actions.
-  * Log all users' interactions.
+* See if you need to fix Time.now
 * Exception logging!
-* Find a better logging solution.
-* Look up for self.save situations.
 * Check if we need to save images.
 
 ### Version 2
 
 *  Devices Registration.
+* Find a better logging solution.
+  * Log all users' interactions.
 
 
 ## To Remember
