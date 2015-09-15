@@ -43,6 +43,8 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:campaigns).with_foreign_key(:owner_id) }
     it { is_expected.to have_many(:purchases) }
     it { is_expected.to have_many(:purchased_products).through(:purchases).source(:product_detail) }
+    it { is_expected.to have_many(:transactions) }
+    it { is_expected.to have_many(:purchased_bundles).through(:transactions).source(:bundle) }
   end
 
   describe "Callbacks" do
@@ -143,6 +145,31 @@ RSpec.describe User, type: :model do
     context "when a new user registers" do
       it "should return a newly created user" do
         expect(User.from_omniauth(@params).email).to eql "#{@params.provider}_#{@params.uid}@likenama.com"
+      end
+    end
+  end
+
+  describe ".find_omniauth_user" do
+    before :each do
+      class Param;attr_accessor :provider, :uid;end
+      @params = Param.new
+      @params.provider = "instagram"
+      @params.uid = "1452336"
+    end
+
+    context "when a current user signs in" do
+      before :each do
+        @user = create :user, provider: @params.provider, omni_id: @params.uid, email: "#{@params.provider}_#{@params.uid}@likenama.com"
+      end
+
+      it "should return a currently signed-up user" do
+        expect(User.find_omniauth_user(@params).omni_id).to eql @user.omni_id
+      end
+    end
+
+    context "when an unknown user signs in" do
+      it "should return a newly created user" do
+        expect(User.find_omniauth_user(@params)).to eql nil
       end
     end
   end

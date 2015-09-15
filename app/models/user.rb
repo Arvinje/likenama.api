@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :campaigns, foreign_key: :owner_id
   has_many :purchases
   has_many :purchased_products, through: :purchases, source: :product_detail
+  has_many :transactions
+  has_many :purchased_bundles, through: :transactions, source: :bundle
 
   validates :auth_token, uniqueness: true
   validates :like_credit, presence: true, numericality: { only_integer: true }
@@ -48,6 +50,10 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0,20]
       user.email = "#{auth.provider}_#{auth.uid}@likenama.com"  # CAUTION: uid must be email-address-friendly
     end
+  end
+
+  def self.find_omniauth_user(auth)
+    where(provider: auth.provider, omni_id: auth.uid).first
   end
 
 end
