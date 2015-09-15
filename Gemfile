@@ -62,3 +62,5 @@ gem 'omniauth-instagram', '~> 1.0.1'
 gem 'devise_uid', '~> 0.1.1'
 gem 'active_model_serializers', '~> 0.9.3'
 gem 'instagram', '~> 1.1.5'
+gem 'bootstrap-sass', '~> 3.3.5'
+gem "autoprefixer-rails"
