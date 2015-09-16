@@ -33,7 +33,7 @@ Registration and logging
 ------------------------
 
 ### Signing up
-**URL**: ```http://likenama.com/api/users/auth/instagram```
+**URL**: ```http://likenama.com/users/auth/instagram```
 
 
 #### Response:
@@ -41,18 +41,18 @@ Registration and logging
  * **URL:**
 
   ```
-  http://localhost:3000/session#token=KZr33Txs87bqh59zD8py***REMOVED***
+  http://likenama.com/session#token=7av7qqxTdUcjCe4oS3sK46569725.5106fe6.31df6ecb062448f8ae396b8ffd2ca671
   ```
-  * **Access token:** `46569720.5106fe6.31dm6ecbf60448f0ae396b8ffd2aa671`
+  * **Instagram Access Token:** `46569725.5106fe6.31df6ecb062448f8ae396b8ffd2ca671`
 
-  * **UID:** `KZr33Txs87bqh59zD8py`
+  * **App Access Token:** `7av7qqxTdUcjCe4oS3sK`
 
 * Failure:
   * Instagram Failure:
     * **URL:**
 
     ```
-    http://localhost:3000/users/auth/instagram/callback?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.&state=feded9a3593be61a726d9a14fddadf7604de80eba540f12f
+    http://likenama.com/users/auth/instagram/callback?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.&state=feded9a3593be61a726d9a14fddadf7604de80eba540f12f
     ```
   * App Failure:
     * **URL:**
@@ -60,45 +60,6 @@ Registration and logging
     ```
     http://likenama.com/users/auth/instagram/callback#error
     ```
-
-### Signing in
-* **Method:** `POST`
-* **Endpoint:** `/api/sessions`
-* **Request Content:**
-
-  ```json
-  {
-    "user": {
-      "uid": "DLju_zVSFb7Bfp5ZB6Lu"
-    }
-  }
-  ```
-
-#### Response
-* Success:
-  * **Content:**
-
-    ```json
-    {
-      "session": {
-        "auth_token": "NxPcphoB6EDaWmpJiz_H"
-      }
-    }
-    ```
-  * **Status:** `200`
-* Failure
-  * **Content:**
-
-    ```json
-    {
-      "errors": {
-        "base": [
-          "the requested record(s) cannot be found"
-        ]
-      }
-    }
-    ```
-  * **Status:** `404`
 
 Campaigns
 ---------
