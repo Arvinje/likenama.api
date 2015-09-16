@@ -6,7 +6,7 @@ class Users::OmniauthCallbacksController < ApplicationController
         user.generate_authentication_token!
         user.save
         instagram_access_token = request.env["omniauth.auth"].credentials.token
-        redirect_to session_path(anchor: "access_token=#{instagram_access_token}&uid=#{user.uid}")
+        redirect_to session_path(anchor: "token=#{user.uid}#{instagram_access_token}")
       else
         redirect_to anchor: "error"
       end
