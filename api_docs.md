@@ -10,6 +10,8 @@ Request Headers
 
 **Authorization:** `[USER'S auth_token]`
 
+**User-Agent:** `Likenama/1 Android/[ANDROID-VERSION]`
+
 ### Errors
 * Invalid/Expired auth_token:
 
@@ -22,6 +24,8 @@ Request Headers
   }
 }
 ```
+**Status:** `401`
+
 * HTTP Status Codes:
   * OK: `200`
   * Created: `201`
