@@ -249,6 +249,7 @@ Campaigns
       "campaign": {
         "id": 4018,
         "campaign_type": "instagram",
+        "payment_type": "money_getter",
         "value": 20,
         "waiting": 10,
         "instagram_detail": {
@@ -381,7 +382,7 @@ Campaigns
       }
     }
     ```
-  * **Status:** `422`
+  * **Status:** `401`
 * Failure (when during the action, the campaign's source picture got deleted)
   * **Content:**
 
@@ -401,7 +402,7 @@ Shop
 
 ### List All Products
 * **Method:** `GET`
-* **Endpoint:** `/api/campaigns/next`
+* **Endpoint:** `/api/products`
 * **Request Content:** `none`
 
 #### Response
@@ -443,7 +444,7 @@ Shop
 
 ### Purchasing A Product
 * **Method:** `POST`
-* **Endpoint:** `/api/campaigns/[CAMPAIGN-ID]/purchase`
+* **Endpoint:** `/api/products/[CAMPAIGN-ID]/purchase`
 * **Request Content:** `none`
 
 #### Response
