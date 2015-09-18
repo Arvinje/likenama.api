@@ -30,7 +30,7 @@ RSpec.describe Campaign, type: :model do
         subject { @campaign }
 
         it "should raise an error" do
-          expect(@campaign.errors.full_messages).to include "must have some details"
+          expect(@campaign.errors.full_messages).to include "اطلاعات واردشده برای ساخت کمپین کافی نیست"
         end
 
         it { should_not be_valid }
@@ -48,7 +48,7 @@ RSpec.describe Campaign, type: :model do
           subject { @campaign }
 
           it "should raise an error" do
-            expect(@campaign.errors[:budget]).to include "user doesn't have enough credit"
+            expect(@campaign.errors[:budget]).to include "شما اعتبار کافی ندارید"
           end
 
           it { should_not be_valid }
@@ -63,7 +63,7 @@ RSpec.describe Campaign, type: :model do
           subject { @campaign }
 
           it "raises an error" do
-            expect(@campaign.errors[:budget]).to include "campaign doesn't have enough budget"
+            expect(@campaign.errors[:budget]).to include "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
           end
 
           it { should_not be_valid }
@@ -79,7 +79,7 @@ RSpec.describe Campaign, type: :model do
           subject { @campaign }
 
           it "should raise an error" do
-            expect(@campaign.errors[:budget]).to include "user doesn't have enough credit"
+            expect(@campaign.errors[:budget]).to include "شما اعتبار کافی ندارید"
           end
 
           it { should_not be_valid }
@@ -95,7 +95,7 @@ RSpec.describe Campaign, type: :model do
           subject { @campaign }
 
           it "raises an error" do
-            expect(@campaign.errors[:budget]).to include "campaign doesn't have enough budget"
+            expect(@campaign.errors[:budget]).to include "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
           end
 
           it { should_not be_valid }
@@ -295,8 +295,8 @@ RSpec.describe Campaign, type: :model do
       it "returns an error" do
         nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
         false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
-        expect(nil_campaign.errors[:base]).to include "the campaign's not available"
-        expect(false_campaign.errors[:base]).to include "the campaign's not available"
+        expect(nil_campaign.errors[:base]).to include "این کمپین به پایان رسیده‌است"
+        expect(false_campaign.errors[:base]).to include "این کمپین به پایان رسیده‌است"
       end
     end
 
@@ -313,8 +313,8 @@ RSpec.describe Campaign, type: :model do
       it "returns an error" do
         nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
         false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
-        expect(nil_campaign.errors[:base]).to include "the campaign's not verified"
-        expect(false_campaign.errors[:base]).to include "the campaign's not verified"
+        expect(nil_campaign.errors[:base]).to include "این کمپین به تایید مدیریت نرسیده‌است"
+        expect(false_campaign.errors[:base]).to include "این کمپین به تایید مدیریت نرسیده‌است"
       end
     end
 
@@ -331,7 +331,7 @@ RSpec.describe Campaign, type: :model do
       end
 
       it "returns error for not having enough budget" do
-        expect(@campaign.errors[:base]).to include "the campaign's ran out of budget"
+        expect(@campaign.errors[:base]).to include "بودجه این کمپین به پایان رسیده‌است"
       end
     end
 
@@ -348,7 +348,7 @@ RSpec.describe Campaign, type: :model do
         end
 
         it "returns respective error in errors hash" do
-          expect(@campaign.errors[:base]).to include "campaign expired"
+          expect(@campaign.errors[:base]).to include "این کمپین دیگر موجود نیست"
         end
 
         it "marks the campaign to be checked" do
@@ -371,7 +371,7 @@ RSpec.describe Campaign, type: :model do
         end
 
         it "returns respective error in errors hash" do
-          expect(@campaign.errors[:base]).to include "invalid instagram access token"
+          expect(@campaign.errors[:base]).to include "ارتباط با اینستاگرام قطع شده‌است. دوباره وارد شوید"
         end
       end
 
@@ -399,7 +399,7 @@ RSpec.describe Campaign, type: :model do
         end
 
         it "returns respective error in errors hash" do
-          expect(@campaign.errors[:base]).to include "user has not liked the photo"
+          expect(@campaign.errors[:base]).to include "این کمپین لایک نشده است"
         end
       end
     end

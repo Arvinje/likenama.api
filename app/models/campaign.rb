@@ -41,17 +41,17 @@ class Campaign < ActiveRecord::Base
       case self.payment_type
       when "money_getter"
         if self.budget > self.owner.coin_credit   # when user has not enough credit to create a campaign
-          self.errors[:budget] << "user doesn't have enough credit"
+          self.errors[:budget] << "شما اعتبار کافی ندارید"
         end
         if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
-          self.errors[:budget] << "campaign doesn't have enough budget"
+          self.errors[:budget] << "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
         end
       when "like_getter"
         if self.budget > self.owner.like_credit   # when user has not enough credit to create a campaign
-          self.errors[:budget] << "user doesn't have enough credit"
+          self.errors[:budget] << "شما اعتبار کافی ندارید"
         end
         if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
-          self.errors[:budget] << "campaign doesn't have enough budget"
+          self.errors[:budget] << "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
         end
       end
     rescue
@@ -69,7 +69,7 @@ class Campaign < ActiveRecord::Base
 
   def must_have_one_association
     if self.instagram_detail.nil? # && self.web_detail.nil? && ...
-      self.errors[:base] << "must have some details"
+      self.errors[:base] << "اطلاعات واردشده برای ساخت کمپین کافی نیست"
     end
   end
 
@@ -95,15 +95,15 @@ class Campaign < ActiveRecord::Base
       elsif media.user_has_liked.nil?
         return false
       else
-        self.errors[:base] << "user has not liked the photo"
+        self.errors[:base] << "این کمپین لایک نشده است"
         return false
       end
     rescue Instagram::BadRequest => e
       if e.message.include? "access_token provided is invalid"
-        self.errors[:base] << "invalid instagram access token"
+        self.errors[:base] << "ارتباط با اینستاگرام قطع شده‌است. دوباره وارد شوید"
       elsif e.message.include? "invalid media id"
         mark_to_be_checked
-        self.errors[:base] << "campaign expired"
+        self.errors[:base] << "این کمپین دیگر موجود نیست"
       else
         self.errors[:base] << e.message   # controller provides this error as the reason to the request
       end
@@ -166,22 +166,22 @@ class Campaign < ActiveRecord::Base
   def validate_before_like(user)
     # checks if campaign is available
     unless self.available == true
-      self.errors[:base] << "the campaign's not available"
+      self.errors[:base] << "این کمپین به پایان رسیده‌است"
       return false
     end
     # checks if campaign is verified
     unless self.verified == true
-      self.errors[:base] << "the campaign's not verified"
+      self.errors[:base] << "این کمپین به تایید مدیریت نرسیده‌است"
       return false
     end
     # checks if campaign does have enough budget
     unless self.price.campaign_value <= self.budget
-      self.errors[:base] << "the campaign's ran out of budget"
+      self.errors[:base] << "بودجه این کمپین به پایان رسیده‌است"
       return false
     end
     # checks the duration between each like
     if period_between(user)
-      self.errors[:base] << "you have to wait between each like"
+      self.errors[:base] << "بین هر لایک باید چند ثانیه صبر کنید"
       return false
     end
     return true

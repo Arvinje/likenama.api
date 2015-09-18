@@ -10,7 +10,7 @@ class InstagramDetail < ActiveRecord::Base
 
   def must_have_valid_short_code
     unless get_instagram_photo_url
-      self.errors[:url] << "invalid url"
+      self.errors[:url] << "آدرس تصویر اینستاگرام اشتباه است"
     end
   end
 

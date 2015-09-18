@@ -28,7 +28,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
 
       it "should render the json errors on why the user could not be created" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
       end
 
       it { is_expected.to respond_with :not_found }

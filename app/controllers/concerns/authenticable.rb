@@ -6,7 +6,7 @@ module Authenticable
   end
 
   def authenticate_with_token!
-    errors = { base: ["not authenticated"] }
+    errors = { base: ["ارتباط با سرور قطع شده‌است. دوباره وارد شوید"] }
     render json: { errors: errors },
                 status: :unauthorized unless current_user.present?
   end

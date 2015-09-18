@@ -11,7 +11,7 @@ class Api::V1::ApiController < ActionController::Base
   protected
   
   def handle_notfound
-    errors = { base: ["the requested record(s) cannot be found"] }
+    errors = { base: ["مورد درخواست‌شده یافت نشد"] }
     render json: { errors: errors }, status: 404
   end
 

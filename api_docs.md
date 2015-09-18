@@ -19,7 +19,7 @@ Request Headers
 {
   "errors": {
     "base": [
-      "not authenticated"
+      "ارتباط با سرور قطع شده‌است. دوباره وارد شوید"
     ]
   }
 }
@@ -121,7 +121,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "the requested record(s) cannot be found"
+          "مورد درخواست‌شده یافت نشد"
         ]
       }
     }
@@ -189,7 +189,7 @@ Campaigns
     {
       "errors": {
         "instagram_detail.url": [
-          "invalid url"
+          "آدرس تصویر اینستاگرام اشتباه است"
         ]
       }
     }
@@ -202,7 +202,7 @@ Campaigns
     {
       "errors": {
         "budget": [
-          "user doesn't have enough credit"
+          "شما اعتبار کافی ندارید"
         ]
       }
     }
@@ -215,7 +215,7 @@ Campaigns
     {
       "errors": {
         "budget": [
-          "campaign doesn't have enough budget"
+          "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
         ]
       }
     }
@@ -228,7 +228,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "must have some details"
+          "اطلاعات واردشده برای ساخت کمپین کافی نیست"
         ]
       }
     }
@@ -271,7 +271,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "the requested record(s) cannot be found"
+          "مورد درخواست‌شده یافت نشد"
         ]
       }
     }
@@ -312,7 +312,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "user has not liked the photo"
+          "این کمپین لایک نشده است"
         ]
       }
     }
@@ -325,7 +325,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "the campaign's ran out of budget"
+          "بودجه این کمپین به پایان رسیده‌است"
         ]
       }
     }
@@ -338,7 +338,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "the campaign's not verified"
+          "این کمپین به تایید مدیریت نرسیده‌است"
         ]
       }
     }
@@ -351,7 +351,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "the campaign's not available"
+          "این کمپین به پایان رسیده‌است"
         ]
       }
     }
@@ -364,7 +364,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "you have to wait between each like"
+          "بین هر لایک باید چند ثانیه صبر کنید"
         ]
       }
     }
@@ -377,7 +377,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "invalid instagram access token"
+          "ارتباط با اینستاگرام قطع شده‌است. دوباره وارد شوید"
         ]
       }
     }
@@ -390,7 +390,7 @@ Campaigns
     {
       "errors": {
         "base": [
-          "campaign expired"
+          "این کمپین دیگر موجود نیست"
         ]
       }
     }
@@ -435,7 +435,7 @@ Shop
     {
       "errors": {
         "base": [
-          "the requested record(s) cannot be found"
+          "مورد درخواست‌شده یافت نشد"
         ]
       }
     }
@@ -473,7 +473,7 @@ Shop
     {
       "errors": {
         "base": [
-          "the requested record(s) cannot be found"
+          "مورد درخواست‌شده یافت نشد"
         ]
       }
     }
@@ -486,7 +486,7 @@ Shop
     {
       "errors": {
         "coin_credit": [
-          "doesn't have enough credit"
+          "اعتبار شما برای خرید این محصول کافی نیست"
         ]
       }
     }

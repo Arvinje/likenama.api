@@ -49,7 +49,7 @@ RSpec.describe InstagramDetail, type: :model do
       end
 
       it "should give the reason on the error" do
-        expect(@failed_detail.errors.messages[:url]).to include "invalid url"
+        expect(@failed_detail.errors.messages[:url]).to include "آدرس تصویر اینستاگرام اشتباه است"
       end
     end
   end

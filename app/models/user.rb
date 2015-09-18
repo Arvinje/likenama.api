@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
       end
       requested_detail
     else
-      self.errors[:coin_credit] << "doesn't have enough credit"
+      self.errors[:coin_credit] << "اعتبار شما برای خرید این محصول کافی نیست"
       false
     end
   end

@@ -35,7 +35,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should return a 'no more campaigns' error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
       end
 
       it { should respond_with :not_found }
@@ -76,7 +76,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should return a 'no more campaigns' error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
       end
 
       it { is_expected.to respond_with :not_found }
@@ -161,7 +161,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
         it "should render the json errors on why the user could not be created" do
           campaign_response = json_response
-          expect(campaign_response[:errors][:'instagram_detail.url']).to include "invalid url"
+          expect(campaign_response[:errors][:'instagram_detail.url']).to include "آدرس تصویر اینستاگرام اشتباه است"
         end
 
         it { should respond_with :unprocessable_entity }
@@ -184,7 +184,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it 'returns not found error' do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
       end
 
       it { should respond_with :not_found }
@@ -230,7 +230,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should render the json errors on why the campaign could not be updated" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
       end
 
       it { should respond_with :not_found }
@@ -262,7 +262,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should render the json errors on why the campaign could not be updated" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:'instagram_detail.url']).to include "invalid url"
+        expect(campaign_response[:errors][:'instagram_detail.url']).to include "آدرس تصویر اینستاگرام اشتباه است"
       end
 
       it { should respond_with :unprocessable_entity }

@@ -43,7 +43,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "user has not liked the photo"
+        expect(campaign_response[:errors][:base]).to include "این کمپین لایک نشده است"
       end
 
       it { should respond_with :unprocessable_entity }
@@ -61,7 +61,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "the requested record(s) cannot be found"
+        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
       end
 
       it { should respond_with :not_found }
@@ -79,7 +79,7 @@ RSpec.describe Api::V1::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "invalid instagram access token"
+        expect(campaign_response[:errors][:base]).to include "ارتباط با اینستاگرام قطع شده‌است. دوباره وارد شوید"
       end
 
       it { should respond_with :unauthorized }

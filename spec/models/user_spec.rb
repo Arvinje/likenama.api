@@ -98,7 +98,7 @@ RSpec.describe User, type: :model do
 
       it "renders respective errors" do
         user.buy product
-        expect(user.errors[:coin_credit]).to include "doesn't have enough credit"
+        expect(user.errors[:coin_credit]).to include "اعتبار شما برای خرید این محصول کافی نیست"
       end
 
       it "returns false" do
