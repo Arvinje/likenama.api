@@ -66,5 +66,23 @@ RSpec.describe Api::V1::LikesController, type: :controller do
 
       it { should respond_with :not_found }
     end
+
+    context "when the instagram_access_token is not valid" do
+      before do
+        post :create, { campaign_id: @campaign.id, like: { instagram_access_token: "325fzdvfshgdhwrrehdfv4" } }
+      end
+
+      it "should render an errors json" do
+        campaign_response = json_response
+        expect(campaign_response).to have_key :errors
+      end
+
+      it "should provide the reason of the error" do
+        campaign_response = json_response
+        expect(campaign_response[:errors][:base]).to include "invalid instagram access token"
+      end
+
+      it { should respond_with :unauthorized }
+    end
   end
 end

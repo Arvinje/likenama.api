@@ -5,7 +5,11 @@ class Api::V1::LikesController < Api::V1::ApiController
     if campaign.check_like!(current_user, like_params)
       render json: current_user, serializer: Api::V1::UserSerializer, status: :created
     else
-      render json: { errors: campaign.errors }, status: :unprocessable_entity
+      if campaign.errors[:base].include?("invalid instagram access token")
+        render json: { errors: campaign.errors }, status: :unauthorized
+      else
+        render json: { errors: campaign.errors }, status: :unprocessable_entity
+      end
     end
   end
 
