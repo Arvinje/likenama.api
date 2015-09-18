@@ -139,7 +139,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
         it "should render the json errors on why the user could not be created" do
           campaign_response = json_response
-          expect(campaign_response[:errors][:campaign_type]).to include "can't be blank"
+          expect(campaign_response[:errors][:campaign_type]).to include I18n.t("errors.messages.blank")
         end
 
         it { should respond_with :unprocessable_entity }
