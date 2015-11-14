@@ -444,7 +444,7 @@ Shop
 
 ### Purchasing A Product
 * **Method:** `POST`
-* **Endpoint:** `/api/products/[CAMPAIGN-ID]/purchase`
+* **Endpoint:** `/api/products/[PRODUCT-ID]/purchase`
 * **Request Content:** `none`
 
 #### Response
