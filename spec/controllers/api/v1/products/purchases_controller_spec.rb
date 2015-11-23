@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::PurchasesController, type: :controller do
+RSpec.describe Api::V1::Products::PurchasesController, type: :controller do
   describe "POST #create" do
     context "when product_id is wrong" do
       let(:user) { create :user }

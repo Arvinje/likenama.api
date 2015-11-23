@@ -1,4 +1,4 @@
-class Api::V1::PurchasesController < Api::V1::ApiController
+class Api::V1::Products::PurchasesController < Api::V1::ApiController
 
   def create
     product = Product.find params[:product_id]

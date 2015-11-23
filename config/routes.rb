@@ -27,13 +27,13 @@ Rails.application.routes.draw do
       end
       resources :sessions, only: [:create]
       resources :campaigns, only: [:index, :new, :create, :show, :update] do
-        resource :like, only: [:create]
+        resource :like, only: [:create], controller: 'campaigns/likes'
         collection do
           get :next
         end
       end
       resources :products, only: [:index] do
-        resource :purchase, only: [:create]
+        resource :purchase, only: [:create], controller: 'products/purchases'
       end
     end
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::LikesController, type: :controller do
+RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
   describe "POST #create" do
     let(:user) { create :user }

@@ -1,4 +1,4 @@
-class Api::V1::LikesController < Api::V1::ApiController
+class Api::V1::Campaigns::LikesController < Api::V1::ApiController
 
   def create
     campaign = Campaign.find params[:campaign_id]
