@@ -10,7 +10,7 @@ Request Headers
 
 **Authorization:** `[USER'S auth_token]`
 
-**User-Agent:** `Likenama/1 Android/[ANDROID-VERSION]`
+**User-Agent:** `Likenama/[APP-VERSION] Android/[ANDROID-VERSION]`
 
 ### Errors
 * Invalid/Expired auth_token:
@@ -492,3 +492,26 @@ Shop
     }
     ```
   * **Status:** `422`
+
+User
+----
+
+### Get the user's own details
+* **Method:** `GET`
+* **Endpoint:** `/api/users/self`
+* **Request Content:** `none`
+
+#### Response
+* Success:
+  * **Content:**
+
+    ```json
+    {
+      "user": {
+        "uid": "rZFNaHnPkSQzqAP6rtyL",
+        "like_credit": 20000,
+        "coin_credit": 10000
+      }
+    }
+    ```
+  * **Status:** `200`
