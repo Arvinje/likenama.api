@@ -1,6 +1,5 @@
 class Users::OmniauthCallbacksController < ApplicationController
   def instagram
-    puts request.env["omniauth.auth"].inspect
     if request.env["HTTP_USER_AGENT"].include? "Likenama"
       user = User.from_omniauth(request.env["omniauth.auth"])
       if user.persisted?
