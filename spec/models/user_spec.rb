@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
     subject { @user }
 
     it { should respond_to :email }
+    it { should respond_to :username }
     it { should respond_to :password }
     it { should respond_to :password_confirmation }
     it { should respond_to :uid }
@@ -145,6 +146,35 @@ RSpec.describe User, type: :model do
     context "when a new user registers" do
       it "should return a newly created user" do
         expect(User.from_omniauth(@params).email).to eql "#{@params.provider}_#{@params.uid}@likenama.com"
+      end
+    end
+  end
+
+  describe ".get_username_from_omniauth" do
+    let(:user) { create :user }
+
+    context "when there's a nickname available" do
+      before do
+        class Param; attr_accessor :nickname; def info; self; end; end;
+        @params = Param.new
+        @params.info.nickname = "mike"
+        user.get_username_from_omniauth(@params)
+      end
+
+      it "assigns nickname to user's username" do
+        expect(user.username).to eql "mike"
+      end
+    end
+
+    context "when there isn't any nickname available" do
+      before do
+        class Param; def info; self; end; end;
+        @params = Param.new
+        user.get_username_from_omniauth(@params)
+      end
+
+      it "assigns nickname to user's username" do
+        expect(user.username).to eql nil
       end
     end
   end

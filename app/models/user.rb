@@ -52,6 +52,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def get_username_from_omniauth(auth)
+    self.username = auth.info.nickname if auth.info.respond_to? :nickname
+  end
+
   def self.find_omniauth_user(auth)
     where(provider: auth.provider, omni_id: auth.uid).first
   end

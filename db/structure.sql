@@ -422,7 +422,8 @@ CREATE TABLE users (
     omni_id character varying DEFAULT ''::character varying,
     auth_token character varying,
     like_credit integer DEFAULT 0,
-    coin_credit integer DEFAULT 0
+    coin_credit integer DEFAULT 0,
+    username character varying DEFAULT ''::character varying
 );
 
 
@@ -825,4 +826,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150901104732');
 INSERT INTO schema_migrations (version) VALUES ('20150914201021');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914202028');
+
+INSERT INTO schema_migrations (version) VALUES ('20151123203138');
 
