@@ -508,7 +508,7 @@ User
     ```json
     {
       "user": {
-        "uid": "rZFNaHnPkSQzqAP6rtyL",
+        "username": "phoebe_buffay",
         "like_credit": 20000,
         "coin_credit": 10000
       }
