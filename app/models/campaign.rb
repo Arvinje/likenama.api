@@ -191,8 +191,7 @@ class Campaign < ActiveRecord::Base
   def period_between(user)
     last_like = Like.where(user: user).last
     return false if last_like.nil?
-
-    Time.now - last_like.created_at < self.waiting.period
+    Time.current - last_like.created_at < self.waiting.period
   end
 
   private
