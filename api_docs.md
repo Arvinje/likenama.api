@@ -32,6 +32,7 @@ Request Headers
   * Not Found: `404`
   * Unprocessable Entity: `422`
   * Server Error: `500`
+  * Deprecated: `410`
 
 Registration and logging
 ------------------------
