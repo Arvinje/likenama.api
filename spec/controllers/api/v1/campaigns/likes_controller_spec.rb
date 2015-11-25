@@ -20,7 +20,7 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
       it "should render the modified user details" do
         campaign_response = json_response
-        expect(campaign_response[:user][:uid]).to eql user.uid
+        expect(campaign_response[:user][:username]).to eql user.username
       end
 
       it { should respond_with :created }
