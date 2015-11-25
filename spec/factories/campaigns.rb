@@ -13,10 +13,14 @@ FactoryGirl.define do
       campaign.instagram_detail ||= FactoryGirl.create(:instagram_detail, campaign: campaign)
     end
     after(:build) do |campaign|
-      FactoryGirl.create(:price, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+      if Price.where(campaign_type: campaign.campaign_type, payment_type: campaign.payment_type).empty?
+        FactoryGirl.create(:price, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+      end
     end
     after(:build) do |campaign|
-      FactoryGirl.create(:waiting, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+      if Waiting.where(campaign_type: campaign.campaign_type, payment_type: campaign.payment_type).empty?
+        FactoryGirl.create(:waiting, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+      end
     end
   end
 
