@@ -60,7 +60,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def self.for_user(user) # Returns available campaigns that are not liked by the user
-    (self.available - self.available.joins(:likes).where('likes.user_id = ?', user.id)).first
+    self.available.where("id not in (select campaign_id from likes where user_id = ? and available = true)", user.id).first
   end
 
   def instagram_only
