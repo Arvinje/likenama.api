@@ -414,19 +414,36 @@ Shop
     {
       "products": [
         {
-          "id": 596,
-          "title": "Electric Portable Bracket",
-          "price": 3714,
-          "description": "Numquam dolores omnis mollitia eius ut nesciunt placeat error. Placeat natus nihil et molestiae sed voluptatem. Ut provident dolores praesentium officiis veritatis quisquam. Commodi saepe et reiciendis nisi maiores nihil eos qui. Laboriosam voluptatem ducimus ut sunt quas rem fuga enim."
+          "id": 54,
+          "title": "Remote Kit",
+          "product_type": "mobiletopup",
+          "price": 6398,
+          "description": "Quod sequi placeat laudantium ea. Magnam velit sunt qui aspernatur molestias voluptatem laudantium sunt. Totam dolorum deleniti ab unde maxime quam numquam."
         },
         {
-          "id": 599,
-          "title": "Portable GPS Transmitter",
-          "price": 8943,
-          "description": "Corrupti quia debitis veniam dolorem. Et delectus sit provident hic. Deserunt vero molestiae occaecati dolore est neque unde. Facere molestiae qui repellendus nemo atque est consequatur."
+          "id": 55,
+          "title": "Gel Output Bridge",
+          "product_type": "mobiletopup",
+          "price": 9527,
+          "description": "Odit voluptas quasi omnis est nesciunt aut. Amet veritatis impedit consectetur aspernatur eveniet error aut. Eligendi dolorem numquam sit totam autem iusto."
+        },
+        {
+          "id": 56,
+          "title": "Remote Gel Transmitter",
+          "product_type": "mobiletopup",
+          "price": 9239,
+          "description": "Consectetur laborum vel architecto enim reprehenderit fuga quae libero. Et quos consequuntur est illum qui amet corrupti. Voluptatem quam dolorum iure sit qui fuga nostrum."
+        },
+        {
+          "id": 57,
+          "title": "Gel Mount",
+          "product_type": "mobiletopup",
+          "price": 7942,
+          "description": "Et nulla expedita numquam amet facilis aut. Soluta et consequatur consectetur eaque autem eveniet sed quasi. Quidem accusantium a at reprehenderit ratione consequatur dolore magni. Odit quod libero veniam aut quis sit ut."
         }
       ]
     }
+
     ```
   * **Status:** `200`
 * Failure (when there are no products available)
@@ -455,13 +472,14 @@ Shop
     ```json
     {
       "details": {
-        "code": "Nihil ab qui harum dolorem unde velit dolores modi.",
-        "description": "[\"Quod pariatur et laboriosam odio est. Aliquam corporis laboriosam ad aut fugiat quod quibusdam. Hic eum delectus harum quas qui quia doloremque. Doloremque architecto vel hic voluptas dicta quasi maiores ea.\", \"Nihil velit consequuntur molestias fuga ut. Quas quod molestiae culpa iste. Labore laborum recusandae consequatur aliquam quos dolorum fugiat error.\", \"Consequuntur voluptatem id mollitia magni impedit. In unde sapiente impedit rerum vel odio aperiam provident. Ratione est minima et doloremque consequatur. Quasi sed amet porro laborum hic ut. Itaque doloribus est et recusandae voluptatem.\"]",
+        "code": "Fugit qui deleniti perferendis ullam.",
+        "description": "[\"Est doloremque eos accusantium dicta. Veritatis quos voluptatem doloremque qui rerum sit. Quia minus non vitae cumque est provident. Reiciendis sint beatae quasi et in et.\", \"Aut quaerat autem impedit odit aliquam nam similique. Et error numquam corrupti eaque ratione delectus amet. Aut in corrupti aut quas sed et. Numquam odit et ullam veniam voluptatum esse natus.\", \"Expedita assumenda temporibus ea qui et. Amet eos sunt ipsum aliquam nihil in. Perspiciatis reiciendis officia assumenda qui sed qui delectus. Consequatur amet explicabo voluptate et expedita soluta. Et dolore assumenda ut placeat.\"]",
         "product": {
-          "id": 659,
-          "title": "Video Controller",
-          "price": 9719,
-          "description": "Est ut sint ducimus cupiditate magni aperiam suscipit eaque. Laboriosam dolorem harum qui ut maxime quas. Sit minus unde eius saepe aliquid tempora eligendi. Quia ea omnis totam possimus aliquam amet explicabo aut."
+          "id": 112,
+          "title": "Digital Auto Case",
+          "product_type": "mobiletopup",
+          "price": 1662,
+          "description": "Quod omnis quam dolore eum asperiores perspiciatis voluptates. At rem enim iusto voluptas laboriosam possimus. Accusantium repudiandae aperiam earum tempore ab velit."
         }
       }
     }
