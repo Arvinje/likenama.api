@@ -166,7 +166,6 @@ Campaigns
     "campaign": {
       "campaign_type": "instagram",   // Always the same
       "payment_type": "money_getter", // Always the same
-      "total_likes": "0",
       "budget": "1000",
       "instagram_detail_attributes": {
         "url": "https://instagram.com/p/***REMOVED***",
