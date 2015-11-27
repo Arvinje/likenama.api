@@ -45,6 +45,15 @@ CREATE TYPE payment_type AS ENUM (
 );
 
 
+--
+-- Name: product_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE product_type AS ENUM (
+    'mobiletopup'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -301,7 +310,8 @@ CREATE TABLE products (
     price integer,
     available boolean DEFAULT true,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    product_type product_type
 );
 
 
@@ -828,4 +838,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150914201021');
 INSERT INTO schema_migrations (version) VALUES ('20150914202028');
 
 INSERT INTO schema_migrations (version) VALUES ('20151123203138');
+
+INSERT INTO schema_migrations (version) VALUES ('20151127125725');
 

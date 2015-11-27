@@ -5,11 +5,13 @@ RSpec.describe Product, type: :model do
   it { is_expected.to respond_to :description }
   it { is_expected.to respond_to :price }
   it { is_expected.to respond_to :available }
+  it { is_expected.to respond_to :product_type }
 
   describe "ActiveModel validations" do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :description }
     it { is_expected.to validate_presence_of :price }
+    it { is_expected.to validate_presence_of :product_type }
 
     it { is_expected.to validate_numericality_of(:price).only_integer }
   end
