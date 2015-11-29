@@ -2,6 +2,10 @@ require 'api_constraints'
 
 Rails.application.routes.draw do
 
+  resource :management, only: [:show] do
+    resources :campaigns, only: [:index, :show], controller: 'managements/campaigns'
+  end
+#============================ Dashboard ROUTES =======================#
   resource :dashboard, only: [:show] do
     resources :bundles, only: [:index], controller: 'dashboards/bundles' do
       resource :purchase, only: [:create, :show], controller: 'dashboards/bundles/purchases' do
@@ -11,7 +15,7 @@ Rails.application.routes.draw do
       end
     end
   end
-
+#============================ USERS ROUTES ============================#
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :skip => [:sessions, :passwords, :registrations]
   devise_scope :user do
     get "/login" => "sessions#new", :as => :new_user_session
