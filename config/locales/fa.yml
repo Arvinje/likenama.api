@@ -1,5 +1,15 @@
 ---
 fa:
+  instagram: اینستاگرام
+  money_getter: سکه
+  like_getter: لایک
+  mobiletopup: شارژ موبایل
+  activerecord:
+    models:
+      product: محصول
+      product_detail: آیتم
+      user: کاربر
+      campaign: کمپین
   date:
     abbr_day_names:
     - ی
@@ -10,7 +20,7 @@ fa:
     - ج
     - ش
     abbr_month_names:
-    - 
+    -
     - ژانویه
     - فوریه
     - مارس
@@ -36,7 +46,7 @@ fa:
       long: "%e %B %Y"
       short: "%m/%d"
     month_names:
-    - 
+    -
     - ژانویه
     - فوریه
     - مارس
