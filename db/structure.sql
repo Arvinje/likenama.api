@@ -232,6 +232,48 @@ ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
 
 
 --
+-- Name: managers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE managers (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    locked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: managers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE managers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: managers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE managers_id_seq OWNED BY managers.id;
+
+
+--
 -- Name: prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -528,6 +570,13 @@ ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY managers ALTER COLUMN id SET DEFAULT nextval('managers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::regclass);
 
 
@@ -611,6 +660,14 @@ ALTER TABLE ONLY key_values
 
 ALTER TABLE ONLY likes
     ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: managers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY managers
+    ADD CONSTRAINT managers_pkey PRIMARY KEY (id);
 
 
 --
@@ -709,6 +766,20 @@ CREATE INDEX index_likes_on_campaign_id ON likes USING btree (campaign_id);
 --
 
 CREATE INDEX index_likes_on_user_id ON likes USING btree (user_id);
+
+
+--
+-- Name: index_managers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_managers_on_email ON managers USING btree (email);
+
+
+--
+-- Name: index_managers_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_managers_on_reset_password_token ON managers USING btree (reset_password_token);
 
 
 --
@@ -840,4 +911,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150914202028');
 INSERT INTO schema_migrations (version) VALUES ('20151123203138');
 
 INSERT INTO schema_migrations (version) VALUES ('20151127125725');
+
+INSERT INTO schema_migrations (version) VALUES ('20151129131754');
 
