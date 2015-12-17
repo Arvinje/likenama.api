@@ -1,0 +1,54 @@
+fa:
+  simple_form:
+    options:
+      product:
+        product_type:
+          mobiletopup: شارژ موبایل
+    errors:
+      product:
+        title: نام محصول اجباریست. لطفا یک نام انتخاب کنید
+        price: قیمت محصول اجباریست. لطفا قیمت را وارد نمایید
+      product_detail:
+        code: ورود کد الزامیست
+    placeholders:
+      product:
+        title: مانند کارت شارژ ۲ هزار تومانی ایرانسل
+    labels:
+      product:
+        title: نام محصول
+        price: قیمت
+        description: توضیحات
+        available: موجود
+        product_type: دسته
+      product_detail:
+        code: کد
+        available: موجود
+    "yes": 'بله'
+    "no": 'خیر'
+    required:
+      text: 'باید پرشود'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "لطفا خطاهای زیر را بررسی کنید:"
+    # Examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+    # include_blanks:
+    #   defaults:
+    #     age: 'Rather not say'
+    # prompts:
+    #   defaults:
+    #     age: 'Select your age'
