@@ -64,6 +64,8 @@ gem 'active_model_serializers', '~> 0.9.3'
 gem 'instagram', '~> 1.1.5'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem "autoprefixer-rails"
+gem 'simple_form', '~> 3.2'
+gem 'parsi-date', '~> 0.3.1'
 
 gem 'rails_12factor', group: :production # Heroku ONLY
 gem 'puma'
