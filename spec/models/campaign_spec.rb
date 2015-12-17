@@ -122,6 +122,53 @@ RSpec.describe Campaign, type: :model do
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
 
+  describe "#status" do
+    context "the verification is pending" do
+      let(:campaign) { build :campaign, verified: nil, available: nil }
+
+      it "returns respective status" do
+        expect(campaign.status).to eql "درحال بررسی"
+      end
+    end
+    context "the campaign's over" do
+      let(:campaign) { build :campaign, verified: true, available: false }
+
+      it "returns respective status" do
+        expect(campaign.status).to eql "به‌پایان رسیده"
+      end
+    end
+    context "the campaign's active" do
+      let(:campaign) { build :campaign, verified: true, available: true }
+
+      it "returns respective status" do
+        expect(campaign.status).to eql "درحال نمایش"
+      end
+    end
+    context "the campaign's not active" do
+      let(:campaign) { build :campaign, verified: true, available: nil }
+
+      it "returns respective status" do
+        expect(campaign.status).to eql "نمایش داده‌نشده"
+      end
+    end
+    context "the campaign's rejected" do
+      let(:campaign) { build :campaign, verified: false, available: nil }
+
+      it "returns respective status" do
+        expect(campaign.status).to eql "رد شده"
+      end
+    end
+  end
+
+  describe "#detail" do
+    context "it's an Instagram campaign" do
+      let(:instagram_detail) { create :instagram_detail }
+      it "returns respective detail" do
+        expect(instagram_detail.campaign.detail).to eql instagram_detail
+      end
+    end
+  end
+
   describe "#set_waiting" do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do

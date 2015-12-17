@@ -34,6 +34,31 @@ class Campaign < ActiveRecord::Base
     self.price = Price.where(campaign_type: self.campaign_type, payment_type: self.payment_type).last
   end
 
+  def detail
+    case self.campaign_type
+    when 'instagram'
+      self.instagram_detail
+    end
+  end
+
+  def status
+    case self.verified
+    when nil
+      "درحال بررسی"
+    when true
+      case self.available
+      when nil
+        "نمایش داده‌نشده"
+      when true
+        "درحال نمایش"
+      when false
+        "به‌پایان رسیده"
+      end
+    when false
+      "رد شده"
+    end
+  end
+
   # Makes sure that user has enough credit (coin or like)
   # before creating a campaign.
   def must_have_enough_credit
