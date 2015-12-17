@@ -8,6 +8,7 @@ FactoryGirl.define do
     factory :instagram_user do
       provider "instagram"
       omni_id "46569725"
+      username { FFaker::Internet.user_name }
     end
   end
 end
