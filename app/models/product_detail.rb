@@ -4,7 +4,6 @@ class ProductDetail < ActiveRecord::Base
   has_many    :buyers, through: :purchases, source: :user
 
   validates :code, presence: true
-  validates :description, presence: true
 
   scope :available, -> { where available: true }
   scope :sold, -> { where available: false }
