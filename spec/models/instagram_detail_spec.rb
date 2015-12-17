@@ -77,6 +77,17 @@ RSpec.describe InstagramDetail, type: :model do
     end
   end
 
+  describe "#get_url" do
+    before do
+      @instagram_detail = build :instagram_detail, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
+      @instagram_detail.set_shortcode
+    end
+
+    it "returns the full url of the page" do
+      expect(@instagram_detail.get_url).to eql "http://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
+    end
+  end
+
   describe "#set_shortcode" do
     context "when it's a valid url" do
       before do

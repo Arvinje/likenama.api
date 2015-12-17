@@ -8,6 +8,10 @@ class InstagramDetail < ActiveRecord::Base
   validates :short_code, presence: true
   validates :campaign, presence: true
 
+  def get_url
+    "http://instagram.com/p/#{self.short_code}"
+  end
+
   def must_have_valid_short_code
     unless get_instagram_photo_url
       self.errors[:url] << "آدرس تصویر اینستاگرام اشتباه است"
