@@ -122,6 +122,60 @@ RSpec.describe Campaign, type: :model do
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
 
+  describe "#verify", vcr: { record: :all } do
+    let(:campaign) { create :campaign, available: nil, verified: nil }
+
+    before do
+      campaign.verify
+      campaign.reload
+    end
+
+    it "sets available and verified true" do
+      expect(campaign.verified).to eql true
+      expect(campaign.available).to eql true
+    end
+  end
+
+  describe "#reject", vcr: { record: :all } do
+    context "on each type of campaign" do
+      let(:campaign) { create :campaign, available: nil, verified: nil }
+
+      before do
+        campaign.reject
+        campaign.reload
+      end
+
+      it "sets available and verified true" do
+        expect(campaign.verified).to eql false
+        expect(campaign.available).to eql nil
+      end
+    end
+    context "when it's a like_getter campaign" do
+      before do
+        @owner = create :user, like_credit: 400
+        @campaign = create :campaign, available: nil, verified: nil, payment_type: "like_getter", budget: 100, owner: @owner
+        @campaign.reject
+        @campaign.reload
+      end
+
+      it "returns the budget back to the owner's account" do
+        expect(@campaign.owner.like_credit).to eql 500
+      end
+    end
+    context "when it's a money_getter campaign" do
+      before do
+        @owner = create :user, coin_credit: 300
+        @campaign = create :campaign, available: nil, verified: nil, payment_type: "money_getter", budget: 100, owner: @owner
+        @campaign.reject
+        @campaign.reload
+      end
+
+      it "returns the budget back to the owner's account" do
+        expect(@campaign.owner.coin_credit).to eql 400
+      end
+    end
+  end
+
   describe "#status", :vcr do
     context "the verification is pending" do
       let(:campaign) { build :campaign, verified: nil, available: nil }
