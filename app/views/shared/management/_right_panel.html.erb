@@ -7,7 +7,9 @@
       <li><%= link_to management_users_path do %><span class="glyphicon glyphicon-user"><% end %></li>
       <li><%= link_to management_messages_path do %><span class="glyphicon glyphicon-inbox"><% end %></li>
       <li><%= link_to "#" do %><span class="glyphicon glyphicon-cog"><% end %></li>
-      <li><%= link_to(destroy_manager_session_path, :method => :delete) do %><span class="glyphicon glyphicon-log-out"><% end %></li>
+      <% if current_manager %>
+        <li><%= link_to(destroy_manager_session_path, :method => :delete) do %><span class="glyphicon glyphicon-log-out"><% end %></li>
+      <% end %>
     </ul>
   </div>
 </div>
