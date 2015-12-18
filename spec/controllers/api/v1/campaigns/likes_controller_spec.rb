@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
-  describe "POST #create" do
+  describe "POST #create", :vcr do
     let(:user) { create :user }
     before do
       @campaign = create :campaign, instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode }

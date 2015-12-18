@@ -20,7 +20,7 @@ RSpec.describe Campaign, type: :model do
 
     it { should validate_numericality_of(:budget).only_integer }
 
-    describe "#must_have_one_association" do
+    describe "#must_have_one_association", :vcr do
       context "when no detail got specified" do
         before do
           @campaign = Campaign.new(attributes_for(:campaign))
@@ -37,7 +37,7 @@ RSpec.describe Campaign, type: :model do
       end
     end
 
-    describe "#must_have_enough_credit" do
+    describe "#must_have_enough_credit", :vcr do
       context "when it's a money_getter campaign" do
         context "when the requested budget is bigger than user's credit" do
           before do
@@ -115,14 +115,14 @@ RSpec.describe Campaign, type: :model do
     it { is_expected.to belong_to(:waiting) }
   end
 
-  describe "Callbacks" do
+  describe "Callbacks", :vcr do
     let(:campaign) { create :campaign }
 
     it { expect(campaign).to callback(:set_price).before(:save) }
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
 
-  describe "#status" do
+  describe "#status", :vcr do
     context "the verification is pending" do
       let(:campaign) { build :campaign, verified: nil, available: nil }
 
@@ -160,7 +160,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#detail" do
+  describe "#detail", :vcr do
     context "it's an Instagram campaign" do
       let(:instagram_detail) { create :instagram_detail }
       it "returns respective detail" do
@@ -169,7 +169,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#set_waiting" do
+  describe "#set_waiting", :vcr do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do
         let(:campaign) { build :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
@@ -181,7 +181,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#for_user" do
+  describe "#for_user", :vcr do
     context "when there are some available and finished campaigns" do
       before do
         @user = create :user
@@ -211,7 +211,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#set_price" do
+  describe "#set_price", :vcr do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do
         let(:campaign) { build :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
@@ -223,7 +223,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#instagram_only" do
+  describe "#instagram_only", :vcr do
     context "when the campaign_type is equal to 'instagram'" do
       let(:campaign) { build :campaign, campaign_type: 'instagram' }
       it "should return false" do
@@ -239,7 +239,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#like" do
+  describe "#like", :vcr do
     context "when a campaign is liked by a user" do
       let(:user) { create :user }
       let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
@@ -306,7 +306,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#liked_by?" do
+  describe "#liked_by?", :vcr do
     let(:user) { create :user }
     let(:campaign) { create :campaign }
 
@@ -327,7 +327,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#check_like!" do
+  describe "#check_like!", :vcr do
 
     context "when campaign is not available" do
       let(:nil_campaign) { create :campaign, available: nil }

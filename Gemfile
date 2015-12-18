@@ -54,6 +54,8 @@ group :test do
   gem 'terminal-notifier-guard', '~> 1.6.4'
   gem 'shoulda-matchers', '~> 2.8.0'
   gem 'shoulda-callback-matchers', '~> 1.1.3'
+  gem 'vcr', '~> 3.0'
+  gem 'webmock', '~> 1.22', '>= 1.22.3'
 end
 
 gem 'devise', '~> 3.5.1'

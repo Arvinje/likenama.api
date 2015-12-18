@@ -20,11 +20,11 @@ RSpec.describe InstagramDetail, type: :model do
     it { should belong_to :campaign }
   end
 
-  describe "Callbacks" do
+  describe "Callbacks", :vcr do
     let(:instagram_detail) { create :instagram_detail }
   end
 
-  describe "#must_have_valid_short_code" do
+  describe "#must_have_valid_short_code", :vcr do
     context "when it's a valid shortcode" do
       let(:instagram_detail) { build :instagram_detail }
       before do
@@ -54,7 +54,7 @@ RSpec.describe InstagramDetail, type: :model do
     end
   end
 
-  describe "#get_instagram_photo_url" do
+  describe "#get_instagram_photo_url", :vcr do
     context "when it's a valid shortcode" do
       let(:instagram_detail) { build :instagram_detail }
       it "should assign the photo_url for the requested shortcode" do
@@ -77,7 +77,7 @@ RSpec.describe InstagramDetail, type: :model do
     end
   end
 
-  describe "#get_url" do
+  describe "#get_url", :vcr do
     before do
       @instagram_detail = build :instagram_detail, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
       @instagram_detail.set_shortcode
@@ -88,7 +88,7 @@ RSpec.describe InstagramDetail, type: :model do
     end
   end
 
-  describe "#set_shortcode" do
+  describe "#set_shortcode", :vcr do
     context "when it's a valid url" do
       before do
         @instagram_detail = build :instagram_detail, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"

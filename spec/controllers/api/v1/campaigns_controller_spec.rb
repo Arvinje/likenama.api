@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::CampaignsController, type: :controller do
 
-  describe "GET #index" do
+  describe "GET #index", :vcr do
     context "when user has already created some campaigns" do
       before do
         user = create :user
@@ -42,7 +42,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     end
   end
 
-  describe "GET #next" do
+  describe "GET #next", :vcr do
     before do
       Campaign.all.each do |campaign|   # makes sure that there's no other campaign left to be liked
         campaign.destroy
@@ -110,7 +110,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     it { is_expected.to respond_with :ok }
   end
 
-  describe "POST #create" do
+  describe "POST #create", :vcr do
     context "when is successfully created" do
       before do
         user = create :user
@@ -169,7 +169,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     end
   end
 
-  describe "GET #show" do
+  describe "GET #show", :vcr do
     context "when the requested campaign is not available" do
       before do
         user = create :user
@@ -210,7 +210,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     end
   end
 
-  describe "PUT/PATCH #update" do
+  describe "PUT/PATCH #update", :vcr do
     before do
       owner = create :user
       @campaign = create :campaign, owner: owner
