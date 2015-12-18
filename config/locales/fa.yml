@@ -142,6 +142,8 @@ fa:
       create: ایجاد %{model}
       submit: ذخیره‌ی %{model}
       update: بروز رسانی %{model}
+      manager:
+        create: ورود
   number:
     currency:
       format:

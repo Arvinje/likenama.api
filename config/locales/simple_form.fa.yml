@@ -14,6 +14,12 @@ fa:
       product:
         title: مانند کارت شارژ ۲ هزار تومانی ایرانسل
     labels:
+      defaults:
+        email: ایمیل
+        password: کلمه‌عبور
+        remember_me: به‌خاطر داشته‌باش
+      manager:
+        submit: ورود
       product:
         title: نام محصول
         price: قیمت
