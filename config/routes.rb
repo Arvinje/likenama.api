@@ -2,7 +2,7 @@ require 'api_constraints'
 
 Rails.application.routes.draw do
 
-  devise_for :managers, :skip => [:sessions, :registrations]
+  devise_for :managers, :skip => [:sessions, :registrations, :unlocks]
   devise_scope :manager do
     get '/management/login' => 'devise/sessions#new', :as => :new_manager_session
     post '/management/login' => 'devise/sessions#create', :as => :manager_session
