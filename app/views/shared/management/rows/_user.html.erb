@@ -1,0 +1,7 @@
+<tr>
+  <td scope="row"><%= link_to user.id, management_user_path(user) %></th>
+  <td><%= link_to user.username, management_user_path(user) %></td>
+  <td><%= link_to user.like_credit, management_user_path(user) %></td>
+  <td><%= link_to user.coin_credit, management_user_path(user) %></td>
+  <td><%= link_to "#{user.current_sign_in_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S") if user.current_sign_in_at}", management_user_path(user) %></td>
+</tr>

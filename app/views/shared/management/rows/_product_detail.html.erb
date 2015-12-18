@@ -1,0 +1,7 @@
+<tr>
+  <th scope="row"><%= product_detail.id %></th>
+  <td><code><%= product_detail.code %></code></td>
+  <% flags = { true => "success", false => "default" } %>
+  <td><span class="label label-<%= flags[product_detail.available] %>"><%= product_detail.available ? "موجود" : "خریداری‌شده" %></span></td>
+  <td><%= link_to "ویرایش", management_product_path(product_detail.product, detail_id: product_detail.id), class: "btn btn-xs btn-primary" %></td>
+</tr>

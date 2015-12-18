@@ -1,0 +1,11 @@
+<%= simple_form_for [:management, product_detail.product, product_detail], html: { class: 'form-horizontal' } do |f| %>
+  <div class="col-xs-6">
+    <%= f.input :code, as: :string %>
+  </div>
+  <div class="col-xs-1 col-xs-offset-2">
+    <%= f.input :available, wrapper_html: { style: "font-size: 18px;margin-top: 30px;" } %>
+  </div>
+  <div class="col-xs-1 col-xs-offset-2">
+    <%= f.button :submit, class: "btn-sm btn-primary", style: "margin-top: 35px;" %>
+  </div>
+<% end %>

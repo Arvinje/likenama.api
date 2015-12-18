@@ -1,0 +1,13 @@
+<div class="row" id="right-panel">
+  <div class="col-xs-12">
+    <ul>
+      <li><%= link_to management_path do %><span class="glyphicon glyphicon-home"></span><% end %></li>
+      <li><%= link_to management_campaigns_path do %><span class="glyphicon glyphicon-heart"></span><% end %></li>
+      <li><%= link_to management_products_path do %><span class="glyphicon glyphicon-shopping-cart"><% end %></li>
+      <li><%= link_to management_users_path do %><span class="glyphicon glyphicon-user"><% end %></li>
+      <li><%= link_to management_messages_path do %><span class="glyphicon glyphicon-inbox"><% end %></li>
+      <li><%= link_to "#" do %><span class="glyphicon glyphicon-cog"><% end %></li>
+      <li><%= link_to(destroy_manager_session_path, :method => :delete) do %><span class="glyphicon glyphicon-log-out"><% end %></li>
+    </ul>
+  </div>
+</div>

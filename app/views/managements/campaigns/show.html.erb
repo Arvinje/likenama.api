@@ -1,2 +1,98 @@
-<h1>Managments::Campaigns#show</h1>
-<p>Find me in app/views/managments/campaigns/show.html.erb</p>
+<div class="col-lg-12">
+  <h1 class="text-primary" style=" font-size: 50px;"><span class="glyphicon glyphicon glyphicon-file" style="line-height: 30px;"></span> مشخصات‌کمپین</h1>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-lg-11 col-lg-offset-1">
+      <div class="row">
+        <div class="col-xs-6 col-lg-4 col-md-5">
+          <div class="thumbnail">
+            <%#= image_tag "2.jpeg", class: 'img-thumbnail img-responsive' %>
+            <%= image_tag @campaign.detail.photo_url, class: 'img-thumbnail img-responsive'%>
+            <%= link_to "برو به سایت", @campaign.detail.get_url, class: 'btn btn-lg btn-success', style: 'width: 100%;' %>
+          </div>
+        </div>
+        <div class="col-xs-6 col-lg-8 col-md-7" id="campaign-details">
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-user"></span> <%= link_to @campaign.owner.username, management_user_path(@campaign.owner) %></h4>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-time" style="line-height: 15px;"></span> <%= @campaign.created_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S") %></h4>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-piggy-bank" style="line-height: 15px;"></span> <%= "#{@campaign.budget} #{t(@campaign.payment_type)}" %></h4>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-hourglass" style="line-height: 15px;"></span> <%= @campaign.waiting.period %> ثانیه</h4>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span> <%= @campaign.status %></h4>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-thumbs-up" style="line-height: 15px;"></span> <%= @campaign.total_likes %></h4>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-sm-5 col-lg-offset-1">
+      <p><span style="font-size: 22px; line-height: 15px;" class="glyphicon glyphicon-align-right"></span> <%= @campaign.detail.description %></p>
+    </div>
+    <div class="col-sm-6">
+      <h3 style="margin-top: 0px;"><span class="glyphicon glyphicon-phone-alt"></span> <%= @campaign.detail.phone %></h3>
+      <h3 style="margin-top: 0px;" class="english"><span class="glyphicon glyphicon-link"></span> <%= link_to @campaign.detail.website, @campaign.detail.website %></h3>
+      <h3 style="margin-top: 0px;"><span class="glyphicon glyphicon-map-marker"></span> <%= @campaign.detail.address %></h3>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-sm-5 col-lg-offset-1">
+      <div class="row">
+        <div class="col-xs-12">
+          <h3><span class="glyphicon glyphicon-stats"></span> پیشرفت کمپین</h3>
+          <div class="progress">
+            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;min-width: 2em;font-size: 18px;">
+              60%
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <h3><span class="glyphicon glyphicon-cog"></span> تنظیمات</h3>
+        </div>
+        <div class="col-xs-10 col-xs-offset-1">
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <h3><span class="glyphicon glyphicon-user"></span> درباره کاربر</h3>
+      <h4 class="text-center">آخرین کمپین‌های کاربر</h4>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>شماره کمپین</th>
+            <th>نوع کمپین</th>
+            <th>نوع پرداخت</th>
+            <th>ساخته‌شده در</th>
+            <th >وضعیت</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render partial: 'shared/management/rows/campaign', collection: @user_campaigns %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-xs-10 col-lg-6 col-xs-offset-1 col-lg-offset-3">
+      <h3 class="text-center"><span class="glyphicon glyphicon-cog"></span> تنظیمات</h3>
+      <div class="btn-group btn-group-justified" role="group">
+        <div class="btn-group" role="group">
+          <button class="btn btn-lg btn-success" style="" type="button" name="button"><span class="glyphicon glyphicon-ok"></span> پذیرش</button>
+        </div>
+        <div class="btn-group" role="group">
+          <button class="btn btn-lg btn-warning active" style="" type="button" name="button"><span class="glyphicon glyphicon-exclamation-sign"></span> درحال بررسی</button>
+        </div>
+        <div class="btn-group" role="group">
+        <button class="btn btn-lg btn-danger" style="" type="button" name="button"><span class="glyphicon glyphicon-remove"></span> غیرقابل قبول</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

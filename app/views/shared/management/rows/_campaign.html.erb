@@ -1,0 +1,8 @@
+<tr>
+  <td scope="row"><%= link_to campaign.id, management_campaign_path(campaign) %></th>
+  <td><%= link_to t(campaign.campaign_type), management_campaign_path(campaign) %></td>
+  <td><%= link_to t(campaign.payment_type), management_campaign_path(campaign) %></td>
+  <td><%= link_to "#{campaign.created_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S")}", management_campaign_path(campaign) %></td>
+  <% flags = {"درحال نمایش" => "success", "به‌پایان رسیده" => "default", "رد شده" => "danger", "درحال بررسی" => "info"} %>
+  <td><%= link_to campaign.status, management_campaign_path(campaign), class: "label label-#{flags[campaign.status]}", id: 'status' %></td>
+</tr>

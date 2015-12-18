@@ -1,5 +1,12 @@
 <div class="col-lg-12">
-  <h1 class="text-primary" style=" font-size: 50px;"><span class="glyphicon glyphicon-heart" style="line-height: 30px;"></span> کمپین‌ها</h1>
+  <h1 class="text-primary" style=" font-size: 50px;"><span class="glyphicon glyphicon-shopping-cart" style="line-height: 30px;"></span> فروشگاه</h1>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-xs-4 col-xs-offset-4" style="padding-bottom: 10px;">
+      <%= link_to "محصول جدید", new_management_product_path, class: "btn btn-lg btn-primary", style: "width: 100%;" %>
+    </div>
+  </div>
 </div>
 <div class="col-lg-12">
   <div class="row">
@@ -8,21 +15,19 @@
         <div class="col-xs-3">
           <div class="dropdown" id="campaign-type-dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="campaignsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              آخرین کمپین‌ها
+              همه محصولات
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="campaignsdropdown">
-              <li><a href="#">آخرین کمپین‌ها</a></li>
-              <li><a href="#">درحال نمایش</a></li>
-              <li><a href="#">درانتظار تایید</a></li>
-              <li><a href="#">تمام‌شده</a></li>
-              <li><a href="#">رد شده</a></li>
+              <li><a href="#">همه محصولات</a></li>
+              <li><a href="#">محصولات موجود</a></li>
+              <li><a href="#">محصولات ناموجود</a></li>
             </ul>
           </div>
         </div>
         <div class="col-xs-9">
           <div class="input-group" id="campaign-search">
-            <input type="text" class="form-control" placeholder="" dir="ltr" style="font-family: 'Halvetica';">
+            <input type="text" class="form-control" placeholder="جستجوی محصولات" dir="rtl">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" style="font-size: 12px; line-height: 8px;"></span></button>
             </span>
@@ -32,15 +37,15 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>شماره کمپین</th>
-                <th>نوع کمپین</th>
-                <th>نوع پرداخت</th>
-                <th>ساخته‌شده در</th>
-                <th >وضعیت</th>
+                <th>شماره محصول</th>
+                <th>نام</th>
+                <th>دسته</th>
+                <th>قیمت (سکه)</th>
+                <th>وضعیت</th>
               </tr>
             </thead>
             <tbody>
-              <%= render partial: 'shared/management/rows/campaign', collection: @campaigns %>
+              <%= render partial: 'shared/management/rows/product', collection: @products %>
             </tbody>
           </table>
         </div>

@@ -2,8 +2,20 @@ require 'api_constraints'
 
 Rails.application.routes.draw do
 
+  devise_for :managers, :skip => [:sessions, :registrations]
+  devise_scope :manager do
+    get '/management/login' => 'devise/sessions#new', :as => :new_manager_session
+    post '/management/login' => 'devise/sessions#create', :as => :manager_session
+    delete 'management/logout' => 'devise/sessions#destroy', :as => :destroy_manager_session
+  end
+
   resource :management, only: [:show] do
+    resources :users, only: [:index, :show, :update], controller: 'managements/users'
     resources :campaigns, only: [:index, :show], controller: 'managements/campaigns'
+    resources :messages, only: [:index, :show, :destroy], controller: 'managements/messages'
+    resources :products, controller: 'managements/products' do
+      resources :product_details, controller: 'managements/products/product_details', only: [:create, :update]
+    end
   end
 #============================ Dashboard ROUTES =======================#
   resource :dashboard, only: [:show] do

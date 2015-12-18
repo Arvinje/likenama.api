@@ -4,10 +4,21 @@
     <title>LikeNama</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag    'management', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'management', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= yield %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
+          <%= render 'shared/management/right_panel' %>
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
+          <div class="row" id="content">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

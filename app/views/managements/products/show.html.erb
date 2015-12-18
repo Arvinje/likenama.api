@@ -1,0 +1,40 @@
+<div class="col-lg-12">
+  <h1 class="text-primary" style=" font-size: 50px;"><span class="glyphicon glyphicon glyphicon-file" style="line-height: 30px;"></span> مشخصات‌محصول</h1>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-lg-11 col-lg-offset-1">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2><span class="glyphicon glyphicon-tag" style="line-height: 20px;"></span> <%= @product.title %></h2>
+        </div>
+        <div class="col-sm-8">
+          <p><span class="glyphicon glyphicon-align-right" style="font-size: 22px;line-height: 15px;"></span> <%= @product.description %></p>
+        </div>
+        <div class="col-sm-4">
+          <h3><span class="glyphicon glyphicon-certificate" style="line-height: 15px;"></span> <%= t @product.product_type %></h3>
+          <h3><span class="glyphicon glyphicon-tag" style="line-height: 15px;"></span> <%= @product.price %> سکه</h3>
+          <h3><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span> <%= @product.available ? "موجود" : "ناموجود" %></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="row">
+        <%= render(partial: "shared/management/forms/product_detail", object: @product_detail) %>
+      </div>
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+            <th>شماره‌آیتم</th>
+            <th>کد</th>
+            <th>وضعیت</th>
+            <th>تنظیمات</th>
+          </thead>
+          <%= render partial: "shared/management/rows/product_detail", collection: @product_details %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
