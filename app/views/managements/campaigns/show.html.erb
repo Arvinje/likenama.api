@@ -17,7 +17,8 @@
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-time" style="line-height: 15px;"></span> <%= @campaign.created_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S") %></h4>
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-piggy-bank" style="line-height: 15px;"></span> <%= "#{@campaign.budget} #{t(@campaign.payment_type)}" %></h4>
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-hourglass" style="line-height: 15px;"></span> <%= @campaign.waiting.period %> ثانیه</h4>
-          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span> <%= @campaign.status %></h4>
+          <% flags = {"درحال نمایش" => "text-success", "به‌پایان رسیده" => "text-muted", "رد شده" => "text-danger", "درحال بررسی" => "text-info"} %>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span><span class="<%= flags[@campaign.status] %>"> <%= @campaign.status %></span></h4>
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-thumbs-up" style="line-height: 15px;"></span> <%= @campaign.total_likes %></h4>
         </div>
 
