@@ -122,7 +122,7 @@ RSpec.describe Campaign, type: :model do
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
 
-  describe "#verify!", vcr: { record: :all } do
+  describe "#verify!", :vcr do
     let(:campaign) { create :campaign, available: nil, verified: nil }
 
     before do
@@ -136,7 +136,7 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#reject!", vcr: { record: :all } do
+  describe "#reject!", :vcr do
     context "on each type of campaign" do
       let(:campaign) { create :campaign, available: nil, verified: nil }
 
