@@ -122,11 +122,11 @@ RSpec.describe Campaign, type: :model do
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
 
-  describe "#verify", vcr: { record: :all } do
+  describe "#verify!", vcr: { record: :all } do
     let(:campaign) { create :campaign, available: nil, verified: nil }
 
     before do
-      campaign.verify
+      campaign.verify!
       campaign.reload
     end
 
@@ -136,12 +136,12 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#reject", vcr: { record: :all } do
+  describe "#reject!", vcr: { record: :all } do
     context "on each type of campaign" do
       let(:campaign) { create :campaign, available: nil, verified: nil }
 
       before do
-        campaign.reject
+        campaign.reject!
         campaign.reload
       end
 
@@ -154,7 +154,7 @@ RSpec.describe Campaign, type: :model do
       before do
         @owner = create :user, like_credit: 400
         @campaign = create :campaign, available: nil, verified: nil, payment_type: "like_getter", budget: 100, owner: @owner
-        @campaign.reject
+        @campaign.reject!
         @campaign.reload
       end
 
@@ -166,7 +166,7 @@ RSpec.describe Campaign, type: :model do
       before do
         @owner = create :user, coin_credit: 300
         @campaign = create :campaign, available: nil, verified: nil, payment_type: "money_getter", budget: 100, owner: @owner
-        @campaign.reject
+        @campaign.reject!
         @campaign.reload
       end
 

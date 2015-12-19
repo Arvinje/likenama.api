@@ -60,25 +60,33 @@ class Campaign < ActiveRecord::Base
   end
 
   # Verifies a campaign and makes it available.
-  def verify
-    self.verified = true
-    self.available = true
-    self.save
+  def verify!
+    if self.verified.nil?
+      self.verified = true
+      self.available = true
+      self.save
+    else
+      false
+    end
   end
 
   # Rejects a campaign
   # Sets the verified flag to false and
   # returns the budget back to the owner's account
-  def reject
-    self.verified = false
-    owner = self.owner
-    # based on the campaign_type returns the budget back to the account
-    if self.payment_type == "money_getter"
-      owner.coin_credit += self.budget
+  def reject!
+    if self.verified.nil? || self.verified == true
+      owner = self.owner
+      self.verified = false
+      # based on the campaign_type returns the budget back to the account
+      if self.payment_type == "money_getter"
+        owner.coin_credit += self.budget
+      else
+        owner.like_credit += self.budget
+      end
+      owner.save && self.save
     else
-      owner.like_credit += self.budget
+      false
     end
-    owner.save && self.save
   end
 
   # Makes sure that user has enough credit (coin or like)
