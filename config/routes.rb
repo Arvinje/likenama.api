@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resource :management, only: [:show] do
     resources :users, only: [:index, :show, :update], controller: 'managements/users'
-    resources :campaigns, only: [:index, :show], controller: 'managements/campaigns'
+    resources :campaigns, only: [:index, :show, :update], controller: 'managements/campaigns'
     resources :messages, only: [:index, :show, :destroy], controller: 'managements/messages'
     resources :products, controller: 'managements/products' do
       resources :product_details, controller: 'managements/products/product_details', only: [:create, :update]
