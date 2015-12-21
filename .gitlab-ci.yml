@@ -1,0 +1,20 @@
+before_script:
+  - apt-get update -qq && apt-get install -y -qq postgresql-common postgresql-9.4.5 libpq-dev nodejs
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-ri --no-rdoc
+
+stages:
+  - test
+
+spec:
+  script:
+    - bundle install
+    - bundle exec rake db:create RAILS_ENV=test
+    - bundle exec rake db:migrate RAILS_ENV=test
+    - bundle exec rake db:test:prepare RAILS_ENV=test
+    - RAILS_ENV=test bundle exec rspec
+  stage: test
+  tags:
+    - ruby
+    - postgres
