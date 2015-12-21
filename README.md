@@ -6,11 +6,8 @@ Likenama
 ### Version 1
 
 * Implement a payment method.
-* Implement control panel.
-  * Latest actions.
-* See if you need to fix Time.now
 * Exception logging!
-* Check if we need to save images.
+* Check if we need to save images. => probably!
 
 ### Version 2
 
