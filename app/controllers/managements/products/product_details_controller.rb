@@ -26,7 +26,7 @@ class Managements::Products::ProductDetailsController < ApplicationController
   private
 
   def details_params
-    params.require(:product_detail).permit(:code, :available)
+    params.require(:product_detail).permit(:code, :available).fix_numerals
   end
 
   def get_product_details
