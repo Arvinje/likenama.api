@@ -26,6 +26,19 @@ Request Headers
 ```
 **Status:** `401`
 
+* Locked account:
+
+```json
+{
+  "errors": {
+    "base": [
+      "اکانت شما قفل شده‌است. برای اطلاعات بیشتر با پشتیبانی تماس بگیرید"
+    ]
+  }
+}
+```
+**Status:** `401`
+
 * HTTP Status Codes:
   * OK: `200`
   * Created: `201`
