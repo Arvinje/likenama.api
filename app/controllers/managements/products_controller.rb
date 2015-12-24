@@ -31,6 +31,7 @@ class Managements::ProductsController < ApplicationController
   end
 
   def edit
+    @product = Product.find params[:id]
   end
 
   def update
