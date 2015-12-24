@@ -7,7 +7,7 @@
         <%= f.input :product_type, collection: types %>
       </div>
       <div class="col-xs-4 col-xs-offset-3">
-        <%= f.input :price, as: :string %>
+        <%= f.input :price, as: :string, input_html: { dir: :ltr } %>
       </div>
     </div>
     <%= f.input :description %>
