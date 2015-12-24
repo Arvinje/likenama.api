@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   end
 
   resource :management, only: [:show] do
-    resources :users, only: [:index, :show, :update], controller: 'managements/users'
+    resources :users, only: [:index, :show, :update], controller: 'managements/users' do
+      member do
+        patch :lock
+        patch :unlock
+      end
+    end
     resources :campaigns, only: [:index, :show, :update], controller: 'managements/campaigns'
     resources :messages, only: [:index, :show, :destroy], controller: 'managements/messages'
     resources :products, controller: 'managements/products' do

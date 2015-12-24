@@ -6,9 +6,15 @@ module Authenticable
   end
 
   def authenticate_with_token!
-    errors = { base: ["ارتباط با سرور قطع شده‌است. دوباره وارد شوید"] }
-    render json: { errors: errors },
-                status: :unauthorized unless current_user.present?
+    not_found_error = { base: ["ارتباط با سرور قطع شده‌است. دوباره وارد شوید"] }
+    locked_error = { base: ["اکانت شما قفل شده‌است. برای اطلاعات بیشتر با پشتیبانی تماس بگیرید"] }
+    # When user is not found
+    if !current_user.present?
+      render json: { errors: not_found_error }, status: :unauthorized
+    # When user is locked
+    elsif !current_user.active_for_authentication?
+      render json: { errors: locked_error }, status: :unauthorized
+    end
   end
 
   def user_signed_in?

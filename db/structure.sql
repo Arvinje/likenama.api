@@ -475,7 +475,8 @@ CREATE TABLE users (
     auth_token character varying,
     like_credit integer DEFAULT 0,
     coin_credit integer DEFAULT 0,
-    username character varying DEFAULT ''::character varying
+    username character varying DEFAULT ''::character varying,
+    locked_at timestamp without time zone
 );
 
 
@@ -913,4 +914,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151123203138');
 INSERT INTO schema_migrations (version) VALUES ('20151127125725');
 
 INSERT INTO schema_migrations (version) VALUES ('20151129131754');
+
+INSERT INTO schema_migrations (version) VALUES ('20151224053301');
 
