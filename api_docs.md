@@ -46,6 +46,7 @@ Request Headers
   * Unprocessable Entity: `422`
   * Server Error: `500`
   * Deprecated: `410`
+  * Unauthorized: `401`
 
 Registration and logging
 ------------------------
