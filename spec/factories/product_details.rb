@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :product_detail do
     code { FFaker::Lorem.sentence }
-    description { FFaker::Lorem.paragraphs }
+    available [true, false].sample
     product
   end
 

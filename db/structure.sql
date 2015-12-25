@@ -352,7 +352,6 @@ ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
 CREATE TABLE product_details (
     id integer NOT NULL,
     code text DEFAULT ''::text,
-    description text DEFAULT ''::text,
     available boolean DEFAULT true,
     product_id integer,
     user_id integer,
