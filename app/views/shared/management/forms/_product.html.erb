@@ -1,10 +1,9 @@
 <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
-  <% types = Product.connection.execute("SELECT unnest(enum_range(NULL::product_type));").values.map { |a| a.first.to_sym } %>
   <%= simple_form_for [:management, @product], html: { class: 'form-horizontal' } do |f| %>
     <%= f.input :title %>
     <div class="row">
       <div class="col-xs-5">
-        <%= f.input :product_type, collection: types %>
+        <%= f.association :product_type %>
       </div>
       <div class="col-xs-4 col-xs-offset-3">
         <%= f.input :price, as: :string, input_html: { dir: :ltr } %>
