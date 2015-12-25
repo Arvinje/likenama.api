@@ -45,15 +45,6 @@ CREATE TYPE payment_type AS ENUM (
 );
 
 
---
--- Name: product_type; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE product_type AS ENUM (
-    'mobiletopup'
-);
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -380,6 +371,37 @@ ALTER SEQUENCE product_details_id_seq OWNED BY product_details.id;
 
 
 --
+-- Name: product_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE product_types (
+    id integer NOT NULL,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: product_types_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE product_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: product_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE product_types_id_seq OWNED BY product_types.id;
+
+
+--
 -- Name: products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -389,9 +411,9 @@ CREATE TABLE products (
     description text,
     price integer,
     available boolean DEFAULT true,
+    product_type_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    product_type product_type
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -605,6 +627,13 @@ ALTER TABLE ONLY product_details ALTER COLUMN id SET DEFAULT nextval('product_de
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY product_types ALTER COLUMN id SET DEFAULT nextval('product_types_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq'::regclass);
 
 
@@ -699,6 +728,14 @@ ALTER TABLE ONLY prices
 
 ALTER TABLE ONLY product_details
     ADD CONSTRAINT product_details_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY product_types
+    ADD CONSTRAINT product_types_pkey PRIMARY KEY (id);
 
 
 --
@@ -936,11 +973,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150914202028');
 
 INSERT INTO schema_migrations (version) VALUES ('20151123203138');
 
-INSERT INTO schema_migrations (version) VALUES ('20151127125725');
-
 INSERT INTO schema_migrations (version) VALUES ('20151129131754');
 
 INSERT INTO schema_migrations (version) VALUES ('20151224053301');
 
 INSERT INTO schema_migrations (version) VALUES ('20151224074219');
+
+INSERT INTO schema_migrations (version) VALUES ('20151225093010');
 

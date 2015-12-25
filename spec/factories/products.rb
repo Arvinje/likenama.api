@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :product do
     title { FFaker::Product.product_name }
-    product_type "mobiletopup"
+    product_type
     description { FFaker::Lorem.paragraph }
     price { (rand()*10000).to_i }
 
