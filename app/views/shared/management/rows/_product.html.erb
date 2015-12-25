@@ -1,7 +1,7 @@
 <tr>
   <td scope="row"><%= link_to product.id, management_product_path(product) %></th>
   <td><a href="#"><%= link_to product.title, management_product_path(product) %></a></td>
-  <td><a href="#"><%= link_to t(product.product_type), management_product_path(product) %></a></td>
+  <td><a href="#"><%= link_to t(product.product_type.name), management_product_path(product) %></a></td>
   <td><a href="#"><%= link_to product.price, management_product_path(product) %></a></td>
   <% flags = {true => "success", false => "default"} %>
   <td><a href="#" id="status" class="label label-<%= flags[product.available] %>"><%= product.available ? "موجود" : "ناموجود" %></a></td>
