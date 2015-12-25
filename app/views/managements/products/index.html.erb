@@ -3,8 +3,11 @@
 </div>
 <div class="col-lg-12">
   <div class="row">
-    <div class="col-xs-4 col-xs-offset-4" style="padding-bottom: 10px;">
+    <div class="col-lg-3 col-lg-offset-1 col-md-4 col-xs-5" style="padding-bottom: 10px;">
       <%= link_to "محصول جدید", new_management_product_path, class: "btn btn-lg btn-primary", style: "width: 100%;" %>
+    </div>
+    <div class="col-lg-3 col-lg-offset-4 col-md-4 col-md-offset-4 col-xs-5 col-xs-offset-2" style="padding-bottom: 10px;">
+      <%= link_to "دسته جدید", new_management_product_type_path, class: "btn btn-lg btn-primary", style: "width: 100%;" %>
     </div>
   </div>
 </div>
@@ -12,7 +15,15 @@
   <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
       <div class="row">
-        <div class="col-xs-3">
+        <div class="col-sm-9 col-sm-push-3 col-xs-12">
+          <div class="input-group" id="campaign-search">
+            <input type="text" class="form-control" placeholder="جستجوی محصولات" dir="rtl">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" style="font-size: 12px; line-height: 8px;"></span></button>
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-3 col-sm-pull-9 col-xs-3">
           <div class="dropdown" id="campaign-type-dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="campaignsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               همه محصولات
@@ -23,14 +34,6 @@
               <li><a href="#">محصولات موجود</a></li>
               <li><a href="#">محصولات ناموجود</a></li>
             </ul>
-          </div>
-        </div>
-        <div class="col-xs-9">
-          <div class="input-group" id="campaign-search">
-            <input type="text" class="form-control" placeholder="جستجوی محصولات" dir="rtl">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" style="font-size: 12px; line-height: 8px;"></span></button>
-            </span>
           </div>
         </div>
         <div class="col-xs-12">
