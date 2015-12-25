@@ -486,7 +486,6 @@ Shop
     {
       "details": {
         "code": "Fugit qui deleniti perferendis ullam.",
-        "description": "[\"Est doloremque eos accusantium dicta. Veritatis quos voluptatem doloremque qui rerum sit. Quia minus non vitae cumque est provident. Reiciendis sint beatae quasi et in et.\", \"Aut quaerat autem impedit odit aliquam nam similique. Et error numquam corrupti eaque ratione delectus amet. Aut in corrupti aut quas sed et. Numquam odit et ullam veniam voluptatum esse natus.\", \"Expedita assumenda temporibus ea qui et. Amet eos sunt ipsum aliquam nihil in. Perspiciatis reiciendis officia assumenda qui sed qui delectus. Consequatur amet explicabo voluptate et expedita soluta. Et dolore assumenda ut placeat.\"]",
         "product": {
           "id": 112,
           "title": "Digital Auto Case",
