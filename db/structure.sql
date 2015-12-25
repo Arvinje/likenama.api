@@ -59,6 +59,44 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: activities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE activities (
+    id integer NOT NULL,
+    trackable_id integer,
+    trackable_type character varying,
+    owner_id integer,
+    owner_type character varying,
+    key character varying,
+    parameters text,
+    recipient_id integer,
+    recipient_type character varying,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE activities_id_seq OWNED BY activities.id;
+
+
+--
 -- Name: bundles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -317,6 +355,7 @@ CREATE TABLE product_details (
     description text DEFAULT ''::text,
     available boolean DEFAULT true,
     product_id integer,
+    user_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -374,38 +413,6 @@ CREATE SEQUENCE products_id_seq
 --
 
 ALTER SEQUENCE products_id_seq OWNED BY products.id;
-
-
---
--- Name: purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE purchases (
-    id integer NOT NULL,
-    user_id integer,
-    product_detail_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE purchases_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE purchases_id_seq OWNED BY purchases.id;
 
 
 --
@@ -536,6 +543,13 @@ ALTER SEQUENCE waitings_id_seq OWNED BY waitings.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY bundles ALTER COLUMN id SET DEFAULT nextval('bundles_id_seq'::regclass);
 
 
@@ -599,13 +613,6 @@ ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY purchases ALTER COLUMN id SET DEFAULT nextval('purchases_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
 
 
@@ -621,6 +628,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY waitings ALTER COLUMN id SET DEFAULT nextval('waitings_id_seq'::regclass);
+
+
+--
+-- Name: activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY activities
+    ADD CONSTRAINT activities_pkey PRIMARY KEY (id);
 
 
 --
@@ -696,14 +711,6 @@ ALTER TABLE ONLY products
 
 
 --
--- Name: purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY purchases
-    ADD CONSTRAINT purchases_pkey PRIMARY KEY (id);
-
-
---
 -- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -725,6 +732,27 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY waitings
     ADD CONSTRAINT waitings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_activities_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_activities_on_owner_id_and_owner_type ON activities USING btree (owner_id, owner_type);
+
+
+--
+-- Name: index_activities_on_recipient_id_and_recipient_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_activities_on_recipient_id_and_recipient_type ON activities USING btree (recipient_id, recipient_type);
+
+
+--
+-- Name: index_activities_on_trackable_id_and_trackable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_activities_on_trackable_id_and_trackable_type ON activities USING btree (trackable_id, trackable_type);
 
 
 --
@@ -891,8 +919,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150815131523');
 
 INSERT INTO schema_migrations (version) VALUES ('20150816030259');
 
-INSERT INTO schema_migrations (version) VALUES ('20150822115857');
-
 INSERT INTO schema_migrations (version) VALUES ('20150822120244');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822145356');
@@ -916,4 +942,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151127125725');
 INSERT INTO schema_migrations (version) VALUES ('20151129131754');
 
 INSERT INTO schema_migrations (version) VALUES ('20151224053301');
+
+INSERT INTO schema_migrations (version) VALUES ('20151224074219');
 

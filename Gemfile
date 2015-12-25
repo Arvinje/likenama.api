@@ -68,6 +68,7 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem "autoprefixer-rails"
 gem 'simple_form', '~> 3.2'
 gem 'parsi-date', '~> 0.3.1'
+gem 'public_activity', '~> 1.4', '>= 1.4.2'
 
 gem 'rails_12factor', group: :production # Heroku ONLY
 gem 'puma'

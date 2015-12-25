@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include PublicActivity::Common
+
   before_create :generate_authentication_token!
 
   # Include default devise modules. Others available are:
@@ -9,8 +11,8 @@ class User < ActiveRecord::Base
   has_many :likes, dependent: :nullify
   has_many :liked_campaigns, through: :likes, source: :campaign
   has_many :campaigns, foreign_key: :owner_id
-  has_many :purchases
-  has_many :purchased_products, through: :purchases, source: :product_detail
+  has_many :purchased_details, class_name: "ProductDetail"
+  has_many :purchased_products, through: :purchased_details, source: :product
   has_many :transactions
   has_many :purchased_bundles, through: :transactions, source: :bundle
 
@@ -22,7 +24,7 @@ class User < ActiveRecord::Base
     if product.price <= self.coin_credit
       self.coin_credit -= product.price   # reduces user's coin_credit by the product's price
       requested_detail = product.details.available.first
-      self.purchased_products << requested_detail   # adds the detail to purchased_products of the user
+      self.purchased_details << requested_detail   # adds the detail to purchased_details of the user
       requested_detail.available = false    # makes the details unavailable
       requested_detail.save
       self.save

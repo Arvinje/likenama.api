@@ -42,8 +42,8 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:likes).dependent :nullify }
     it { is_expected.to have_many(:liked_campaigns).through(:likes).source(:campaign) }
     it { is_expected.to have_many(:campaigns).with_foreign_key(:owner_id) }
-    it { is_expected.to have_many(:purchases) }
-    it { is_expected.to have_many(:purchased_products).through(:purchases).source(:product_detail) }
+    it { is_expected.to have_many(:purchased_details).class_name('ProductDetail') }
+    it { is_expected.to have_many(:purchased_products).through(:purchased_details).source(:product) }
     it { is_expected.to have_many(:transactions) }
     it { is_expected.to have_many(:purchased_bundles).through(:transactions).source(:bundle) }
   end
@@ -65,11 +65,11 @@ RSpec.describe User, type: :model do
         expect{ user.buy product }.to change{ user.coin_credit }.from(9900).to(9800)
       end
 
-      it "adds the detail to purchased_products" do
+      it "adds the detail to purchased_details" do
         product_detail = product.details.available.first
         user.buy product
         user.reload
-        expect(user.purchased_products).to include product_detail
+        expect(user.purchased_details).to include product_detail
       end
 
       it "removes the purchased details from product's available details" do

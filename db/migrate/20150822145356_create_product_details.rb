@@ -5,6 +5,7 @@ class CreateProductDetails < ActiveRecord::Migration
       t.text        :description, default: ''
       t.boolean     :available, default: true
       t.references  :product
+      t.references  :user
       t.timestamps null: false
     end
   end

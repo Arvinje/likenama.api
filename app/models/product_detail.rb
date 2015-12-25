@@ -1,7 +1,8 @@
 class ProductDetail < ActiveRecord::Base
+  include PublicActivity::Common
+
   belongs_to  :product
-  has_many    :purchases
-  has_many    :buyers, through: :purchases, source: :user
+  belongs_to  :user
 
   validates :code, presence: true
 

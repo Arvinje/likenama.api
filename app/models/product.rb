@@ -1,5 +1,8 @@
 class Product < ActiveRecord::Base
+  include PublicActivity::Common
+
   has_many :details, class_name: 'ProductDetail', dependent: :destroy
+  has_many :buyers, through: :details, source: :user
 
   validates :title, presence: true
   validates :price, presence: true, numericality: { only_integer: true }

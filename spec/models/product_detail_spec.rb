@@ -9,8 +9,7 @@ RSpec.describe ProductDetail, type: :model do
 
   describe "ActiveRecord associations" do
     it { is_expected.to belong_to :product }
-    it { is_expected.to have_many :purchases }
-    it { is_expected.to have_many(:buyers).through(:purchases).source(:user) }
+    it { is_expected.to belong_to :user }
   end
 
   describe ".available" do
