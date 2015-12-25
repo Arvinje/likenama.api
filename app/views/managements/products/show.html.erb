@@ -12,7 +12,7 @@
           <p><span class="glyphicon glyphicon-align-right" style="font-size: 22px;line-height: 15px;"></span> <%= @product.description %></p>
         </div>
         <div class="col-sm-4">
-          <h3><span class="glyphicon glyphicon-certificate" style="line-height: 15px;"></span> <%= t @product.product_type %></h3>
+          <h3><span class="glyphicon glyphicon-certificate" style="line-height: 15px;"></span> <%= t @product.product_type.name %></h3>
           <h3><span class="glyphicon glyphicon-tag" style="line-height: 15px;"></span> <%= @product.price %> سکه</h3>
           <h3><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span> <%= @product.available ? "موجود" : "ناموجود" %></h3>
         </div>
