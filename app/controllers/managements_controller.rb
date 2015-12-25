@@ -3,5 +3,6 @@ class ManagementsController < ApplicationController
   before_action :authenticate_manager!
 
   def show
+    @activities = PublicActivity::Activity.all
   end
 end

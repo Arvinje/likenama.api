@@ -1,4 +1,5 @@
 class Campaign < ActiveRecord::Base
+  include PublicActivity::Common
 
   before_save :set_price
   before_save :set_waiting

@@ -12,11 +12,13 @@ class Managements::UsersController < ApplicationController
 
   def lock
     @user.lock_access!({ send_instructions: false })
+    @user.create_activity :lock, owner: current_manager
     redirect_to management_user_path(@user)
   end
 
   def unlock
     @user.unlock_access!
+    @user.create_activity :unlock, owner: current_manager
     redirect_to management_user_path(@user)
   end
 

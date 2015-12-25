@@ -12,3 +12,5 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile += %w( management.css )
 Rails.application.config.assets.precompile += %w( management.js )
+Rails.application.config.assets.precompile += %w( dashboard.css )
+Rails.application.config.assets.precompile += %w( dashboard.js )

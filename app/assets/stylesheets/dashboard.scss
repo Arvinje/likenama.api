@@ -1,0 +1,53 @@
+/*
+ * This is a manifest file that'll be compiled into dashboard.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ */
+
+
+@import "nazanin-font";
+$font-family-sans-serif: 'B Nazanin';
+$font-family-serif: 'B Nazanin';
+$brand-primary: #242636;
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "bootstrap-rtl";
+
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#tabbar {
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      background: green;
+      float: right;
+      width: 33.3333%;
+      height: 200px;
+      a {
+        display: block;
+        text-align: center;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

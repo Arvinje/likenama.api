@@ -8,7 +8,7 @@ FactoryGirl.define do
     price
     waiting
     budget 1000
-    association :owner, factory: :user
+    association :owner, factory: :instagram_user
     after(:build) do |campaign|
       campaign.instagram_detail ||= FactoryGirl.create(:instagram_detail, campaign: campaign)
     end
