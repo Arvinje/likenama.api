@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
     resources :campaigns, only: [:index, :show, :update], controller: 'managements/campaigns'
     resources :messages, only: [:index, :show, :destroy], controller: 'managements/messages'
+    resources :product_types, only: [:index, :new, :create, :update, :destroy], controller: 'managements/products/product_types'
     resources :products, controller: 'managements/products' do
       resources :product_details, controller: 'managements/products/product_details', only: [:create, :update]
     end
