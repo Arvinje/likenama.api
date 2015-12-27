@@ -4,7 +4,7 @@ class Managements::CampaignsController < ApplicationController
   before_action :find_campaign, only: [:show, :update]
 
   def index
-    @campaigns = Campaign.order(created_at: :desc).take(10)
+    @campaigns = Campaign.order(created_at: :desc).page(params[:page])
   end
 
   def show

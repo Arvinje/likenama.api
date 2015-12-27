@@ -40,6 +40,13 @@
           <%= render partial: "shared/management/rows/report", collection: @reports %>
         </table>
       </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="text-center">
+            <%= paginate @reports %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

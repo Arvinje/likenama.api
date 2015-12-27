@@ -5,7 +5,7 @@ class Managements::ProductsController < ApplicationController
   before_action :find_product, only: [:edit, :update, :show, :destroy]
 
   def index
-    @products = Product.order(created_at: :desc).take 10
+    @products = Product.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -22,7 +22,7 @@ class Managements::ProductsController < ApplicationController
   end
 
   def show
-    @product_details = @product.details.order(created_at: :desc)
+    @product_details = @product.details.order(created_at: :desc).page(params[:page])
     @product_detail = if params[:detail_id]
                         @product.details.find params[:detail_id]
                       else

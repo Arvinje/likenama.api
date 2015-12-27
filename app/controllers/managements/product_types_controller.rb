@@ -44,7 +44,7 @@ class Managements::ProductTypesController < ApplicationController
   end
 
   def get_product_types
-    @product_types = ProductType.last 10
+    @product_types = ProductType.order(created_at: :asc).page(params[:page])
   end
 
   def find_product_type

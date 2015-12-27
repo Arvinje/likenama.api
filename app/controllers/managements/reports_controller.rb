@@ -4,7 +4,7 @@ class Managements::ReportsController < ApplicationController
   before_action :find_report, only: [:check, :uncheck, :destroy]
 
   def index
-    @reports = Report.order(created_at: :desc).take 10
+    @reports = Report.order(created_at: :desc).page(params[:page])
   end
 
   def show

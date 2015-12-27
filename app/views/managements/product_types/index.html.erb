@@ -17,6 +17,13 @@
           <%= render partial: "shared/management/rows/product_type", collection: @product_types %>
         </table>
       </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="text-center">
+            <%= paginate @product_types %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

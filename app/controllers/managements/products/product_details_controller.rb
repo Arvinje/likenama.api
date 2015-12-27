@@ -30,6 +30,6 @@ class Managements::Products::ProductDetailsController < ApplicationController
   end
 
   def get_product_details
-    @product_details = @product.details.order(created_at: :desc)
+    @product_details = @product.details.order(created_at: :desc).page(params[:page])
   end
 end

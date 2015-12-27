@@ -4,7 +4,7 @@ class Managements::UsersController < ApplicationController
   before_action :get_user, only: [:show, :lock, :unlock]
 
   def index
-    @users = User.order(created_at: :desc).take(10)
+    @users = User.order(created_at: :desc).page(params[:page])
   end
 
   def show
