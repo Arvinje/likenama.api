@@ -10,10 +10,18 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
+        <div class="col-sm-2 col-md-1 col-lg-1 hidden-xs">
           <%= render 'shared/management/sidebar' %>
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
+        <div class="col-xs-12 visible-xs-block">
+          <%= render 'shared/management/navbar' %>
+        </div>
+        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11 visible-xs-block">
+          <div class="row" id="content">
+            <%= yield %>
+          </div>
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-11 col-lg-11 hidden-xs">
           <div class="row" id="content">
             <%= yield %>
           </div>
