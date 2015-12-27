@@ -136,7 +136,22 @@ fa:
       header:
         one: 1 خطا جلوی ذخیره این %{model} را گرفت
         other: "%{count} خطا جلوی ذخیره این %{model} را گرفت"
+  views:
+    pagination:
+      first: "&laquo; اولین"
+      last: "آخرین &raquo;"
+      previous: "&lsaquo; قبلی"
+      next: "بعدی &rsaquo;"
+      truncate: "&hellip;"
   helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} found"
+          one: "Displaying <b>1</b> %{entry_name}"
+          other: "Displaying <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"
     select:
       prompt: لطفا انتخاب کنید
     submit:
