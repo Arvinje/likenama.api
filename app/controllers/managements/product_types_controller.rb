@@ -1,5 +1,6 @@
 class Managements::ProductTypesController < ApplicationController
   layout 'management'
+  before_action :authenticate_manager!
   before_action :get_product_types, only: [:index]
   before_action :find_product_type, only: [:update, :destroy]
 
