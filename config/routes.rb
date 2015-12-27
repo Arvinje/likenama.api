@@ -17,6 +17,12 @@ Rails.application.routes.draw do
       end
     end
     resources :campaigns, only: [:index, :show, :update], controller: 'managements/campaigns'
+    resources :reports, only: [:index], controller: 'managements/reports' do
+      member do
+        patch :check
+        patch :uncheck
+      end
+    end
     resources :messages, only: [:index, :show, :destroy], controller: 'managements/messages'
     resources :product_types, only: [:index, :new, :create, :update, :destroy], controller: 'managements/product_types'
     resources :products, controller: 'managements/products' do
