@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       resources :campaigns, only: [:index, :new, :create, :show, :update] do
         resource :like, only: [:create], controller: 'campaigns/likes'
+        resource :report, only: [:create], controller: 'campaigns/reports'
         collection do
           get :next
         end
