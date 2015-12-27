@@ -411,6 +411,19 @@ Campaigns
     ```
   * **Status:** `422`
 
+### Reporting a Campaign
+* **Method:** `POST`
+* **Endpoint:** `/api/campaigns/[CAMPAIGN-ID]/report`
+* **Request Content:** `none`
+
+#### Response
+* Success (when the campaign gets reported):
+  * **Content:** `none`
+  * **Status:** `201`
+* Failure (when user has reported the campaign before)
+  * **Content:** `none`
+  * **Status:** `200`
+
 Shop
 ----
 
