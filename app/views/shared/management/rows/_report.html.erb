@@ -1,7 +1,7 @@
 <tr>
-  <th scope="row"><%= report.id %></th>
   <td><%= link_to report.user.username, management_user_path(report.user) %></td>
   <td><%= link_to report.campaign.id, management_campaign_path(report.campaign) %></td>
+  <td><%= report.created_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S") %></td>
   <td>
     <% if report.checked? %>
       <%= link_to uncheck_management_report_path(id: report.id), method: :patch, class: "btn btn-xs btn-default" do %>
