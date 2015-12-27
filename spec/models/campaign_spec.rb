@@ -113,6 +113,8 @@ RSpec.describe Campaign, type: :model do
     it { is_expected.to accept_nested_attributes_for(:instagram_detail).update_only(true) }
     it { is_expected.to belong_to(:price) }
     it { is_expected.to belong_to(:waiting) }
+    it { is_expected.to have_many(:reports).dependent :destroy }
+    it { is_expected.to have_many(:reporters).through(:reports).source(:user) }
   end
 
   describe "Callbacks", :vcr do

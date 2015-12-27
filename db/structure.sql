@@ -437,6 +437,39 @@ ALTER SEQUENCE products_id_seq OWNED BY products.id;
 
 
 --
+-- Name: reports; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE reports (
+    id integer NOT NULL,
+    checked boolean DEFAULT false,
+    user_id integer,
+    campaign_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE reports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE reports_id_seq OWNED BY reports.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -641,6 +674,13 @@ ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
 
 
@@ -747,6 +787,14 @@ ALTER TABLE ONLY products
 
 
 --
+-- Name: reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -848,6 +896,20 @@ CREATE UNIQUE INDEX index_managers_on_reset_password_token ON managers USING btr
 
 
 --
+-- Name: index_reports_on_campaign_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reports_on_campaign_id ON reports USING btree (campaign_id);
+
+
+--
+-- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reports_on_user_id ON reports USING btree (user_id);
+
+
+--
 -- Name: index_users_on_auth_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -898,6 +960,14 @@ ALTER TABLE ONLY likes
 
 
 --
+-- Name: fk_rails_80a4991c50; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT fk_rails_80a4991c50 FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
+
+
+--
 -- Name: fk_rails_933b12bfd8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -911,6 +981,14 @@ ALTER TABLE ONLY campaigns
 
 ALTER TABLE ONLY likes
     ADD CONSTRAINT fk_rails_a0a47c1dbb FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
+
+
+--
+-- Name: fk_rails_c7699d537d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT fk_rails_c7699d537d FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -980,4 +1058,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151224053301');
 INSERT INTO schema_migrations (version) VALUES ('20151224074219');
 
 INSERT INTO schema_migrations (version) VALUES ('20151225093010');
+
+INSERT INTO schema_migrations (version) VALUES ('20151227070306');
 
