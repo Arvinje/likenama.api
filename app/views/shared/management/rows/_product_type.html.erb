@@ -2,5 +2,5 @@
   <th scope="row"><%= product_type.id %></th>
   <td><%= t(product_type.name) %></code></td>
   <td><%= link_to "ویرایش", management_product_types_path(id: product_type.id), class: "btn btn-xs btn-primary" %>
-  <%= link_to "حذف", management_product_type_path(id: product_type.id), method: :delete, class: "btn btn-xs btn-danger" %></td>
+  <%= link_to "حذف", management_product_type_path(id: product_type.id), method: :delete, data: { confirm: "آیا مطمئنید که می‌خواهید این دسته را حذف‌کنید؟ با حذف دسته، تمامی محصولات زیر مجموعه نیز حذف می‌شوند." }, class: "btn btn-xs btn-danger" %></td>
 </tr>
