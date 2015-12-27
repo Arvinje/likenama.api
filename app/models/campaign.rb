@@ -26,6 +26,7 @@ class Campaign < ActiveRecord::Base
 
   scope :available, -> { where available: true }
   scope :finished, -> { where available: false }
+  scope :pending, -> { where verified: nil }
 
   # Sets the day's campaign waiting based on campaign/payment type.
   def set_waiting
