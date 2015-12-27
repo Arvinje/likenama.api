@@ -10,6 +10,7 @@ fa:
       product_detail: آیتم
       user: کاربر
       campaign: کمپین
+      product_type: دسته
   date:
     abbr_day_names:
     - ی

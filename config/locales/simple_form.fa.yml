@@ -29,6 +29,8 @@ fa:
       product_detail:
         code: کد
         available: موجود
+      product_type:
+        name: نام دسته
     "yes": 'بله'
     "no": 'خیر'
     required:

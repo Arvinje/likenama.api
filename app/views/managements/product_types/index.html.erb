@@ -1,0 +1,22 @@
+<div class="col-lg-12">
+  <h1 class="text-primary" style=" font-size: 50px;"><span class="glyphicon glyphicon glyphicon-file" style="line-height: 30px;"></span> مدیریت دسته‌ها</h1>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+      <div class="row">
+        <%= render(partial: "shared/management/forms/product_type", object: @product_type) %>
+      </div>
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+            <th>شماره‌دسته</th>
+            <th>نام‌دسته</th>
+            <th>تنظیمات</th>
+          </thead>
+          <%= render partial: "shared/management/rows/product_type", collection: @product_types %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
