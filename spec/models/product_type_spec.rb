@@ -8,7 +8,7 @@ RSpec.describe ProductType, type: :model do
   end
 
   describe "ActiveRecord associations" do
-    it { is_expected.to have_many :products }
+    it { is_expected.to have_many(:products).dependent(:destroy) }
   end
 
 end
