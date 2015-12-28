@@ -85,6 +85,7 @@ RSpec.describe User, type: :model do
         it "marks the product as not available" do
           expect(product.available).to eql true
           3.times { user.buy product }
+          product.reload
           expect(product.available).to eql false
         end
       end

@@ -3,7 +3,7 @@ FactoryGirl.define do
     title { FFaker::Product.product_name }
     product_type
     description { FFaker::Lorem.paragraph }
-    price { (rand()*10000).to_i }
+    price { (rand()*100).to_i }
 
     factory :product_with_details do
       transient do

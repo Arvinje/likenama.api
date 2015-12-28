@@ -498,13 +498,13 @@ Shop
     ```json
     {
       "details": {
-        "code": "Fugit qui deleniti perferendis ullam.",
+        "code": "Omnis eos rerum ad et ut sapiente asperiores quae.",
         "product": {
-          "id": 112,
-          "title": "Digital Auto Case",
-          "product_type": "mobiletopup",
-          "price": 1662,
-          "description": "Quod omnis quam dolore eum asperiores perspiciatis voluptates. At rem enim iusto voluptas laboriosam possimus. Accusantium repudiandae aperiam earum tempore ab velit."
+          "id": 1522,
+          "title": "Input Power Controller",
+          "product_type": "Electric GPS Tuner78",
+          "price": 76,
+          "description": "Ipsam et suscipit labore omnis autem commodi. Nisi dignissimos enim nulla atque. Sint placeat et labore autem. Facere laboriosam voluptate officia necessitatibus distinctio. Corporis aut tempore pariatur quod qui."
         }
       }
     }
