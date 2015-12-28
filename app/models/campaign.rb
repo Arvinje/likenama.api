@@ -75,12 +75,13 @@ class Campaign < ActiveRecord::Base
   end
 
   # Rejects a campaign
-  # Sets the verified flag to false and
+  # Sets the verified flag to false and available to nil
   # returns the budget back to the owner's account
   def reject!
     if self.verified.nil? || self.verified == true
       owner = self.owner
       self.verified = false
+      self.available = nil
       # based on the campaign_type returns the budget back to the account
       if self.payment_type == "money_getter"
         owner.coin_credit += self.budget

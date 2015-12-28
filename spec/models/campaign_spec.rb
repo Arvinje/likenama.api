@@ -147,7 +147,7 @@ RSpec.describe Campaign, type: :model do
         campaign.reload
       end
 
-      it "sets available and verified true" do
+      it "sets available nil and verified false" do
         expect(campaign.verified).to eql false
         expect(campaign.available).to eql nil
       end
