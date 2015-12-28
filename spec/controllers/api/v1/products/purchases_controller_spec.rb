@@ -39,6 +39,7 @@ RSpec.describe Api::V1::Products::PurchasesController, type: :controller do
         product_response = json_response
         expect(product_response[:details][:product][:title]).to eql @requested_product.title
         expect(product_response[:details][:code]).to eql @requested_product.details.first.code
+        expect(product_response[:details][:product][:product_type]).to eql @requested_product.product_type.name
       end
 
       it { is_expected.to respond_with :created }
