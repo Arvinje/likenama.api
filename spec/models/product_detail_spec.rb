@@ -4,7 +4,11 @@ RSpec.describe ProductDetail, type: :model do
   it { is_expected.to respond_to :code }
 
   describe "ActiveModel validations" do
+    let(:product) { create :product }
+    subject { build :product_detail, product: product }
+    
     it { is_expected.to validate_presence_of :code }
+    it { is_expected.to validate_uniqueness_of(:code).case_insensitive }
   end
 
   describe "ActiveRecord associations" do

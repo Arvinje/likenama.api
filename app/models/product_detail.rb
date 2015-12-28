@@ -5,7 +5,7 @@ class ProductDetail < ActiveRecord::Base
   belongs_to  :product
   belongs_to  :user
 
-  validates :code, presence: true
+  validates :code, presence: true, uniqueness: { case_sensitive: false }
 
   scope :available, -> { where available: true }
   scope :sold, -> { where available: false }
