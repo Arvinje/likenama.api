@@ -96,34 +96,31 @@ Campaigns
     {
       "campaigns": [
         {
-          "id": 4007,
+          "id": 1637,
+          "url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram",
-          "payment_type": "like_getter",
-          "available": null,
-          "verified": null,
+          "payment_type": "money_getter",
+          "status": "درحال نمایش",
           "budget": 1000,
-          "total_likes": 0,
-          "created_at": "2015-09-11T18:49:26.444Z"
+          "total_likes": 0
         },
         {
-          "id": 4008,
+          "id": 1634,
+          "url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram",
-          "payment_type": "like_getter",
-          "available": false,
-          "verified": true,
+          "payment_type": "money_getter",
+          "status": "درحال نمایش",
           "budget": 1000,
-          "total_likes": 0,
-          "created_at": "2015-09-11T18:49:30.266Z"
+          "total_likes": 0
         },
         {
-          "id": 4011,
+          "id": 1633,
+          "url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram",
           "payment_type": "like_getter",
-          "available": true,
-          "verified": true,
+          "status": "درحال نمایش",
           "budget": 1000,
-          "total_likes": 0,
-          "created_at": "2015-09-11T18:49:45.032Z"
+          "total_likes": 0
         }
       ]
     }

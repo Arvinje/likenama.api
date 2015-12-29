@@ -1,7 +1,7 @@
 class Api::V1::CampaignsController < Api::V1::ApiController
 
   def index
-    user_campaigns = current_user.campaigns
+    user_campaigns = current_user.campaigns.order(created_at: :desc)
     unless user_campaigns.empty?
       render json: user_campaigns, each_serializer: Api::V1::UsersCampaignSerializer, status: :ok
     else
