@@ -27,6 +27,18 @@ class Campaign < ActiveRecord::Base
   scope :available, -> { where available: true }
   scope :finished, -> { where available: false }
   scope :pending, -> { where verified: nil }
+  scope :rejected, -> { where verified: false }
+
+  # Based on the passed status returns the respective
+  # scoped relation.
+  def self.with_status(status)
+    {
+      available: self.available,
+      finished: self.finished,
+      pending: self.pending,
+      rejected: self.rejected
+    }.fetch(status.to_sym) { self }
+  end
 
   # Sets the day's campaign waiting based on campaign/payment type.
   def set_waiting
