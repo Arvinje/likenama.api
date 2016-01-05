@@ -21,8 +21,8 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="campaignsdropdown">
               <li><a href="#">آخرین پیام‌ها</a></li>
-              <li><a href="#">بیشترین لایک</a></li>
-              <li><a href="#">بیشترین سکه</a></li>
+              <li><a href="#">خوانده‌شده</a></li>
+              <li><a href="#">خوانده‌نشده</a></li>
             </ul>
           </div>
         </div>
@@ -30,54 +30,22 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>شماره پیام</th>
                 <th>فرستنده</th>
                 <th>خلاصه پیام</th>
                 <th>فرستاده‌شده در</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">4</th>
-                <td>arvinje</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipisici...</td>
-                <td>۱۲ آبان ۱۳۹۴ در ۱۲:۳۴:۵۶</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>salam</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipisici...</td>
-                <td>۱۲ آبان ۱۳۹۴ در ۱۲:۳۴:۵۶</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>mohsen</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipisici...</td>
-                <td>۱۲ آبان ۱۳۹۴ در ۱۲:۳۴:۵۶</td>
-              </tr>
-              <tr>
-              <th scope="row">1</th>
-                <td>alireza</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipisici...</td>
-                <td>۱۲ آبان ۱۳۹۴ در ۱۲:۳۴:۵۶</td>
-              </tr>
-              <%#= render partial: 'shared/management/rows/user', collection: @users %>
+              <%= render partial: 'shared/management/rows/message', collection: @messages %>
             </tbody>
           </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-4 col-xs-offset-4">
-          <nav>
-            <ul class="pagination pagination-lg">
-              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-            </ul>
-          </nav>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="text-center">
+                <%= paginate @messages %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

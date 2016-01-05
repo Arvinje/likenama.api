@@ -1,0 +1,11 @@
+<tr>
+  <td scope="row">
+    <%= link_to message.user.username, management_user_path(message.user), class: "#{'text-muted' if message.read?}" %>
+  </td>
+  <td>
+    <%= link_to truncate(message.content, length: 50, escape: false), management_message_path(message), class: "#{'text-muted' if message.read?}" %>
+  </td>
+  <td>
+    <%= link_to message.created_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S"), management_message_path(message), class: "#{'text-muted' if message.read?}" %>
+  </td>
+</tr>
