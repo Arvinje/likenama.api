@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def after_sign_out_path_for(scope)
+    if scope == :manager
+      new_manager_session_path
+    end
+  end
+
   def layout_by_resource
     if devise_controller? && resource_name == :manager && action_name == "new"
       "management"
