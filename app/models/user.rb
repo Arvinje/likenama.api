@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :purchased_bundles, through: :transactions, source: :bundle
   has_many :reports, dependent: :destroy
   has_many :reported_campaigns, through: :reports, source: :campaign
+  has_many :messages
 
   validates :auth_token, uniqueness: true
   validates :like_credit, presence: true, numericality: { only_integer: true }

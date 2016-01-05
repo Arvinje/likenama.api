@@ -303,6 +303,41 @@ ALTER SEQUENCE managers_id_seq OWNED BY managers.id;
 
 
 --
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE messages (
+    id integer NOT NULL,
+    user_id integer,
+    email character varying DEFAULT ''::character varying,
+    name character varying DEFAULT ''::character varying,
+    content text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    read boolean DEFAULT false
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
+
+
+--
 -- Name: prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -646,6 +681,13 @@ ALTER TABLE ONLY managers ALTER COLUMN id SET DEFAULT nextval('managers_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::regclass);
 
 
@@ -752,6 +794,14 @@ ALTER TABLE ONLY likes
 
 ALTER TABLE ONLY managers
     ADD CONSTRAINT managers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -896,6 +946,13 @@ CREATE UNIQUE INDEX index_managers_on_reset_password_token ON managers USING btr
 
 
 --
+-- Name: index_messages_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_user_id ON messages USING btree (user_id);
+
+
+--
 -- Name: index_reports_on_campaign_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -957,6 +1014,14 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 ALTER TABLE ONLY likes
     ADD CONSTRAINT fk_rails_1e09b5dabf FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_273a25a7a6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT fk_rails_273a25a7a6 FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1060,4 +1125,8 @@ INSERT INTO schema_migrations (version) VALUES ('20151224074219');
 INSERT INTO schema_migrations (version) VALUES ('20151225093010');
 
 INSERT INTO schema_migrations (version) VALUES ('20151227070306');
+
+INSERT INTO schema_migrations (version) VALUES ('20160105024546');
+
+INSERT INTO schema_migrations (version) VALUES ('20160105025630');
 

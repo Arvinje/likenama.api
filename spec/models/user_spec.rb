@@ -48,6 +48,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:purchased_bundles).through(:transactions).source(:bundle) }
     it { is_expected.to have_many(:reports).dependent :destroy }
     it { is_expected.to have_many(:reported_campaigns).through(:reports).source(:campaign) }
+    it { is_expected.to have_many(:messages) }
   end
 
   describe "Callbacks" do
