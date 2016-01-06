@@ -9,7 +9,7 @@ RSpec.describe Product, type: :model do
   describe "ActiveModel validations" do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :price }
-    it { is_expected.to validate_presence_of :product_type }
+    it { is_expected.to validate_presence_of :product_type_id }
 
     it { is_expected.to validate_numericality_of(:price).only_integer.is_greater_than_or_equal_to(0) }
   end

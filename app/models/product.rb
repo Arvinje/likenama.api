@@ -7,7 +7,7 @@ class Product < ActiveRecord::Base
 
   validates :title, presence: true
   validates :price, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :product_type, presence: true
+  validates :product_type_id, presence: true # Cannot be :product_type, it messes with client_side_validation.
 
   accepts_nested_attributes_for :details
 
