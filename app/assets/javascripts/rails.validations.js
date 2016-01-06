@@ -327,6 +327,8 @@
       numericality: function(element, options) {
         var CHECKS, check, check_value, fn, form, operator, val;
         val = $.trim(element.val());
+        var replaceNumerals={ "۰":"0", "۱":"1", "۲": "2", "۳": "3", "۴": "4", "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9" };
+        val = val.replace(/۰|۱|۲|۳|۴|۵|۶|۷|۸|۹/g,function(match) {return replaceNumerals[match];})
         if (!ClientSideValidations.patterns.numericality.test(val)) {
           if (options.allow_blank === true && this.presence(element, {
             message: options.messages.numericality
