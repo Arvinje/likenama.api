@@ -1,4 +1,4 @@
-<%= simple_form_for [:management, product_type], html: { class: 'form-horizontal' } do |f| %>
+<%= simple_form_for [:management, product_type], :validate => true, html: { class: 'form-horizontal' } do |f| %>
   <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-1">
     <%= f.input :name %>
   </div>
