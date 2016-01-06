@@ -67,6 +67,8 @@ gem 'instagram', '~> 1.1.5'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem "autoprefixer-rails"
 gem 'simple_form', '~> 3.2'
+gem 'client_side_validations', :github => "DavyJonesLocker/client_side_validations"
+gem 'client_side_validations-simple_form', github: 'DavyJonesLocker/client_side_validations-simple_form', branch: 'master'
 gem 'parsi-date', '~> 0.3.1'
 gem 'public_activity', '~> 1.4', '>= 1.4.2'
 

@@ -14,5 +14,7 @@
 // require bootstrap-sprockets
 //= require jquery_ujs
 //= require bootstrap/dropdown
+//= require rails.validations
+//= require rails.validations.simple_form
 // require turbolinks
 // require_tree .
