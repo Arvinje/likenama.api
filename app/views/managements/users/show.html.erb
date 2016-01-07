@@ -9,7 +9,9 @@
         <div class="col-xs-12">
           <h3><span class="glyphicon glyphicon-heart"></span> <%= @user.like_credit %></h3>
           <h3><span class="glyphicon glyphicon-piggy-bank"></span> <%= @user.coin_credit %></h3>
-          <%= render partial: 'shared/management/controls/lock', locals: { user: @user } %>
+          <div id="lock-control">
+            <%= render partial: 'shared/management/controls/lock', locals: { user: @user } %>
+          </div>
         </div>
       </div>
     </div>
