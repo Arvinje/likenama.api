@@ -4,5 +4,5 @@
   <% flags = { true => "success", false => "default" } %>
   <td><span class="label label-<%= flags[product_detail.available] %>"><%= product_detail.available ? "موجود" : "خریداری‌شده" %></span></td>
   <td><%= link_to product_detail.user.username, management_user_path(product_detail.user) if product_detail.user.present? %></td>
-  <td><%= link_to("ویرایش", edit_management_product_product_detail_path(product_id: product_detail.product_id, id: product_detail), class: "btn btn-xs btn-primary", remote: true) if product_detail.user.nil? %></td>
+  <td><%= link_to("ویرایش", edit_management_product_product_detail_path(product_id: product_detail.product_id, id: product_detail), class: "btn btn-xs btn-primary", remote: true, data: { disable_with: "صبرکنید" }) if product_detail.user.nil? %></td>
 </tr>
