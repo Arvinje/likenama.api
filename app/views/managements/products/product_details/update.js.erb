@@ -1,0 +1,4 @@
+$("#detail-form").html("<%= escape_javascript(render partial: 'shared/management/forms/product_detail', object: @product_detail) %>");
+$("#detail-form form").enableClientSideValidations();
+$("#table-body").html("<%= escape_javascript(render partial: 'shared/management/rows/product_detail', collection: @product_details) %>");
+$("#pagination").html("<%= escape_javascript(paginate @product_details) %>");

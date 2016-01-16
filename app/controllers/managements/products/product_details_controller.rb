@@ -1,26 +1,21 @@
 class Managements::Products::ProductDetailsController < ApplicationController
   before_action :authenticate_manager!
+  before_action :find_product_detail, only: [:edit, :update]
+
+  def edit
+  end
 
   def create
-    @product = Product.find(params[:product_id])
+    @product = Product.find params[:product_id]
     @product_detail = @product.details.build(details_params)
-    if @product_detail.save
-      redirect_to management_product_path(@product)
-    else
-      get_product_details
-      render 'managements/products/show', id: @product.id, layout: 'management'
-    end
+    @product_detail = @product.details.build if @product_detail.save
+    all_product_details
   end
 
   def update
-    @product_detail = ProductDetail.find(params[:id])
     @product = @product_detail.product
-    if @product_detail.update_attributes(details_params)
-      redirect_to management_product_path(@product)
-    else
-      get_product_details
-      render 'managements/products/show', id: @product.id, layout: 'management'
-    end
+    @product_detail = @product.details.build if @product_detail.update_attributes(details_params)
+    all_product_details
   end
 
   private
@@ -29,7 +24,11 @@ class Managements::Products::ProductDetailsController < ApplicationController
     params.require(:product_detail).permit(:code, :available).fix_numerals
   end
 
-  def get_product_details
+  def find_product_detail
+    @product_detail = ProductDetail.find params[:id]
+  end
+
+  def all_product_details
     @product_details = @product.details.order(created_at: :desc).page(params[:page])
   end
 end

@@ -1,0 +1,2 @@
+$("#detail-form").html("<%= escape_javascript(render partial: 'shared/management/forms/product_detail', object: @product_detail) %>");
+$("#detail-form form").enableClientSideValidations();

@@ -23,11 +23,7 @@ class Managements::ProductsController < ApplicationController
 
   def show
     @product_details = @product.details.order(created_at: :desc).includes(:product).page(params[:page])
-    @product_detail = if params[:detail_id]
-                        @product.details.find params[:detail_id]
-                      else
-                        @product.details.build
-                      end
+    @product_detail = @product.details.build
   end
 
   def edit

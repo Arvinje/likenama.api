@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :show, :destroy], controller: 'managements/messages'
     resources :product_types, only: [:index, :new, :create, :update, :destroy], controller: 'managements/product_types'
     resources :products, controller: 'managements/products' do
-      resources :product_details, controller: 'managements/products/product_details', only: [:create, :update]
+      resources :product_details, controller: 'managements/products/product_details', only: [:create, :edit, :update]
     end
   end
 #============================ Dashboard ROUTES =======================#

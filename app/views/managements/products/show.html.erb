@@ -21,7 +21,7 @@
   </div>
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <div class="row">
+      <div class="row" id="detail-form">
         <%= render(partial: "shared/management/forms/product_detail", object: @product_detail) %>
       </div>
       <div class="row">
@@ -33,12 +33,14 @@
             <th>خریدار</th>
             <th>تنظیمات</th>
           </thead>
-          <%= render partial: "shared/management/rows/product_detail", collection: @product_details %>
+          <tbody id="table-body">
+            <%= render partial: "shared/management/rows/product_detail", collection: @product_details %>
+          </tbody>
         </table>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <div class="text-center">
+          <div class="text-center" id="pagination">
             <%= paginate @product_details %>
           </div>
         </div>
