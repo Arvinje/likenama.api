@@ -4,7 +4,7 @@
 <div class="col-lg-12">
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-      <div class="row">
+      <div class="row" id="type-form">
         <%= render(partial: "shared/management/forms/product_type", object: @product_type) %>
       </div>
       <div class="row">
@@ -14,12 +14,14 @@
             <th>نام‌دسته</th>
             <th>تنظیمات</th>
           </thead>
-          <%= render partial: "shared/management/rows/product_type", collection: @product_types %>
+          <tbody id="table-body">
+            <%= render partial: "shared/management/rows/product_type", collection: @product_types %>
+          </tbody>
         </table>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <div class="text-center">
+          <div class="text-center" id="pagination">
             <%= paginate @product_types %>
           </div>
         </div>

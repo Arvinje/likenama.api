@@ -1,0 +1,2 @@
+$("#table-body").html("<%= escape_javascript(render partial: 'shared/management/rows/product_type', collection: @product_types) %>");
+$("#pagination").html("<%= escape_javascript(paginate @product_types) %>");
