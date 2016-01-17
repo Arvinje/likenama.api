@@ -3,6 +3,6 @@ class ManagementsController < ApplicationController
   before_action :authenticate_manager!
 
   def show
-    @activities = PublicActivity::Activity.all
+    @activities = PublicActivity::Activity.order(created_at: :desc).limit(10).includes(:owner)
   end
 end

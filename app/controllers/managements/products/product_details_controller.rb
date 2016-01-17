@@ -8,13 +8,19 @@ class Managements::Products::ProductDetailsController < ApplicationController
   def create
     @product = Product.find params[:product_id]
     @product_detail = @product.details.build(details_params)
-    @product_detail = @product.details.build if @product_detail.save
+    if @product_detail.save
+      @product_detail.create_activity :created, owner: current_manager
+      @product_detail = @product.details.build
+    end
     all_product_details
   end
 
   def update
     @product = @product_detail.product
-    @product_detail = @product.details.build if @product_detail.update_attributes(details_params)
+    if @product_detail.update_attributes(details_params)
+      @product_detail.create_activity :updated, owner: current_manager
+      @product_detail = @product.details.build
+    end
     all_product_details
   end
 

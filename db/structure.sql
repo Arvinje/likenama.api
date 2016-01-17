@@ -279,7 +279,8 @@ CREATE TABLE managers (
     failed_attempts integer DEFAULT 0 NOT NULL,
     locked_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    name character varying DEFAULT ''::character varying
 );
 
 
@@ -1129,4 +1130,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151227070306');
 INSERT INTO schema_migrations (version) VALUES ('20160105024546');
 
 INSERT INTO schema_migrations (version) VALUES ('20160105025630');
+
+INSERT INTO schema_migrations (version) VALUES ('20160116224251');
 

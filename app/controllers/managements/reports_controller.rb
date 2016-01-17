@@ -12,11 +12,13 @@ class Managements::ReportsController < ApplicationController
 
   def check
     @report.check!
+    @report.create_activity :checked, owner: current_manager
     redirect_to management_reports_path
   end
 
   def uncheck
     @report.uncheck!
+    @report.create_activity :unchecked, owner: current_manager
     redirect_to management_reports_path
   end
 

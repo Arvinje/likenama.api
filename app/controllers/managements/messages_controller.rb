@@ -9,6 +9,7 @@ class Managements::MessagesController < ApplicationController
   def show
     @message = Message.find params[:id]
     @message.read!
+    @message.create_activity :read, owner: current_manager if @message.unread?
   end
 
   def destroy

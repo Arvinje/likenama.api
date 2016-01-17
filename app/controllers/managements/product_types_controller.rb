@@ -10,17 +10,24 @@ class Managements::ProductTypesController < ApplicationController
 
   def create
     @product_type = ProductType.new(product_type_params)
-    reset_product_type if @product_type.save
+    if @product_type.save
+      @product_type.create_activity :created, owner: current_manager
+      reset_product_type
+    end
   end
 
   def edit
   end
 
   def update
-    reset_product_type if @product_type.update_attributes(product_type_params)
+    if @product_type.update_attributes(product_type_params)
+      @product_type.create_activity :updated, owner: current_manager
+      reset_product_type
+    end
   end
 
   def destroy
+    @product_type.create_activity :destroyed, owner: current_manager
     @product_type.destroy
   end
 

@@ -5,7 +5,7 @@
   <div class="media-body">
     <caption><%= time_ago_in_words(activity.created_at) %> پیش</caption>
     <p>
-      <%= activity.owner.name %> اکانت کاربر <%= link_to activity.trackable.username, management_user_path(activity.trackable) %> را قفل کرد.
+      <%= activity.owner.name %> اکانت کاربری <%= link_to activity.trackable.username, management_user_path(activity.trackable) %> را باز کرد.
     </p>
   </div>
 </div>

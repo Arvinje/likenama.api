@@ -15,9 +15,11 @@ class Managements::CampaignsController < ApplicationController
     case params[:commit]
     when " پذیرش"
       @campaign.verify!
+      @campaign.create_activity :verified, owner: current_manager
     when " درحال بررسی"
     when " غیرقابل قبول"
       @campaign.reject!
+      @campaign.create_activity :rejected, owner: current_manager
     end
     redirect_to [:management, @campaign]
   end

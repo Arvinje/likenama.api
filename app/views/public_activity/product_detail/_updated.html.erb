@@ -1,0 +1,11 @@
+<div class="media">
+  <div class="media-left">
+    <span style="font-size: 40px; color: #555;" class="glyphicon glyphicon-pencil"></span>
+  </div>
+  <div class="media-body">
+    <caption><%= time_ago_in_words(activity.created_at) %> پیش</caption>
+    <p>
+      <%= activity.owner.name %> یک زیرمحصول متعلق به <%= link_to activity.trackable.product.title, management_product_path(activity.trackable.product) %> را ویرایش کرد.
+    </p>
+  </div>
+</div>

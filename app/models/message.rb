@@ -1,4 +1,6 @@
 class Message < ActiveRecord::Base
+  include PublicActivity::Common
+  
   belongs_to :user
 
   validates :content, presence: true

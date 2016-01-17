@@ -15,6 +15,7 @@ class Managements::ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
+      @product.create_activity :created, owner: current_manager
       redirect_to [:management, @product]
     else
       render 'new'
@@ -32,6 +33,7 @@ class Managements::ProductsController < ApplicationController
 
   def update
     if @product.update_attributes(product_params)
+      @product.create_activity :updated, owner: current_manager
       redirect_to [:management, @product]
     else
       render 'edit'
@@ -39,6 +41,7 @@ class Managements::ProductsController < ApplicationController
   end
 
   def destroy
+    @product.create_activity :destroyed, owner: current_manager
   end
 
   private

@@ -4,7 +4,7 @@
 <div class="col-sm-4 col-sm-offset-4">
   <%= render "shared/management/flash" %>
 </div>
-<div class="col-sm-6">
+<div class="col-md-8 col-sm-6">
   <div class="row">
     <div class="col-xs-12">
       <h3><span></span> آخرین‌ها</h3>
@@ -14,6 +14,7 @@
     </div>
   </div>
 </div>
-<div class="col-sm-6">
-  <%#= render_activities(@activities) %>
+<div class="col-md-4 col-sm-6" id="latests">
+  <h3><span></span> آخرین‌فعالیت‌ها</h3>
+  <%= render_activities(@activities) %>
 </div>
