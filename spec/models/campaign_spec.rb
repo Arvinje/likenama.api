@@ -295,4 +295,25 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
+  describe "#liked_by?", :vcr do
+    let(:user) { create :user }
+    let(:campaign) { create :campaign }
+
+    context "when the campaign has already been liked by the user" do
+      before do
+        campaign.liking_users << user
+        campaign.reload
+      end
+      it "should return true" do
+        expect(campaign.liked_by? user).to eql true
+      end
+    end
+
+    context "when the campaign is not liked by the user" do
+      it "should return false" do
+        expect(campaign.liked_by? user).to eql false
+      end
+    end
+  end
+
 end

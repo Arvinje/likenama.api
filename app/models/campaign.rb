@@ -145,6 +145,14 @@ class Campaign < ActiveRecord::Base
     end
   end
 
+
+  # Checks if user has already liked the campaign.
+  #
+  # @return [Boolean] true if user liked the campaign, false otherwise.
+  def liked_by? user
+    Like.exists?(campaign: self, user: user)
+  end
+
   private
 
   # Marks a campaign to be checked manually by admins
