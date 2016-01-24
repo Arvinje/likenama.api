@@ -57,7 +57,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
     context "when user has already liked one of the campaigns" do
       before do
-        @campaigns.first.like @user
+        @campaigns.first.liking_users << @user
         get :next
       end
       it "should return the next record" do
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
     context "when user has liked all of the campaigns" do
       before do
-        @campaigns.each { |c| c.like @user }
+        @campaigns.each { |c| c.liking_users << @user }
         get :next
       end
 
