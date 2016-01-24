@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+INSTAGRAM_ACCESS_TOKEN = { instagram_access_token: Rails.application.secrets.access_token_no1 }
+
 RSpec.describe Campaign, type: :model do
 
   it { should respond_to :campaign_type }
@@ -244,24 +246,22 @@ RSpec.describe Campaign, type: :model do
         Campaign.all.each { |c| c.destroy }
         2.times { @available = create :campaign, available: true }
         2.times { @finished = create :campaign, available: false }
-        @liked = create :campaign, available: true
+        liked = create :campaign, available: true
+        CampaignLiking.new(liked, @user, INSTAGRAM_ACCESS_TOKEN).like!
       end
 
       it "returns first not-liked available campaign" do
-        @liked.like @user
         expect(Campaign.for_user(@user)).to eql Campaign.first
       end
 
       it "returns next not-liked available campaign" do
-        @liked.like @user
-        Campaign.first.like @user
+        CampaignLiking.new(Campaign.first, @user, INSTAGRAM_ACCESS_TOKEN).like!
         expect(Campaign.for_user(@user)).to eql @available
       end
 
       it "returns blank array when no campaign's available" do
-        @liked.like @user
-        Campaign.first.like @user
-        @available.like @user
+        CampaignLiking.new(Campaign.first, @user, INSTAGRAM_ACCESS_TOKEN).like!
+        CampaignLiking.new(@available, @user, INSTAGRAM_ACCESS_TOKEN).like!
         expect(Campaign.for_user(@user).blank?).to eql true
       end
     end
@@ -291,219 +291,6 @@ RSpec.describe Campaign, type: :model do
       let(:campaign) { build :campaign, campaign_type: 'web' }
       it "should return true" do
         expect(campaign.instagram_only).to eql true
-      end
-    end
-  end
-
-  describe "#like", :vcr do
-    context "when a campaign is liked by a user" do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
-
-      it "should add the user to the liking_users" do
-        campaign.like user
-        expect(campaign.liking_users).to include user
-      end
-
-      it "should return true when a campaign gets liked successfully" do
-        campaign.like user
-        expect(campaign.like user).to eql true
-      end
-
-      it "should increase the total_likes by 1" do
-        expect{ campaign.like user }.to change{ campaign.total_likes }.by 1
-        expect{ campaign.like user }.to_not change{ campaign.total_likes }
-        expect(campaign.total_likes).to eql 1
-      end
-    end
-
-    context "when a campaign receives its last like" do
-      before do
-        user = create :user
-        @campaign = create :campaign, campaign_type: 'instagram', payment_type: 'money_getter', budget: 70
-        @campaign.price = create :price, campaign_type: 'instagram', payment_type: 'money_getter', campaign_value: 50, users_share: 20
-        @campaign.save
-        @campaign.like user
-      end
-
-      it "sets campaign's availability to false" do
-        expect(@campaign.available).to eql false
-      end
-    end
-
-    context "when it's a like_getter campaign" do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'like_getter' }
-
-      it "should increase the user's like credit by the price's users_share" do
-        expect{ campaign.like user }.to change{ user.like_credit }.by campaign.price.users_share
-        expect{ campaign.like user }.to_not change{ user.like_credit }
-      end
-
-      it "decreases the campaign's budget by the price's campaign_value" do
-        expect { campaign.like user }.to change { campaign.budget }.by (campaign.price.campaign_value * -1)
-        expect { campaign.like user }.to_not change { campaign.budget }
-      end
-    end
-
-    context "when it's a money_getter campaign" do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter'}
-
-      it "should increase the user's coin credit by user's share" do
-        expect{ campaign.like user }.to change{ user.coin_credit }.by campaign.price.users_share
-        expect{ campaign.like user }.to_not change{ user.coin_credit }
-      end
-
-      it "decreases the campaign's budget by the price's campaign_value" do
-        expect { campaign.like user }.to change { campaign.budget }.by (campaign.price.campaign_value * -1)
-        expect { campaign.like user }.to_not change { campaign.budget }
-      end
-    end
-  end
-
-  describe "#liked_by?", :vcr do
-    let(:user) { create :user }
-    let(:campaign) { create :campaign }
-
-    context "when the campaign has already been liked by the user" do
-      before do
-        campaign.like user
-        campaign.reload
-      end
-      it "should return true" do
-        expect(campaign.liked_by? user).to eql true
-      end
-    end
-
-    context "when the campaign is not liked by the user" do
-      it "should return false" do
-        expect(campaign.liked_by? user).to eql false
-      end
-    end
-  end
-
-  describe "#check_like!", :vcr do
-
-    context "when campaign is not available" do
-      let(:nil_campaign) { create :campaign, available: nil }
-      let(:false_campaign) { create :campaign, available: false }
-      let(:user) { create :user }
-
-      it "returns false" do
-        expect(nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
-        expect(false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
-      end
-
-      it "returns an error" do
-        nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
-        false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
-        expect(nil_campaign.errors[:base]).to include "این کمپین به پایان رسیده‌است"
-        expect(false_campaign.errors[:base]).to include "این کمپین به پایان رسیده‌است"
-      end
-    end
-
-    context "when campaign is not verified" do
-      let(:nil_campaign) { create :campaign, verified: nil }
-      let(:false_campaign) { create :campaign, verified: false }
-      let(:user) { create :user }
-
-      it "returns false" do
-        expect(nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
-        expect(false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
-      end
-
-      it "returns an error" do
-        nil_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
-        false_campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)
-        expect(nil_campaign.errors[:base]).to include "این کمپین به تایید مدیریت نرسیده‌است"
-        expect(false_campaign.errors[:base]).to include "این کمپین به تایید مدیریت نرسیده‌است"
-      end
-    end
-
-    context "when campaign has not enough budget" do
-      let(:user) { create :user }
-      before :all do
-        @campaign = create :campaign, campaign_type: 'instagram'
-        @campaign.budget = @campaign.price.campaign_value - 1
-        @campaign.save
-      end
-
-      it "returns false" do
-        expect(@campaign.check_like!(user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
-      end
-
-      it "returns error for not having enough budget" do
-        expect(@campaign.errors[:base]).to include "بودجه این کمپین به پایان رسیده‌است"
-      end
-    end
-
-    context "when the source becomes unavailable" do
-      context "when it's an instagram campaign" do
-        before :all do
-          @campaign = create :campaign
-          @campaign.instagram_detail.short_code = "2345325"
-          @user = create :user
-        end
-
-        it "returns false" do
-          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to be false
-        end
-
-        it "returns respective error in errors hash" do
-          expect(@campaign.errors[:base]).to include "این کمپین دیگر موجود نیست"
-        end
-
-        it "marks the campaign to be checked" do
-          expect(@campaign.available).to be false
-          expect(@campaign.verified).to be nil
-        end
-      end
-    end
-
-    context "when it's an instagram campaign" do
-      context "when user's access token is invalid" do
-        before :all do
-          @user = create :user
-          @campaign = create :campaign
-          create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
-        end
-
-        it "should return false" do
-          expect(@campaign.check_like!(@user, instagram_access_token: "***REMOVED***")).to eql false
-        end
-
-        it "returns respective error in errors hash" do
-          expect(@campaign.errors[:base]).to include "ارتباط با اینستاگرام قطع شده‌است. دوباره وارد شوید"
-        end
-      end
-
-      context "when user has liked the instagram photo" do
-        before do
-          @user = create :user
-          @campaign = create :campaign, campaign_type: 'instagram', payment_type: 'money_getter'
-          create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}"
-        end
-
-        it "should return true" do
-          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql true
-        end
-      end
-
-      context "when user has not liked the instagram photo" do
-        before :all do
-          @user = create :user
-          @campaign = create :campaign
-          create :instagram_detail, campaign: @campaign, url: "https://instagram.com/p/#{Rails.application.secrets.not_liked_instagram_shortcode}"
-        end
-
-        it "should return false" do
-          expect(@campaign.check_like!(@user, instagram_access_token: Rails.application.secrets.access_token_no1)).to eql false
-        end
-
-        it "returns respective error in errors hash" do
-          expect(@campaign.errors[:base]).to include "این کمپین لایک نشده است"
-        end
       end
     end
   end
