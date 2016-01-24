@@ -7,7 +7,11 @@ RSpec.describe CampaignLiking do
     context "when user successfully likes the campaign", :vcr do
       let(:user) { create :user }
       let(:campaign) { create :campaign }
-      let(:liking) { CampaignLiking.new(campaign, user, INSTAGRAM_ACCESS_TOKEN) }
+      let(:liking) { CampaignLiking.new(campaign, user) }
+
+      before do
+        allow(liking).to receive(:operator_response).and_return(true)
+      end
 
       it "returns true" do
         expect(liking.like!).to be true
@@ -102,13 +106,16 @@ RSpec.describe CampaignLiking do
                           campaign_type: campaign.campaign_type,
                           payment_type: campaign.payment_type
         campaign.save
-        CampaignLiking.new(campaign, @user, INSTAGRAM_ACCESS_TOKEN).like!
+
+        liking = CampaignLiking.new(campaign, @user)
+        allow(liking).to receive(:operator_response).and_return(true)
+        liking.like!
         campaign = create :campaign
-        @liking = CampaignLiking.new(campaign, @user, INSTAGRAM_ACCESS_TOKEN)
+        @liking = CampaignLiking.new(campaign, @user)
+        allow(@liking).to receive(:operator_response).and_return(true)
       end
 
       it 'returns false' do
-        allow(@liking).to receive(:operator_response).and_return(true)
         expect(@liking.like!).to be false
       end
 
@@ -140,7 +147,11 @@ RSpec.describe CampaignLiking do
     context "when it's a like_getter campaign", :vcr do
       let(:user) { create :user }
       let(:campaign) { create :campaign, payment_type: 'like_getter' }
-      let(:liking) { CampaignLiking.new(campaign, user, INSTAGRAM_ACCESS_TOKEN) }
+      let(:liking) { CampaignLiking.new(campaign, user) }
+
+      before do
+        allow(liking).to receive(:operator_response).and_return(true)
+      end
 
       it 'returns true' do
         expect(liking.like!).to be true
@@ -158,7 +169,11 @@ RSpec.describe CampaignLiking do
     context "when it's a money_getter campaign", :vcr do
       let(:user) { create :user }
       let(:campaign) { create :campaign, payment_type: 'money_getter' }
-      let(:liking) { CampaignLiking.new(campaign, user, INSTAGRAM_ACCESS_TOKEN) }
+      let(:liking) { CampaignLiking.new(campaign, user) }
+
+      before do
+        allow(liking).to receive(:operator_response).and_return(true)
+      end
 
       it 'returns true' do
         expect(liking.like!).to be true
@@ -178,8 +193,13 @@ RSpec.describe CampaignLiking do
       let(:user2) { create :user }
       let(:price) { create :price, campaign_type: 'instagram', payment_type: 'money_getter', campaign_value: 10, users_share: 5 }
       let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter', budget: 17, price: price }
-      let(:liking1) { CampaignLiking.new(campaign, user1, INSTAGRAM_ACCESS_TOKEN) }
-      let(:liking2) { CampaignLiking.new(campaign, user2, INSTAGRAM_ACCESS_TOKEN) }
+      let(:liking1) { CampaignLiking.new(campaign, user1) }
+      let(:liking2) { CampaignLiking.new(campaign, user2) }
+
+      before do
+        allow(liking1).to receive(:operator_response).and_return(true)
+        allow(liking2).to receive(:operator_response).and_return(true)
+      end
 
       it 'returns true for the first like and false for the second one' do
         expect(liking1.like!).to be true
