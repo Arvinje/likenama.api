@@ -1,5 +1,5 @@
 app/models/user.rb 29818e9983fa436e80985e62ccce7de3b14104be
-app/models/like.rb 3e85c38e6656e5077df1852f3db389142b64eb93
+app/models/like.rb ff02d08faceb6965f76ab6759799528e0a492419
 app/models/price.rb bd3cd034723c136e23db725a7eadea6a3e3ba5c4
 app/models/report.rb 8d6e34d1f7de8a489ae742d5321635fcb671b1fa
 app/models/bundle.rb a51ce73fa507d8d9ab989dc62753fcc95c4e63c6
@@ -7,7 +7,7 @@ app/models/waiting.rb 64210d89757b4a9d043900a128ab74d226fc42f9
 app/models/message.rb c506137d2e27470aef56f6c9d8393dc5408b9129
 app/models/manager.rb 335e2729936d3e7a4e7b26d8ab37e0e38ca53b4d
 app/models/product.rb 4cf385ed39b02dff12f721ee6e046d752beca1e6
-app/models/campaign.rb 233dfbb6de0ca1c793bb5176024c72af1f9d814b
+app/models/campaign.rb bb9c06212566a08016295208bc64b853669bda67
 lib/api_constraints.rb d52d7980a13d8e6d01bc8ca8760f64ce6924e8a3
 app/models/key_value.rb 3aedeabc5f2268511415e5624071ae5e6f3c5427
 app/models/transaction.rb 94a6b664db9dc3169cd48ee0f0e288e5a8e6d64a
@@ -50,3 +50,4 @@ app/controllers/api/v1/products/purchases_controller.rb c853287ba35fa04ea6bf89e1
 app/controllers/managements/product_types_controller.rb 16d6481079424a1b7eae94aed84949e34250225f
 app/controllers/dashboards/bundles/purchases_controller.rb 937abdf4fa9e3b19506f6b817a6069b0ca1a43c0
 app/controllers/managements/products/product_details_controller.rb 95bc6d160de52eb8b0d8bdfef9eafe401e7e6ba9
+app/validators/campaign_validator.rb 96a09acdea443073fb5bdaaac4e3681b04d21e9f
