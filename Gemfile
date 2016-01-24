@@ -46,6 +46,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'ffaker', '~> 2.1.0'
+  gem 'guard-yard', '~> 2.1', '>= 2.1.4'
 end
 
 group :test do
