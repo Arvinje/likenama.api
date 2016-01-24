@@ -43,7 +43,7 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "این کمپین لایک نشده است"
+        expect(campaign_response[:errors][:base]).to include I18n.t :'errors.messages.has_not_liked'
       end
 
       it { should respond_with :unprocessable_entity }
@@ -79,7 +79,7 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "ارتباط با اینستاگرام قطع شده‌است. دوباره وارد شوید"
+        expect(campaign_response[:errors][:base]).to include I18n.t 'errors.messages.access_token_invalid'
       end
 
       it { should respond_with :unauthorized }
