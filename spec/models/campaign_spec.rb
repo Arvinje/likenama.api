@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-INSTAGRAM_ACCESS_TOKEN = { instagram_access_token: Rails.application.secrets.access_token_no1 }
-
 RSpec.describe Campaign, type: :model do
 
   it { should respond_to :campaign_type }

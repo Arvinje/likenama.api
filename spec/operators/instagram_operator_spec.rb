@@ -1,8 +1,5 @@
 require 'rails_helper'
 
-INSTAGRAM_ACCESS_TOKEN = { instagram_access_token: Rails.application.secrets.access_token_no1 }
-INVALID_INSTAGRAM_ACCESS_TOKEN = { instagram_access_token: "465469725.5106fe6.33df8ecbd624n8f8ee39638ffd2jc671" }
-
 RSpec.describe InstagramOperator do
   describe "#call", :vcr do
     let(:user) { create :user }
