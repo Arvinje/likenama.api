@@ -22,6 +22,10 @@ RSpec.describe CampaignLiking do
         liking.like!
         expect(liking.campaign.liking_users).to include user
       end
+
+      it "increments total_likes by 1" do
+        expect { liking.like! }.to change{ liking.campaign.total_likes }.by 1
+      end
     end
 
     #============================ Validations =================================#
