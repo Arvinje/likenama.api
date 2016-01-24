@@ -57,6 +57,16 @@ RSpec.describe Campaign, type: :model do
     it { expect(campaign).to callback(:set_waiting).before(:save) }
   end
 
+  describe "#detail" do
+    context "when it's an instagram campaign" do
+      let(:campaign) { create :campaign, campaign_type: 'instagram' }
+
+      it "returns the respective detail" do
+        expect(campaign.detail).to eql campaign.instagram_detail
+      end
+    end
+  end
+
   describe "#verify!", :vcr do
     let(:campaign) { create :campaign, available: nil, verified: nil }
 

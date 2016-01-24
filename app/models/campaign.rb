@@ -51,10 +51,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def detail
-    case self.campaign_type
-    when 'instagram'
-      self.instagram_detail
-    end
+    self.send("#{self.campaign_type}_detail")
   end
 
   def status
