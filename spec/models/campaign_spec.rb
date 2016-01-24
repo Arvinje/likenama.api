@@ -36,73 +36,6 @@ RSpec.describe Campaign, type: :model do
         it { should_not be_valid }
       end
     end
-
-    describe "#must_have_enough_credit", :vcr do
-      context "when it's a money_getter campaign" do
-        context "when the requested budget is bigger than user's credit" do
-          before do
-            owner = create :user, coin_credit: 2
-            @campaign = build :campaign, payment_type: 'money_getter', budget: 6, owner: owner
-            @campaign.save
-          end
-          subject { @campaign }
-
-          it "should raise an error" do
-            expect(@campaign.errors[:budget]).to include "شما اعتبار کافی ندارید"
-          end
-
-          it { should_not be_valid }
-        end
-        context "when the requested budget is not enough even for a like" do
-          before do
-            @campaign = build :campaign, campaign_type: 'instagram', payment_type: 'money_getter', budget: 6
-            @campaign.price.campaign_value = 15
-            @campaign.price.save
-            @campaign.save
-          end
-          subject { @campaign }
-
-          it "raises an error" do
-            expect(@campaign.errors[:budget]).to include "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
-          end
-
-          it { should_not be_valid }
-        end
-      end
-      context "when it's a like_getter campaign" do
-        context "when the requested budget is bigger than user's credit" do
-          before do
-            owner = create :user, like_credit: 2
-            @campaign = build :campaign, payment_type: 'like_getter', budget: 6, owner: owner
-            @campaign.save
-          end
-          subject { @campaign }
-
-          it "should raise an error" do
-            expect(@campaign.errors[:budget]).to include "شما اعتبار کافی ندارید"
-          end
-
-          it { should_not be_valid }
-        end
-
-        context "when the requested budget is not enough even for a like" do
-          before do
-            @campaign = build :campaign, campaign_type: 'instagram', payment_type: 'like_getter', budget: 5
-            @campaign.price.campaign_value = 20
-            @campaign.price.save
-            @campaign.save
-          end
-          subject { @campaign }
-
-          it "raises an error" do
-            expect(@campaign.errors[:budget]).to include "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
-          end
-
-          it { should_not be_valid }
-        end
-      end
-    end
-
   end
 
   describe "ActiveRecord associations" do
@@ -286,7 +219,8 @@ RSpec.describe Campaign, type: :model do
     end
 
     context "when the campaign_type is equal to something else" do
-      let(:campaign) { build :campaign, campaign_type: 'web' }
+      let(:campaign) { Campaign.new(campaign_type: 'web') }
+
       it "should return true" do
         expect(campaign.instagram_only).to eql true
       end

@@ -20,7 +20,7 @@ class Campaign < ActiveRecord::Base
   validates :owner, presence: true
 
   validate  :must_have_one_association
-  validate  :must_have_enough_credit, on: :create # Must validate just on create, 'cause prevent the last like to be persistent.
+  validate  { |campaign| CampaignValidator.new(campaign).validate }
 
   accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
 
@@ -103,31 +103,6 @@ class Campaign < ActiveRecord::Base
       owner.save && self.save
     else
       false
-    end
-  end
-
-  # Makes sure that user has enough credit (coin or like)
-  # before creating a campaign.
-  def must_have_enough_credit
-    begin
-      case self.payment_type
-      when "money_getter"
-        if self.budget > self.owner.coin_credit   # when user has not enough credit to create a campaign
-          self.errors[:budget] << "شما اعتبار کافی ندارید"
-        end
-        if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
-          self.errors[:budget] << "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
-        end
-      when "like_getter"
-        if self.budget > self.owner.like_credit   # when user has not enough credit to create a campaign
-          self.errors[:budget] << "شما اعتبار کافی ندارید"
-        end
-        if self.budget < Price.instagram_money_getter.campaign_value   # when the budget is not enough even for a like
-          self.errors[:budget] << "باید اعتبار بیشتری برای کمپین خود اختصاص دهید"
-        end
-      end
-    rescue
-      return
     end
   end
 
