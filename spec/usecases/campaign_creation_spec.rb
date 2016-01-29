@@ -4,7 +4,7 @@ RSpec.describe CampaignCreation do
 
   describe '#save', :vcr do
     let(:user) { create :user }
-    let(:params) { attributes_for(:campaign).merge({detail_attributes: attributes_for(:instagram_detail)}) }
+    let(:params) { attributes_for(:campaign).merge({detail: attributes_for(:instagram_detail)}) }
     let(:creation) { CampaignCreation.new(params,user) }
     before do
       allow(OperatorRegistry).to receive(:detail_for).with(params[:campaign_type]).and_return InstagramDetail
@@ -39,7 +39,7 @@ RSpec.describe CampaignCreation do
 
     context "when there are some errors on the detail instance" do
       before do
-        params[:detail_attributes][:url] = "http://instagram.com/p/59gQ0Gi0UZ"
+        params[:detail][:url] = "http://instagram.com/p/59gQ0Gi0UZ"
       end
 
       it "returns true" do

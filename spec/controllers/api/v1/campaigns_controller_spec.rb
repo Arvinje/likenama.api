@@ -62,7 +62,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       end
       it "should return the next record" do
         campaign_response = json_response[:campaign]
-        expect(campaign_response[:instagram_detail][:website]).to eql @campaigns[1].instagram_detail.website
+        expect(campaign_response[:detail][:website]).to eql @campaigns[1].instagram_detail.website
       end
 
       it { should respond_with :ok }
@@ -115,7 +115,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       before do
         user = create :user
         instagram_detail_attributes = attributes_for :instagram_detail
-        @campaign_attributes = attributes_for(:campaign).merge({detail_attributes: instagram_detail_attributes})
+        @campaign_attributes = attributes_for(:campaign).merge({detail: instagram_detail_attributes})
         api_authorization_header user.auth_token
         post :create, { campaign: @campaign_attributes }
       end
@@ -149,7 +149,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         before do
           user = create :user
           instagram_detail_attributes = attributes_for :instagram_detail, url: "https://instagram.com/p/erewtr45346Vcv"
-          @invalid_campaign_attributes = attributes_for(:campaign).merge({detail_attributes: instagram_detail_attributes})
+          @invalid_campaign_attributes = attributes_for(:campaign).merge({detail: instagram_detail_attributes})
           api_authorization_header user.auth_token
           post :create, { campaign: @invalid_campaign_attributes }
         end
@@ -169,6 +169,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     end
   end
 
+=begin
   describe "GET #show", :vcr do
     context "when the requested campaign is not available" do
       before do
@@ -203,13 +204,12 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         campaigns_response = json_response[:campaign]
         expect(campaigns_response[:campaign_type]).to eql instagram_detail.campaign.campaign_type
         expect(campaigns_response[:value]).to eql instagram_detail.campaign.price.users_share
-        expect(campaigns_response[:instagram_detail][:url]).to eql instagram_detail.url
+        expect(campaigns_response[:detail][:url]).to eql instagram_detail.url
       end
 
       it { should respond_with :ok }
     end
   end
-=begin
   describe "PUT/PATCH #update", :vcr do
     before do
       owner = create :user

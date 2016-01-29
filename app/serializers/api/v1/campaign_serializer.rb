@@ -9,5 +9,5 @@ class Api::V1::CampaignSerializer < ActiveModel::Serializer
     object.waiting.period
   end
 
-  has_one :instagram_detail
+  has_one :detail
 end

@@ -8,8 +8,8 @@ class CampaignCreation
   # @param params [Hash] a hash of parameters provided by controller
   # @param user [User] current_user object
   def initialize(params, user)
-    @campaign = user.campaigns.build(params.except(:detail_attributes))
-    @detail = detail_class.new(params[:detail_attributes])
+    @campaign = user.campaigns.build(params.except(:detail))
+    @detail = detail_class.new(params[:detail])
     @detail.campaign = @campaign
   end
 

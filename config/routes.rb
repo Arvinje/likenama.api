@@ -54,7 +54,7 @@ Rails.application.routes.draw do
         end
       end
       resources :sessions, only: [:create]
-      resources :campaigns, only: [:index, :new, :create, :show, :update] do
+      resources :campaigns, only: [:index, :new, :create] do
         resource :like, only: [:create], controller: 'campaigns/likes'
         resource :report, only: [:create], controller: 'campaigns/reports'
         collection do

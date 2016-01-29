@@ -12,7 +12,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   def next
     campaign = Campaign.for_user current_user
     unless campaign.nil?
-      render json: campaign, serializer: Api::V1::CampaignSerializer, status: :ok, location: [:api, campaign]
+      render json: campaign, serializer: Api::V1::CampaignSerializer, status: :ok#, location: [:api, campaign]
     else
       handle_notfound
     end
@@ -32,10 +32,10 @@ class Api::V1::CampaignsController < Api::V1::ApiController
     end
   end
 
+=begin
   def show
     render json: Campaign.find(params[:id]), serializer: Api::V1::CampaignSerializer, status: :ok
   end
-=begin
   def update
     campaign = current_user.campaigns.find params[:id]
     if campaign.update(campaign_params)
@@ -48,6 +48,6 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, detail_attributes: [:url, :description, :phone, :website, :address])
+    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, detail: [:url, :description, :phone, :website, :address])
   end
 end

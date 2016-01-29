@@ -178,7 +178,7 @@ Campaigns
       "campaign_type": "instagram",   // Always the same
       "payment_type": "money_getter", // Always the same
       "budget": "1000",
-      "instagram_detail_attributes": {
+      "detail": {
         "url": "https://instagram.com/p/***REMOVED***",
         "description": "In voluptatem esse dolor qui qui et voluptatibus. Est dolores maiores dolorem molestias neque odit a velit. Blanditiis mollitia accusantium debitis adipisci omnis.",
         "phone": "4173358",
@@ -199,7 +199,7 @@ Campaigns
     ```json
     {
       "errors": {
-        "instagram_detail.url": [
+        "detail.url": [
           "آدرس تصویر اینستاگرام اشتباه است"
         ]
       }
@@ -263,7 +263,7 @@ Campaigns
         "payment_type": "money_getter",
         "value": 20,
         "waiting": 10,
-        "instagram_detail": {
+        "detail": {
           "url": "https://instagram.com/p/***REMOVED***",
           "photo_url": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11820650_383510488514384_162151818_n.jpg",
           "description": "Fuga in quis et autem ipsa dicta atque. Vel est laudantium minima error voluptas aliquam. Omnis et velit veritatis libero aut. Ab itaque recusandae inventore aperiam debitis. Consequuntur voluptas et nam quisquam.",
