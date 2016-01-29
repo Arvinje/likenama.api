@@ -4,18 +4,18 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
   describe "POST #create", :vcr do
     let(:user) { create :user }
+    let(:campaign) { create :campaign }
     before do
-      @campaign = create :campaign, instagram_detail_attributes: { short_code: Rails.application.secrets.liked_instagram_shortcode }
       api_authorization_header user.auth_token
     end
 
     context "when the post get liked successfully" do
       before do
-        post :create, { campaign_id: @campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
+        post :create, { campaign_id: campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
       end
 
       it "should like the specified campaign" do
-        expect(@campaign.liked_by? user).to eql true
+        expect(campaign.liked_by? user).to eql true
       end
 
       it "should render the modified user details" do
@@ -27,13 +27,16 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
     end
 
     context "when user has not liked the photo" do
+      let(:campaign) { create :campaign }
       before do
-        @campaign = create :campaign, instagram_detail_attributes: { short_code: Rails.application.secrets.not_liked_instagram_shortcode }
-        post :create, { campaign_id: @campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
+        detail = campaign.detail
+        detail.short_code = Rails.application.secrets.not_liked_instagram_shortcode
+        detail.save
+        post :create, { campaign_id: campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
       end
 
       it "should have not liked the campaign" do
-        expect(@campaign.liked_by? user).to eql false
+        expect(campaign.liked_by? user).to eql false
       end
 
       it "should render an errors json" do
@@ -69,7 +72,7 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
     context "when the instagram_access_token is not valid" do
       before do
-        post :create, { campaign_id: @campaign.id, like: { instagram_access_token: "325fzdvfshgdhwrrehdfv4" } }
+        post :create, { campaign_id: campaign.id, like: { instagram_access_token: "325fzdvfshgdhwrrehdfv4" } }
       end
 
       it "should render an errors json" do

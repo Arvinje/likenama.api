@@ -19,23 +19,6 @@ RSpec.describe Campaign, type: :model do
     it { should validate_presence_of :owner }
 
     it { should validate_numericality_of(:budget).only_integer }
-
-    describe "#must_have_one_association", :vcr do
-      context "when no detail got specified" do
-        before do
-          @campaign = Campaign.new(attributes_for(:campaign))
-          @campaign.owner = create :user
-          @campaign.save
-        end
-        subject { @campaign }
-
-        it "should raise an error" do
-          expect(@campaign.errors.full_messages).to include "اطلاعات واردشده برای ساخت کمپین کافی نیست"
-        end
-
-        it { should_not be_valid }
-      end
-    end
   end
 
   describe "ActiveRecord associations" do
@@ -43,7 +26,6 @@ RSpec.describe Campaign, type: :model do
     it { is_expected.to have_many(:liking_users).through(:likes).source(:user) }
     it { is_expected.to belong_to(:owner).class_name('User') }
     it { is_expected.to have_one(:instagram_detail).dependent(:destroy) }
-    it { is_expected.to accept_nested_attributes_for(:instagram_detail).update_only(true) }
     it { is_expected.to belong_to(:price) }
     it { is_expected.to belong_to(:waiting) }
     it { is_expected.to have_many(:reports).dependent :destroy }
@@ -216,23 +198,6 @@ RSpec.describe Campaign, type: :model do
           campaign.save
           expect(campaign.price.campaign_value).to eql Price.where(campaign_type: 'instagram', payment_type: 'money_getter').last.campaign_value
         end
-      end
-    end
-  end
-
-  describe "#instagram_only", :vcr do
-    context "when the campaign_type is equal to 'instagram'" do
-      let(:campaign) { build :campaign, campaign_type: 'instagram' }
-      it "should return false" do
-        expect(campaign.instagram_only).to eql false
-      end
-    end
-
-    context "when the campaign_type is equal to something else" do
-      let(:campaign) { Campaign.new(campaign_type: 'web') }
-
-      it "should return true" do
-        expect(campaign.instagram_only).to eql true
       end
     end
   end

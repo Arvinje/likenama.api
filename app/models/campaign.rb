@@ -14,15 +14,12 @@ class Campaign < ActiveRecord::Base
   has_many   :reporters, through: :reports, source: :user
 
   # Edit these two when adding new types, also add new postgres enums when needed
-  validates :campaign_type, presence: true, inclusion: { in: ['instagram'], message: "is not a valid campaign_type" }
+  validates :campaign_type, presence: true, inclusion: { in: proc { OperatorRegistry.available_types }, message: "is not a valid campaign_type" }
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
-  validates :budget, presence: true, numericality: { only_integer: true }
+  validates :budget, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :owner, presence: true
 
-  validate  :must_have_one_association
   validate  { |campaign| CampaignValidator.new(campaign).validate }
-
-  accepts_nested_attributes_for :instagram_detail, update_only: true, reject_if: :instagram_only
 
   scope :available, -> { where available: true }
   scope :finished, -> { where available: false }
@@ -106,17 +103,6 @@ class Campaign < ActiveRecord::Base
   def self.for_user(user) # Returns available campaigns that are not liked by the user
     self.available.where("id not in (select campaign_id from likes where user_id = ? and available = true)", user.id).first
   end
-
-  def instagram_only
-    self.campaign_type == "instagram" ? false : true
-  end
-
-  def must_have_one_association
-    if self.instagram_detail.nil? # && self.web_detail.nil? && ...
-      self.errors[:base] << "اطلاعات واردشده برای ساخت کمپین کافی نیست"
-    end
-  end
-
 
   # Checks if user has already liked the campaign.
   #

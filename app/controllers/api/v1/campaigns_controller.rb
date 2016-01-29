@@ -24,18 +24,18 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   end
 
   def create
-    campaign = current_user.campaigns.build(campaign_params)
-    if campaign.save
+    creation = CampaignCreation.new(campaign_params, current_user)
+    if creation.save
       head :created
     else
-      render json: { errors: campaign.errors }, status: :unprocessable_entity
+      render json: { errors: creation.campaign.errors }, status: :unprocessable_entity
     end
   end
 
   def show
     render json: Campaign.find(params[:id]), serializer: Api::V1::CampaignSerializer, status: :ok
   end
-
+=begin
   def update
     campaign = current_user.campaigns.find params[:id]
     if campaign.update(campaign_params)
@@ -44,10 +44,10 @@ class Api::V1::CampaignsController < Api::V1::ApiController
       render json: { errors: campaign.errors }, status: :unprocessable_entity
     end
   end
-
+=end
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, instagram_detail_attributes: [:url, :description, :phone, :website, :address])
+    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, detail_attributes: [:url, :description, :phone, :website, :address])
   end
 end

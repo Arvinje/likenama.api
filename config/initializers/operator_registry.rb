@@ -1,5 +1,6 @@
 class OperatorRegistry
-  @@registry = {}
+  @@operators = {}
+  @@details = {}
 
   def self.load!
     Dir[Rails.application.root.to_s + "/app/operators/*.rb"].each { |file| require_dependency file }
@@ -8,19 +9,29 @@ class OperatorRegistry
       .map(&:to_s)
       .select { |name| name.end_with? "Operator" }
       .each do |name|
-        method = name.chomp("Operator").downcase.to_sym
+        type = name.chomp("Operator").downcase.to_sym
         operator = Object.const_get name
+        detail = Object.const_get "#{name.chomp('Operator')}Detail"
 
-        register(method, operator)
+        register(type, operator, detail)
       end
   end
 
-  def self.register(method, operator)
-    @@registry[method] = operator
+  def self.register(type, operator, detail)
+    @@operators[type] = operator
+    @@details[type] = detail
   end
 
-  def self.operator_for(method)
-    @@registry.fetch(method.to_sym)
+  def self.operator_for(type)
+    @@operators.fetch(type.to_sym) { InstagramOperator }
+  end
+
+  def self.detail_for(type)
+    @@details.fetch(type.to_sym) { InstagramDetail }
+  end
+
+  def self.available_types
+     @@operators.keys.map(&:to_s)
   end
 
 end

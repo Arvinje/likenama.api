@@ -33,14 +33,15 @@ class CampaignLiking
     Like.exists?(campaign_id: @campaign.id, user_id: @user.id)
   end
 
-  # Initializes and calls the respective operator.
+  # Initializes and calls the respective operator to
+  # check whether the user has liked the target or not.
   #
   # @return [Campaign, false] the campaign object when operator's response is true, false otherwise.
   def operator_response
     # selects right operator based on the campaign's campaign_type.
     operator_class = OperatorRegistry.operator_for @campaign.campaign_type
-    operator = operator_class.new(@campaign, @user, @opts)
-    operator.call ? @campaign = operator.campaign : false
+    operator = operator_class.new(campaign: @campaign, user: @user, options: @opts)
+    operator.liked? ? @campaign = operator.campaign : false
   end
 
   # Creates the join model instance and calls {#credential_operations} to
