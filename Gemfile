@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby "2.2.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5.1'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -19,9 +19,9 @@ gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+# gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+# gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -32,12 +32,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Access an IRB console on exception pages or by using <%= console %> in views
+gem 'web-console', group: :development
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -50,10 +50,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-rails', '~> 3.3.3'
-  gem 'guard-rspec', '~> 4.6.2', require: false
+  gem 'rspec-rails', '~> 3.4.1'
+  gem 'guard-rspec', '~> 4.6.4', require: false
   gem 'terminal-notifier-guard', '~> 1.6.4'
-  gem 'shoulda-matchers', '~> 2.8.0'
+  gem 'shoulda-matchers', '~> 3.1'
   gem 'shoulda-callback-matchers', '~> 1.1.3'
   gem 'vcr', '~> 3.0'
   gem 'webmock', '~> 1.22', '>= 1.22.3'
