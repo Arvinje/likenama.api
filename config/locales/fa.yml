@@ -143,6 +143,7 @@ fa:
       not_enough_credit: شما اعتبار کافی ندارید
       no_detail_provided: اطلاعات واردشده برای ساخت کمپین کافی نیست
       wrong_instagram_url: آدرس تصویر اینستاگرام اشتباه است
+      purchase_problem: مشکلی در خرید محصول به‌وجود آمده. لطفا دوباره تلاش کنید
     template:
       body: 'موارد زیر مشکل داشت:'
       header:

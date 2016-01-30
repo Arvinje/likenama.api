@@ -23,21 +23,6 @@ class User < ActiveRecord::Base
   validates :like_credit, presence: true, numericality: { only_integer: true }
   validates :coin_credit, presence: true, numericality: { only_integer: true }
 
-  def buy(product)
-    if product.price <= self.coin_credit
-      self.coin_credit -= product.price   # reduces user's coin_credit by the product's price
-      self.save
-      requested_detail = product.details.available.first
-      self.purchased_details << requested_detail   # adds the detail to purchased_details of the user
-      requested_detail.available = false    # makes the details unavailable
-      requested_detail.save
-      requested_detail
-    else
-      self.errors[:coin_credit] << "اعتبار شما برای خرید این محصول کافی نیست"
-      false
-    end
-  end
-
   def generate_authentication_token!
     begin
       self.auth_token = Devise.friendly_token

@@ -1,11 +1,12 @@
 class Api::V1::Products::PurchasesController < Api::V1::ApiController
 
   def create
-    product = Product.find params[:product_id]
-    if purchased_detail = current_user.buy(product)
-      render json: purchased_detail, serializer: Api::V1::DetailSerializer, root: 'details', status: :created
+    product = Product.available.find params[:product_id]
+    purchase = ProductPurchase.new(current_user, product)
+    if purchase.buy
+      render json: purchase.purchased_detail, serializer: Api::V1::DetailSerializer, root: 'detail', status: :created
     else
-      render json: { errors: current_user.errors }, status: :unprocessable_entity
+      render json: { errors: purchase.user.errors }, status: :unprocessable_entity
     end
   end
 

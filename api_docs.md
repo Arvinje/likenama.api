@@ -494,7 +494,7 @@ Shop
 
     ```json
     {
-      "details": {
+      "detail": {
         "code": "Omnis eos rerum ad et ut sapiente asperiores quae.",
         "product": {
           "id": 1522,
@@ -527,7 +527,7 @@ Shop
     {
       "errors": {
         "coin_credit": [
-          "اعتبار شما برای خرید این محصول کافی نیست"
+          "شما اعتبار کافی ندارید"
         ]
       }
     }

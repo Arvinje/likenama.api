@@ -57,61 +57,6 @@ RSpec.describe User, type: :model do
     it { expect(user).to callback(:generate_authentication_token!).before(:create) }
   end
 
-  describe "#buy" do
-    context "when user has_enough coin credit to buy" do
-      let(:user) { create :user, coin_credit: 10000 }
-      let(:product) { create :product_with_details, price: 100, details_count: 3 }
-
-      it "reduces the coin_credit by the product's price" do
-        expect{ user.buy product }.to change{ user.coin_credit }.from(10000).to(9900)
-        user.reload
-        expect{ user.buy product }.to change{ user.coin_credit }.from(9900).to(9800)
-      end
-
-      it "adds the detail to purchased_details" do
-        product_detail = product.details.available.first
-        user.buy product
-        user.reload
-        expect(user.purchased_details).to include product_detail
-      end
-
-      it "removes the purchased details from product's available details" do
-        product_detail = product.details.available.first
-        user.buy product
-        user.reload
-        expect(product.details.available).not_to include product_detail
-      end
-
-      context "when there's only one detail left" do
-        it "marks the product as not available" do
-          expect(product.available).to eql true
-          3.times { user.buy product }
-          product.reload
-          expect(product.available).to eql false
-        end
-      end
-
-      it "returns the requested product_detail" do
-        product_detail = product.details.available.first
-        expect(user.buy product).to eql product_detail
-      end
-    end
-
-    context "when user doesn't have enough coin credit for the product" do
-      let(:user) { create :user, coin_credit: 100 }
-      let(:product) { create :product_with_details, price: 200 }
-
-      it "renders respective errors" do
-        user.buy product
-        expect(user.errors[:coin_credit]).to include "اعتبار شما برای خرید این محصول کافی نیست"
-      end
-
-      it "returns false" do
-        expect(user.buy product).to eql false
-      end
-    end
-  end
-
   describe "#generate_authentication_token!" do
     before do
       @user = create :user, auth_token: "auniquetoken123"

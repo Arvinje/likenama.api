@@ -1,5 +1,5 @@
 app/models/like.rb ff02d08faceb6965f76ab6759799528e0a492419
-app/models/user.rb 29818e9983fa436e80985e62ccce7de3b14104be
+app/models/user.rb 820150796519d4bfb7b289549c97147c41f69801
 app/models/price.rb bd3cd034723c136e23db725a7eadea6a3e3ba5c4
 app/models/bundle.rb a51ce73fa507d8d9ab989dc62753fcc95c4e63c6
 app/models/report.rb 8d6e34d1f7de8a489ae742d5321635fcb671b1fa
@@ -48,7 +48,8 @@ app/controllers/api/v1/campaigns/likes_controller.rb 6109bc66f87e173c47b6fd64ec0
 app/serializers/api/v1/instagram_detail_serializer.rb 5178f011c2dec99955e2446a749db0576cbe022e
 app/controllers/users/omniauth_callbacks_controller.rb 467ce16d37f03d1597cc6d5f0310a4a6bbfbe915
 app/controllers/api/v1/campaigns/reports_controller.rb 521141f963a55a85ea7adeef8e8a1edce1cd18d8
-app/controllers/api/v1/products/purchases_controller.rb c853287ba35fa04ea6bf89e110e8e1dcdd565ed7
+app/controllers/api/v1/products/purchases_controller.rb 4fe206e5bf184901e6eeea18204b1534dd51e380
 app/controllers/managements/product_types_controller.rb 16d6481079424a1b7eae94aed84949e34250225f
 app/controllers/dashboards/bundles/purchases_controller.rb 937abdf4fa9e3b19506f6b817a6069b0ca1a43c0
 app/controllers/managements/products/product_details_controller.rb 95bc6d160de52eb8b0d8bdfef9eafe401e7e6ba9
+app/usecases/product_purchase.rb c387ed7e89dea2cc97e827dba9f9a3f1d971821a

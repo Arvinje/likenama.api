@@ -37,9 +37,9 @@ RSpec.describe Api::V1::Products::PurchasesController, type: :controller do
 
       it "renders json for the product with one of the details" do
         product_response = json_response
-        expect(product_response[:details][:product][:title]).to eql @requested_product.title
-        expect(product_response[:details][:code]).to eql @requested_product.details.first.code
-        expect(product_response[:details][:product][:product_type]).to eql @requested_product.product_type.name
+        expect(product_response[:detail][:product][:title]).to eql @requested_product.title
+        expect(product_response[:detail][:code]).to eql @requested_product.details.first.code
+        expect(product_response[:detail][:product][:product_type]).to eql @requested_product.product_type.name
       end
 
       it { is_expected.to respond_with :created }
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::Products::PurchasesController, type: :controller do
 
       it "renders respective error" do
         product_response = json_response
-        expect(product_response[:errors][:coin_credit]).to include "اعتبار شما برای خرید این محصول کافی نیست"
+        expect(product_response[:errors][:coin_credit]).to include I18n.t 'errors.messages.not_enough_credit'
       end
 
       it { is_expected.to respond_with :unprocessable_entity }
