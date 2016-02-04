@@ -4,17 +4,17 @@
     <div class="btn-group btn-group-justified" role="group">
 
       <div class="btn-group" role="group">
-        <%= f.button :submit, class: "btn btn-lg btn-success#{ " active" if campaign.verified}", name: :commit, value: " پذیرش" do %>
+        <%= f.button :submit, class: "btn btn-lg btn-success#{ " active" if campaign.available?}", name: :commit, value: " پذیرش" do %>
           <span class="glyphicon glyphicon-ok"></span> پذیرش
         <% end %>
       </div>
       <div class="btn-group" role="group">
-        <%= f.button :submit, class: "btn btn-lg btn-warning#{ " active" if campaign.verified.nil?}", name: :commit, value: " درحال بررسی" do %>
+        <%= f.button :submit, class: "btn btn-lg btn-warning#{ " active" if campaign.pending?}", name: :commit, value: " درحال بررسی" do %>
           <span class="glyphicon glyphicon-exclamation-sign"></span> درحال بررسی
         <% end %>
       </div>
       <div class="btn-group" role="group">
-        <%= f.button :submit, class: "btn btn-lg btn-danger#{ " active" unless campaign.verified}", name: :commit, value: " غیرقابل قبول" do %>
+        <%= f.button :submit, class: "btn btn-lg btn-danger#{ " active" if campaign.rejected?}", name: :commit, value: " غیرقابل قبول" do %>
           <span class="glyphicon glyphicon-remove"></span> غیرقابل قبول
         <% end %>
       </div>

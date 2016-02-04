@@ -6,8 +6,6 @@ RSpec.describe Campaign, type: :model do
   it { should respond_to :payment_type }
   it { should respond_to :total_likes }
   it { should respond_to :budget }
-  it { should respond_to :available }
-  it { should respond_to :verified }
   it { should respond_to :owner_id }
   it { should respond_to :price_id }
   it { should respond_to :waiting_id }
@@ -50,37 +48,35 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe "#verify!", :vcr do
-    let(:campaign) { create :campaign, available: nil, verified: nil }
+    let(:campaign) { create :campaign, status: 'pending' }
 
     before do
       campaign.verify!
       campaign.reload
     end
 
-    it "sets available and verified true" do
-      expect(campaign.verified).to eql true
-      expect(campaign.available).to eql true
+    it "sets the campaign available" do
+      expect(campaign.available?).to eql true
     end
   end
 
   describe "#reject!", :vcr do
     context "on each type of campaign" do
-      let(:campaign) { create :campaign, available: nil, verified: nil }
+      let(:campaign) { create :campaign, status: 'pending' }
 
       before do
         campaign.reject!
         campaign.reload
       end
 
-      it "sets available nil and verified false" do
-        expect(campaign.verified).to eql false
-        expect(campaign.available).to eql nil
+      it "sets the campaign rejected" do
+        expect(campaign.rejected?).to be true
       end
     end
     context "when it's a like_getter campaign" do
       before do
         @owner = create :user, like_credit: 400
-        @campaign = create :campaign, available: nil, verified: nil, payment_type: "like_getter", budget: 100, owner: @owner
+        @campaign = create :campaign, status: 'pending', payment_type: "like_getter", budget: 100, owner: @owner
         @campaign.reject!
         @campaign.reload
       end
@@ -92,51 +88,13 @@ RSpec.describe Campaign, type: :model do
     context "when it's a money_getter campaign" do
       before do
         @owner = create :user, coin_credit: 300
-        @campaign = create :campaign, available: nil, verified: nil, payment_type: "money_getter", budget: 100, owner: @owner
+        @campaign = create :campaign, status: 'pending', payment_type: "money_getter", budget: 100, owner: @owner
         @campaign.reject!
         @campaign.reload
       end
 
       it "returns the budget back to the owner's account" do
         expect(@campaign.owner.coin_credit).to eql 400
-      end
-    end
-  end
-
-  describe "#status", :vcr do
-    context "the verification is pending" do
-      let(:campaign) { build :campaign, verified: nil, available: nil }
-
-      it "returns respective status" do
-        expect(campaign.status).to eql "درحال بررسی"
-      end
-    end
-    context "the campaign's over" do
-      let(:campaign) { build :campaign, verified: true, available: false }
-
-      it "returns respective status" do
-        expect(campaign.status).to eql "به‌پایان رسیده"
-      end
-    end
-    context "the campaign's active" do
-      let(:campaign) { build :campaign, verified: true, available: true }
-
-      it "returns respective status" do
-        expect(campaign.status).to eql "درحال نمایش"
-      end
-    end
-    context "the campaign's not active" do
-      let(:campaign) { build :campaign, verified: true, available: nil }
-
-      it "returns respective status" do
-        expect(campaign.status).to eql "نمایش داده‌نشده"
-      end
-    end
-    context "the campaign's rejected" do
-      let(:campaign) { build :campaign, verified: false, available: nil }
-
-      it "returns respective status" do
-        expect(campaign.status).to eql "رد شده"
       end
     end
   end
@@ -167,9 +125,9 @@ RSpec.describe Campaign, type: :model do
       before do
         @user = create :user
         Campaign.all.each { |c| c.destroy }
-        2.times { @available = create :campaign, available: true }
-        2.times { @finished = create :campaign, available: false }
-        liked = create :campaign, available: true
+        2.times { @available = create :campaign, status: 'available' }
+        2.times { @finished = create :campaign, status: 'ended' }
+        liked = create :campaign, status: 'ended'
         CampaignLiking.new(liked, @user, INSTAGRAM_ACCESS_TOKEN).like!
       end
 

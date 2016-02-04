@@ -32,6 +32,7 @@ class InstagramOperator
         @campaign.errors.add(:base, :access_token_invalid)
       # when the target got deleted and is not available anymore.
       elsif e.message.include? "invalid media id"
+        @campaign.check_needed!
         @campaign.errors.add(:base, :deleted)
       else
         @campaign.errors.add(:base, :instagram_error)

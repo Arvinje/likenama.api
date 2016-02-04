@@ -47,9 +47,9 @@ RSpec.describe CampaignLiking do
       end
     end
 
-    context "when campaign is not available", :vcr do
+    context "when the campaign has ended", :vcr do
       let(:user) { create :user }
-      let(:campaign) { create :campaign, available: nil }
+      let(:campaign) { create :campaign, status: 'ended' }
       let(:liking) { CampaignLiking.new(campaign, user) }
 
       it 'returns false' do
@@ -59,6 +59,21 @@ RSpec.describe CampaignLiking do
       it 'adds a respective error to the campaign object' do
         liking.like!
         expect(liking.campaign.errors[:base]).to include I18n.t 'errors.messages.no_longer_available'
+      end
+    end
+
+    context "when campaign is still pending", :vcr do
+      let(:user) { create :user }
+      let(:campaign) { create :campaign, status: 'pending' }
+      let(:liking) { CampaignLiking.new(campaign, user) }
+
+      it 'returns false' do
+        expect(liking.like!).to be false
+      end
+
+      it 'adds a respective error to the campaign object' do
+        liking.like!
+        expect(liking.campaign.errors[:base]).to include I18n.t 'errors.messages.not_verified'
       end
     end
 
@@ -80,21 +95,6 @@ RSpec.describe CampaignLiking do
       it 'adds a respective error to the campaign object', :vcr do
         @liking.like!
         expect(@liking.campaign.errors[:base]).to include I18n.t 'errors.messages.budget_run_out'
-      end
-    end
-
-    context "when campaign is not verified", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, verified: nil }
-      let(:liking) { CampaignLiking.new(campaign, user) }
-
-      it 'returns false' do
-        expect(liking.like!).to be false
-      end
-
-      it 'adds a respective error to the campaign object' do
-        liking.like!
-        expect(liking.campaign.errors[:base]).to include I18n.t 'errors.messages.not_verified'
       end
     end
 
@@ -206,10 +206,10 @@ RSpec.describe CampaignLiking do
         expect(liking2.like!).to be false
       end
 
-      it "marks campaign availability as false" do
+      it "marks the campaign as `ended`" do
         liking1.like!
         liking2.like!
-        expect(liking2.campaign.available).to be false
+        expect(liking2.campaign.ended?).to be true
       end
     end
 

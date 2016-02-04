@@ -58,6 +58,11 @@ RSpec.describe InstagramOperator do
         expect(@operator.liked?).to be false
       end
 
+      it "marks the campaign for checking and takes it down" do
+        @operator.liked?
+        expect(@operator.campaign.check_needed?).to be true
+      end
+
       it 'adds respective error to the campaign object' do
         @operator.liked?
         expect(@operator.campaign.errors[:base]).to include I18n.t 'errors.messages.deleted'

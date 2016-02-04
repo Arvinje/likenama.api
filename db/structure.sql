@@ -26,6 +26,19 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
+-- Name: campaign_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE campaign_status AS ENUM (
+    'pending',
+    'available',
+    'rejected',
+    'ended',
+    'check_needed'
+);
+
+
+--
 -- Name: campaign_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -135,8 +148,7 @@ CREATE TABLE campaigns (
     payment_type payment_type,
     price_id integer,
     budget integer,
-    available boolean,
-    verified boolean
+    status campaign_status
 );
 
 
@@ -1132,4 +1144,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160105024546');
 INSERT INTO schema_migrations (version) VALUES ('20160105025630');
 
 INSERT INTO schema_migrations (version) VALUES ('20160116224251');
+
+INSERT INTO schema_migrations (version) VALUES ('20160202161205');
+
+INSERT INTO schema_migrations (version) VALUES ('20160204145450');
 

@@ -86,29 +86,44 @@ class CampaignLiking
   # Checks if:
   # 1. the campaign's available
   # 2. the campaign has enough budget for a like
-  # 3. the campaign's verified
-  # 4. the duration between last like and current like is valid, according to the waiting period.
+  # 3. the duration between last like and current like is valid, according to the waiting period.
   #
   # @return [Boolean] true if the campaign and the user are both valid, false otherwise.
   def valid?
     # checks if campaign is available
-    unless @campaign.available == true
-      @campaign.errors.add(:base, :no_longer_available)
-      return false
-    end
+    return false unless status_valid?
+
     # checks if campaign has enough budget
     unless @campaign.price.campaign_value <= @campaign.budget
       @campaign.errors.add(:base, :budget_run_out)
       return false
     end
-    # checks if campaign is verified
-    unless @campaign.verified == true
-      @campaign.errors.add(:base, :not_verified)
-      return false
-    end
+
     # checks the duration between each like
     unless period_valid?
       @campaign.errors.add(:base, :have_to_wait)
+      return false
+    end
+    return true
+  end
+
+  # Appends respective errors when the campaign
+  # is not available.
+  #
+  # @return [Boolean] true when campaign is valid, false otherwise.
+  def status_valid?
+    case @campaign.status
+    when 'rejected'
+      @campaign.errors.add(:base, :not_verified)
+      return false
+    when 'pending'
+      @campaign.errors.add(:base, :not_verified)
+      return false
+    when 'check_needed'
+      @campaign.errors.add(:base, :not_verified)
+      return false
+    when 'ended'
+      @campaign.errors.add(:base, :no_longer_available)
       return false
     end
     return true
@@ -127,7 +142,7 @@ class CampaignLiking
   #
   # @return [false]
   def check_campaigns_availability
-    @campaign.available = false if @campaign.budget < @campaign.price.campaign_value
+    @campaign.ended! if @campaign.budget < @campaign.price.campaign_value
   end
 
 end

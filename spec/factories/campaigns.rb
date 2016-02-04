@@ -3,13 +3,12 @@ FactoryGirl.define do
     campaign_type "instagram"
     payment_type { ["like_getter", "money_getter"].sample }
     total_likes 0
-    available true
-    verified true
+    status 'available'
     price
     waiting
     budget 1000
     association :owner, factory: :instagram_user
-    after(:build) do |campaign|
+    after(:create) do |campaign|
       campaign.instagram_detail ||= FactoryGirl.create(:instagram_detail, campaign: campaign)
     end
     after(:build) do |campaign|

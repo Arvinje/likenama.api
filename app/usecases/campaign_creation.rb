@@ -46,6 +46,7 @@ class CampaignCreation
         @campaign.save!
         raise unless target_valid?
         @detail.save!
+        @campaign.pending!
       end
       true
     rescue

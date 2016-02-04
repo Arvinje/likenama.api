@@ -38,9 +38,6 @@ class CampaignValidator
   # before creating a campaign.
   # Adds respective errors when necessary.
   def campaign_has_enough_credit?
-    # if current_price.nil?
-    #   binding.pry
-    # end
     if @campaign.budget < current_price.campaign_value
       @campaign.errors.add(:budget, :need_more_budget)
     end
