@@ -556,3 +556,89 @@ User
     }
     ```
   * **Status:** `200`
+
+Bundles
+-------
+
+### List all available Bundles
+* **Method:** `GET`
+* **Endpoint:** `/api/bundles`
+* **Request Content:** `none`
+
+#### Response
+* Success:
+  * **Content:**
+
+    ```json
+    {
+      "bundles": [
+        {
+          "id": 54,
+          "title": "10c bundle",
+          "price": 10000
+        },
+        {
+          "id": 55,
+          "title": "15c bundle",
+          "price": 5000
+        },
+        {
+          "id": 56,
+          "title": "20c bundle",
+          "price": 40000
+        },
+        {
+          "id": 57,
+          "title": "5c bundle",
+          "price": 1000
+        }
+      ]
+    }
+    ```
+  * **Status:** `200`
+* Failure (when there is no bundle available)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "مورد درخواست‌شده یافت نشد"
+        ]
+      }
+    }
+    ```
+  * **Status:** `404`
+
+### Purchasing A Bundle
+* **Method:** `POST`
+* **Endpoint:** `/api/bundles/purchase`
+* **Request Content:**
+
+  ```json
+  {
+    "bundle": {
+      "bazaar_sku": "286134463",
+      "package_name": "voluptatem",
+      "purchase_token": "djhs543jcdlfhw452"
+    }
+  }
+  ```
+
+#### Response
+* Success:
+  * **Content:** `none`
+  * **Status:** `201`
+* Failure (when the payment was unsuccessful)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "پرداخت ناموفق بوده‌است"
+        ]
+      }
+    }
+    ```
+  * **Status:** `422`
