@@ -574,21 +574,25 @@ Bundles
       "bundles": [
         {
           "id": 54,
+          "bazaar_sku": "22861463",
           "title": "10c bundle",
           "price": 10000
         },
         {
           "id": 55,
+          "bazaar_sku": "28361463",
           "title": "15c bundle",
           "price": 5000
         },
         {
           "id": 56,
+          "bazaar_sku": "28614463",
           "title": "20c bundle",
           "price": 40000
         },
         {
           "id": 57,
+          "bazaar_sku": "28641463",
           "title": "5c bundle",
           "price": 1000
         }
