@@ -1,5 +1,5 @@
 class Api::V1::CampaignSerializer < ActiveModel::Serializer
-  attributes :id, :campaign_type, :payment_type, :value, :waiting
+  attributes :id, :payment_type, :value, :waiting, :description, :phone, :website, :address
 
   def value
     object.price.users_share
@@ -8,6 +8,4 @@ class Api::V1::CampaignSerializer < ActiveModel::Serializer
   def waiting
     object.waiting.period
   end
-
-  has_one :detail
 end

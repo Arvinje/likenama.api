@@ -1,22 +1,20 @@
 class Campaign < ActiveRecord::Base
   include PublicActivity::Common
+  attr_accessor :target_url
 
-  before_save :set_price
-  before_save :set_waiting
+  before_create :set_price
+  before_create :set_waiting
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
   belongs_to :owner, class_name: 'User'
-  has_one :instagram_detail, inverse_of: :campaign, dependent: :destroy
   belongs_to :price
   belongs_to :waiting
   has_many   :reports, dependent: :destroy
   has_many   :reporters, through: :reports, source: :user
 
-  # Edit these two when adding new types, also add new postgres enums when needed
-  validates :campaign_type, presence: true, inclusion: { in: proc { OperatorRegistry.available_types }, message: "is not a valid campaign_type" }
   validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
-  validates :budget, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :budget, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :owner, presence: true
 
   validate  { |campaign| CampaignValidator.new(campaign).validate }
@@ -43,16 +41,12 @@ class Campaign < ActiveRecord::Base
 
   # Sets the day's campaign waiting based on campaign/payment type.
   def set_waiting
-    self.waiting = Waiting.where(campaign_type: campaign_type, payment_type: payment_type).last
+    self.waiting = Waiting.where(campaign_type: type, payment_type: payment_type).last
   end
 
   # Sets the day's campaign price based on campaign/payment type.
   def set_price
-    self.price = Price.where(campaign_type: campaign_type, payment_type: payment_type).last
-  end
-
-  def detail
-    send("#{self.campaign_type}_detail")
+    self.price = Price.where(campaign_type: type, payment_type: payment_type).last
   end
 
   # Verifies a pending campaign and makes it available.

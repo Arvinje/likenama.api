@@ -4,14 +4,14 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
   describe "POST #create", :vcr do
     let(:user) { create :user }
-    let(:campaign) { create :campaign }
+    let(:campaign) { create :instagram_liking_campaign }
     before do
       api_authorization_header user.auth_token
     end
 
     context "when the post get liked successfully" do
       before do
-        post :create, { campaign_id: campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
+        post :create, { campaign_id: campaign.id, like: { access_token: Rails.application.secrets.access_token_no1 } }
       end
 
       it "should like the specified campaign" do
@@ -27,12 +27,9 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
     end
 
     context "when user has not liked the photo" do
-      let(:campaign) { create :campaign }
+      let(:campaign) { create :instagram_liking_campaign, target: Rails.application.secrets.not_liked_instagram_shortcode }
       before do
-        detail = campaign.detail
-        detail.short_code = Rails.application.secrets.not_liked_instagram_shortcode
-        detail.save
-        post :create, { campaign_id: campaign.id, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
+        post :create, { campaign_id: campaign.id, like: { access_token: Rails.application.secrets.access_token_no1 } }
       end
 
       it "should have not liked the campaign" do
@@ -54,7 +51,7 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
     context "when the campaign_id is not valid" do
       before do
-        post :create, { campaign_id: 346734, like: { instagram_access_token: Rails.application.secrets.access_token_no1 } }
+        post :create, { campaign_id: 346734, like: { access_token: Rails.application.secrets.access_token_no1 } }
       end
 
       it "should render an errors json" do
@@ -70,9 +67,9 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
       it { should respond_with :not_found }
     end
 
-    context "when the instagram_access_token is not valid" do
+    context "when the access_token is not valid" do
       before do
-        post :create, { campaign_id: campaign.id, like: { instagram_access_token: "325fzdvfshgdhwrrehdfv4" } }
+        post :create, { campaign_id: campaign.id, like: { access_token: "325fzdvfshgdhwrrehdfv4" } }
       end
 
       it "should render an errors json" do

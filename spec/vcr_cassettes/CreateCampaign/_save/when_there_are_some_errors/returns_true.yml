@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.instagram.com/v1/media/shortcode/***REMOVED***?client_id=***REMOVED***
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Instagram Ruby Gem 1.1.6
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Ratelimit-Remaining:
+      - '4997'
+      Content-Language:
+      - en
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Vary:
+      - Cookie, Accept-Language, Accept-Encoding
+      X-Ratelimit-Limit:
+      - '5000'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Date:
+      - Fri, 15 Apr 2016 11:56:50 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Set-Cookie:
+      - csrftoken=fd33be2053fcc0b099389e917aecca4b; expires=Fri, 14-Apr-2017 11:56:50
+        GMT; Max-Age=31449600; Path=/
+      - s_network=; expires=Fri, 15-Apr-2016 12:56:50 GMT; Max-Age=3600; Path=/
+      - sessionid=IGSCa620e3aec250209320184ff301bbf82c246dbc6c1b5bb0fba0e0d18a8a3cacc2%3Ayru74wcLvYCFFAjbDALSVv9rPjzmplmT%3A%7B%22asns%22%3A%7B%22151.236.26.186%22%3A57169%2C%22time%22%3A1460721410%7D%7D;
+        expires=Thu, 14-Jul-2016 11:56:50 GMT; httponly; Max-Age=7776000; Path=/
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1215'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"meta":{"code":200},"data":{"attribution":null,"tags":["deluxefx"],"location":{"id":964705545},"comments":{"count":391,"data":[{"created_time":"1440966151","text":"@xsevennevruz","from":{"username":"mihribanseven","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/11243070_1578632972448375_1720786964_a.jpg","id":"497570269","full_name":""},"id":"17850139192044745"},{"created_time":"1441199476","text":"@milad.mirani
+        miiiilad in dg khod khodeti vaghti khabet miad \ud83d\ude02\ud83d\ude02 \ud83d\ude1c\ud83d\ude1c\ud83d\ude1c","from":{"username":"shabnam_parviziiii","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12479056_1770184506549534_114739272_a.jpg","id":"1559615945","full_name":"shabnaM=)"},"id":"17850152170044745"},{"created_time":"1441200034","text":"@shabnam_parviziiii
+        \ud83d\ude02\ud83d\ude02\ud83d\ude02\u0639\u0648\u0636\u064a","from":{"username":"milad.mirani","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12105081_904982699585048_775459699_a.jpg","id":"501292796","full_name":"MiLAD"},"id":"17850152194044745"},{"created_time":"1441404092","text":"\ud83d\ude0d","from":{"username":"dana.jami123","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12237269_767912753337022_130291219_a.jpg","id":"1813310398","full_name":"Dana"},"id":"17850165160044745"}]},"filter":"Valencia","created_time":"1438522552","link":"https:\/\/www.instagram.com\/p\/***REMOVED***\/","likes":{"count":40907,"data":[{"username":"reuellevy","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12677562_1107875539280162_1214489056_a.jpg","id":"1375052320","full_name":"\ud83d\udd25reuel
+        Levy || \u05e8\u05e2\u05d5\u05d0\u05dc \u05dc\u05d5\u05d9\ud83d\udd25"},{"username":"husnil_chatimah","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12965691_1187578817933464_1588196061_a.jpg","id":"1281000365","full_name":"husnil
+        chatimah"},{"username":"eq4868","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/11906329_960233084022564_1448528159_a.jpg","id":"1566422688","full_name":"\uc190\uc608\uc9c0"},{"username":"abcvbbnn","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12093461_522979984525619_1974356309_a.jpg","id":"1471191339","full_name":""}]},"images":{"low_resolution":{"url":"https:\/\/scontent.cdninstagram.com\/t51.2885-15\/s320x320\/e35\/11820650_383510488514384_162151818_n.jpg?ig_cache_key=MTA0MjcyNTIwNTYwNjkwMTAwMg%3D%3D.2","width":320,"height":320},"thumbnail":{"url":"https:\/\/scontent.cdninstagram.com\/t51.2885-15\/s150x150\/e35\/11820650_383510488514384_162151818_n.jpg?ig_cache_key=MTA0MjcyNTIwNTYwNjkwMTAwMg%3D%3D.2","width":150,"height":150},"standard_resolution":{"url":"https:\/\/scontent.cdninstagram.com\/t51.2885-15\/s640x640\/sh0.08\/e35\/11820650_383510488514384_162151818_n.jpg?ig_cache_key=MTA0MjcyNTIwNTYwNjkwMTAwMg%3D%3D.2","width":640,"height":640}},"users_in_photo":[],"caption":{"created_time":"1438522552","text":"Edited
+        with \u2728 #DeluxeFX \u2728 app\n---\nLazy Sunday \ud83d\ude34","from":{"username":"izkiz","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12317796_966271183445455_869420690_a.jpg","id":"4140744","full_name":"izkiz
+        \u2708\ufe0f\ud83c\udf0d\ud83d\udcf7"},"id":"17852514559044745"},"type":"image","id":"1042725205606901002_4140744","user":{"username":"izkiz","profile_picture":"http:\/\/scontent.cdninstagram.com\/t51.2885-19\/s150x150\/12317796_966271183445455_869420690_a.jpg","id":"4140744","full_name":"izkiz
+        \u2708\ufe0f\ud83c\udf0d\ud83d\udcf7"}}}'
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 11:56:50 GMT
+recorded_with: VCR 3.0.1

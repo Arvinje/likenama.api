@@ -1,29 +1,26 @@
 require 'rails_helper'
 
-RSpec.describe Campaign, type: :model do
+RSpec.shared_examples "a campaign" do |campaign_type|
 
-  it { should respond_to :campaign_type }
-  it { should respond_to :payment_type }
-  it { should respond_to :total_likes }
-  it { should respond_to :budget }
-  it { should respond_to :owner_id }
-  it { should respond_to :price_id }
-  it { should respond_to :waiting_id }
+  it { is_expected.to respond_to :budget }
+  it { is_expected.to respond_to :payment_type }
+  it { is_expected.to respond_to :owner }
+  it { is_expected.to respond_to :price }
+  it { is_expected.to respond_to :waiting }
+  it { is_expected.to respond_to :total_likes }
 
   describe "ActiveModel validations" do
-    it { should validate_presence_of :campaign_type }
-    it { should validate_presence_of :payment_type }
-    it { should validate_presence_of :budget }
-    it { should validate_presence_of :owner }
+    it { is_expected.to validate_presence_of :budget }
+    it { is_expected.to validate_presence_of :payment_type }
+    it { is_expected.to validate_presence_of :owner }
 
-    it { should validate_numericality_of(:budget).only_integer }
+    it { is_expected.to validate_numericality_of(:budget).is_greater_than_or_equal_to(0).only_integer }
   end
 
   describe "ActiveRecord associations" do
     it { is_expected.to have_many(:likes).dependent :destroy }
     it { is_expected.to have_many(:liking_users).through(:likes).source(:user) }
     it { is_expected.to belong_to(:owner).class_name('User') }
-    it { is_expected.to have_one(:instagram_detail).dependent(:destroy) }
     it { is_expected.to belong_to(:price) }
     it { is_expected.to belong_to(:waiting) }
     it { is_expected.to have_many(:reports).dependent :destroy }
@@ -31,25 +28,14 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe "Callbacks", :vcr do
-    let(:campaign) { create :campaign }
+    let(:campaign) { build campaign_type }
 
-    it { expect(campaign).to callback(:set_price).before(:save) }
-    it { expect(campaign).to callback(:set_waiting).before(:save) }
-  end
-
-  describe "#detail" do
-    context "when it's an instagram campaign" do
-      let(:campaign) { create :campaign, campaign_type: 'instagram' }
-
-      it "returns the respective detail" do
-        expect(campaign.detail).to eql campaign.instagram_detail
-      end
-    end
+    it { expect(campaign).to callback(:set_price).before(:create) }
+    it { expect(campaign).to callback(:set_waiting).before(:create) }
   end
 
   describe "#verify!", :vcr do
-    let(:campaign) { create :campaign, status: 'pending' }
-
+    let(:campaign) { create campaign_type, status: 'pending' }
     before do
       campaign.verify!
       campaign.reload
@@ -62,8 +48,7 @@ RSpec.describe Campaign, type: :model do
 
   describe "#reject!", :vcr do
     context "on each type of campaign" do
-      let(:campaign) { create :campaign, status: 'pending' }
-
+      let(:campaign) { create campaign_type, status: 'pending' }
       before do
         campaign.reject!
         campaign.reload
@@ -76,7 +61,7 @@ RSpec.describe Campaign, type: :model do
     context "when it's a like_getter campaign" do
       before do
         @owner = create :user, like_credit: 400
-        @campaign = create :campaign, status: 'pending', payment_type: "like_getter", budget: 100, owner: @owner
+        @campaign = create campaign_type, status: 'pending', payment_type: "like_getter", budget: 100, owner: @owner
         @campaign.reject!
         @campaign.reload
       end
@@ -88,7 +73,7 @@ RSpec.describe Campaign, type: :model do
     context "when it's a money_getter campaign" do
       before do
         @owner = create :user, coin_credit: 300
-        @campaign = create :campaign, status: 'pending', payment_type: "money_getter", budget: 100, owner: @owner
+        @campaign = create campaign_type, status: 'pending', payment_type: "money_getter", budget: 100, owner: @owner
         @campaign.reject!
         @campaign.reload
       end
@@ -99,22 +84,14 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  describe "#detail", :vcr do
-    context "it's an Instagram campaign" do
-      let(:instagram_detail) { create :instagram_detail }
-      it "returns respective detail" do
-        expect(instagram_detail.campaign.detail).to eql instagram_detail
-      end
-    end
-  end
-
   describe "#set_waiting", :vcr do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do
-        let(:campaign) { build :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
+        let(:campaign) { build campaign_type, payment_type: 'money_getter' }
+
         it "assigns the respective waiting to the campaign" do
           campaign.save
-          expect(campaign.waiting.period).to eql Waiting.where(campaign_type: 'instagram', payment_type: 'money_getter').last.period
+          expect(campaign.waiting.period).to eql Waiting.where(campaign_type: 'InstagramLikingCampaign', payment_type: 'money_getter').last.period
         end
       end
     end
@@ -125,10 +102,10 @@ RSpec.describe Campaign, type: :model do
       before do
         @user = create :user
         Campaign.all.each { |c| c.destroy }
-        2.times { @available = create :campaign, status: 'available' }
-        2.times { @finished = create :campaign, status: 'ended' }
-        liked = create :campaign, status: 'ended'
-        CampaignLiking.new(liked, @user, INSTAGRAM_ACCESS_TOKEN).like!
+        2.times { @available = create campaign_type, status: 'available' }
+        2.times { @finished = create campaign_type, status: 'ended' }
+        liked = create campaign_type, status: 'ended'
+        Like.create(campaign: liked, user: @user)
       end
 
       it "returns first not-liked available campaign" do
@@ -136,13 +113,14 @@ RSpec.describe Campaign, type: :model do
       end
 
       it "returns next not-liked available campaign" do
-        CampaignLiking.new(Campaign.first, @user, INSTAGRAM_ACCESS_TOKEN).like!
+        Like.create(campaign: Campaign.first, user: @user)
         expect(Campaign.for_user(@user)).to eql @available
       end
 
       it "returns blank array when no campaign's available" do
-        CampaignLiking.new(Campaign.first, @user, INSTAGRAM_ACCESS_TOKEN).like!
-        CampaignLiking.new(@available, @user, INSTAGRAM_ACCESS_TOKEN).like!
+        Like.create(campaign: Campaign.first, user: @user)
+        Like.create(campaign: @available, user: @user)
+
         expect(Campaign.for_user(@user).blank?).to eql true
       end
     end
@@ -151,10 +129,11 @@ RSpec.describe Campaign, type: :model do
   describe "#set_price", :vcr do
     context "it's an instagram campaign" do
       context "it's a money_getter campaign" do
-        let(:campaign) { build :campaign, campaign_type: 'instagram', payment_type: 'money_getter' }
+        let(:campaign) { build campaign_type, payment_type: 'money_getter' }
+
         it "assigns the respective price to the campaign" do
           campaign.save
-          expect(campaign.price.campaign_value).to eql Price.where(campaign_type: 'instagram', payment_type: 'money_getter').last.campaign_value
+          expect(campaign.price.campaign_value).to eql Price.where(campaign_type: 'InstagramLikingCampaign', payment_type: 'money_getter').last.campaign_value
         end
       end
     end
@@ -162,13 +141,14 @@ RSpec.describe Campaign, type: :model do
 
   describe "#liked_by?", :vcr do
     let(:user) { create :user }
-    let(:campaign) { create :campaign }
+    let(:campaign) { create campaign_type }
 
     context "when the campaign has already been liked by the user" do
       before do
         campaign.liking_users << user
         campaign.reload
       end
+
       it "should return true" do
         expect(campaign.liked_by? user).to eql true
       end

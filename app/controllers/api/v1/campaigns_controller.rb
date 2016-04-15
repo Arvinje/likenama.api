@@ -1,7 +1,7 @@
 class Api::V1::CampaignsController < Api::V1::ApiController
 
   def index
-    user_campaigns = current_user.campaigns.order(created_at: :desc).includes(:instagram_detail)
+    user_campaigns = current_user.campaigns.order(created_at: :desc)
     unless user_campaigns.empty?
       render json: user_campaigns, each_serializer: Api::V1::UsersCampaignSerializer, status: :ok
     else
@@ -24,7 +24,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   end
 
   def create
-    creation = CampaignCreation.new(campaign_params, current_user)
+    creation = CreateCampaign.new(campaign_params, current_user)
     if creation.save
       head :created
     else
@@ -48,6 +48,6 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, detail: [:url, :description, :phone, :website, :address])
+    params.require(:campaign).permit(:campaign_type, :payment_type, :budget, :target_url, :description, :phone, :website, :address)
   end
 end

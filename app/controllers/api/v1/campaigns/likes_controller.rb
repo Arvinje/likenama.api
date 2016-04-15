@@ -2,7 +2,7 @@ class Api::V1::Campaigns::LikesController < Api::V1::ApiController
 
   def create
     campaign = Campaign.find params[:campaign_id]
-    result = CampaignLiking.new(campaign, current_user, like_params)
+    result = LikeCampaign.new(campaign, current_user, like_params)
     if result.like!
       render json: current_user, serializer: Api::V1::UserSerializer, status: :created
     else
@@ -17,7 +17,7 @@ class Api::V1::Campaigns::LikesController < Api::V1::ApiController
   private
 
   def like_params
-    params.require(:like).permit(:instagram_access_token)
+    params.require(:like).permit(:access_token)
   end
 
 end

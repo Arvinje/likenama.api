@@ -1,13 +1,13 @@
-class CampaignLiking
+class LikeCampaign
   attr_reader :campaign
 
-  # Initializes a new instance of CampaignLiking.
+  # Initializes a new instance of LikeCampaign.
   #
   # @param campaign [Campaign] the campaign object.
   # @param user [User] the user object.
   # @param opts [Hash] a hash consist of required options for various types of campaign.
   # @example
-  #   CampaignLiking.new(campaign, user, { instagram_access_token: "abcs..." })
+  #   LikeCampaign.new(campaign, user, { instagram_access_token: "abcs..." })
   def initialize(campaign, user, opts={})
     @campaign = campaign
     @user = user
@@ -20,7 +20,7 @@ class CampaignLiking
   def like!
     return true if has_liked?
     return false unless valid?
-    return false unless operator_response
+    return false unless validator_response
     persist!
   end
 
@@ -33,15 +33,19 @@ class CampaignLiking
     Like.exists?(campaign_id: @campaign.id, user_id: @user.id)
   end
 
-  # Initializes and calls the respective operator to
+  # Initializes and calls the respective validator to
   # check whether the user has liked the target or not.
   #
-  # @return [Campaign, false] the campaign object when operator's response is true, false otherwise.
-  def operator_response
-    # selects right operator based on the campaign's campaign_type.
-    operator_class = OperatorRegistry.operator_for @campaign.campaign_type
-    operator = operator_class.new(campaign: @campaign, user: @user, options: @opts)
-    operator.liked? ? @campaign = operator.campaign : false
+  # @return [Campaign, false] the campaign object when validator's response is true, false otherwise.
+  def validator_response
+    klass = @campaign.liking_validator
+    validator = klass.new(@campaign, @user, @opts)
+    if validator.validate
+      @campaign = validator.campaign
+    else
+      @campaign = validator.campaign
+      false
+    end
   end
 
   # Creates the join model instance and calls {#credential_operations} to

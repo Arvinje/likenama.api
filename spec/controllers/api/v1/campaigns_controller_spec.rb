@@ -7,7 +7,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       before do
         user = create :user
         5.times do
-          create :campaign, owner: user
+          create :instagram_liking_campaign, owner: user
         end
         api_authorization_header user.auth_token
         get :index
@@ -50,7 +50,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       @user = create :user
       @campaigns = []
       5.times do
-        @campaigns << create(:campaign)
+        @campaigns << create(:instagram_liking_campaign)
       end
       api_authorization_header @user.auth_token
     end
@@ -62,7 +62,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       end
       it "should return the next record" do
         campaign_response = json_response[:campaign]
-        expect(campaign_response[:detail][:website]).to eql @campaigns[1].instagram_detail.website
+        expect(campaign_response[:website]).to eql @campaigns[1].website
       end
 
       it { should respond_with :ok }
@@ -111,13 +111,12 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
   end
 
   describe "POST #create", :vcr do
+    let(:user) { create :user }
     context "when is successfully created" do
       before do
-        user = create :user
-        instagram_detail_attributes = attributes_for :instagram_detail
-        @campaign_attributes = attributes_for(:campaign).merge({detail: instagram_detail_attributes})
+        campaign_attributes = attributes_for(:instagram_liking_campaign).merge({campaign_type: "instagram_liking"})
         api_authorization_header user.auth_token
-        post :create, { campaign: @campaign_attributes }
+        post :create, { campaign: campaign_attributes }
       end
 
       it { should respond_with :created }
@@ -126,10 +125,9 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     context "when is not created" do
       context "when campaign_type field is empty" do
         before do
-          user = create :user
-          @invalid_campaign_attributes = { payment_type: "money_getter" }
+          invalid_campaign_attributes = attributes_for(:instagram_liking_campaign).except(:budget)
           api_authorization_header user.auth_token
-          post :create, { campaign: @invalid_campaign_attributes }
+          post :create, { campaign: invalid_campaign_attributes }
         end
 
         it "should render an errors json" do
@@ -139,7 +137,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
         it "should render the json errors on why the user could not be created" do
           campaign_response = json_response
-          expect(campaign_response[:errors][:campaign_type]).to include I18n.t("errors.messages.blank")
+          expect(campaign_response[:errors][:budget]).to include I18n.t("errors.messages.not_a_number")
         end
 
         it { should respond_with :unprocessable_entity }
@@ -148,10 +146,9 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       context "when the shortcode is invalid" do
         before do
           user = create :user
-          instagram_detail_attributes = attributes_for :instagram_detail, url: "https://instagram.com/p/erewtr45346Vcv"
-          @invalid_campaign_attributes = attributes_for(:campaign).merge({detail: instagram_detail_attributes})
+          invalid_campaign_attributes = attributes_for(:instagram_liking_campaign, target_url: "http://instagras.com/sdf/sdf").merge({campaign_type: "instagram_liking"})
           api_authorization_header user.auth_token
-          post :create, { campaign: @invalid_campaign_attributes }
+          post :create, { campaign: invalid_campaign_attributes }
         end
 
         it "should render an errors json" do
@@ -161,7 +158,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
         it "should render the json errors on why the user could not be created" do
           campaign_response = json_response
-          expect(campaign_response[:errors][:'detail.url']).to include "آدرس تصویر اینستاگرام اشتباه است"
+          expect(campaign_response[:errors][:'target_url']).to include I18n.t "errors.messages.wrong_instagram_url"
         end
 
         it { should respond_with :unprocessable_entity }

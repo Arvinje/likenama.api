@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.instagram.com/v1/media/shortcode/***REMOVED***?access_token=465469725.5106fe6.33df8ecbd624n8f8ee39638ffd2jc671
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Instagram Ruby Gem 1.1.6
+      Authorization:
+      - Token token="465469725.5106fe6.33df8ecbd624n8f8ee39638ffd2jc671"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 400
+      message: BAD REQUEST
+    headers:
+      Content-Language:
+      - en
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Vary:
+      - Cookie, Accept-Language
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Date:
+      - Fri, 15 Apr 2016 21:15:56 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Set-Cookie:
+      - csrftoken=98a35eb12943fba1dbe7a5fcdefd7ef1; expires=Fri, 14-Apr-2017 21:15:56
+        GMT; Max-Age=31449600; Path=/
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '118'
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"error_type":"OAuthAccessTokenException","code":400,"error_message":"The
+        access_token provided is invalid."}}'
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 21:15:55 GMT
+recorded_with: VCR 3.0.1

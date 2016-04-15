@@ -1,26 +1,33 @@
 FactoryGirl.define do
   factory :campaign do
-    campaign_type "instagram"
-    payment_type { ["like_getter", "money_getter"].sample }
-    total_likes 0
+    type "InstagramLikingCampaign"
     status 'available'
-    price
-    waiting
     budget 1000
+    payment_type { ["like_getter", "money_getter"].sample }
     association :owner, factory: :instagram_user
-    after(:create) do |campaign|
-      campaign.instagram_detail ||= FactoryGirl.create(:instagram_detail, campaign: campaign)
-    end
+    description { FFaker::Lorem.paragraph }
+    phone { (rand() * 10**8).round.to_s }
+    website { FFaker::Internet.http_url }
+    address { FFaker::AddressAU.full_address }
+    total_likes 0
     after(:build) do |campaign|
-      if Price.where(campaign_type: campaign.campaign_type, payment_type: campaign.payment_type).empty?
-        FactoryGirl.create(:price, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+      unless Price.exists?(campaign_type: campaign.type, payment_type: campaign.payment_type)
+        FactoryGirl.create(:price, campaign_type: campaign.type, payment_type: campaign.payment_type)
       end
     end
     after(:build) do |campaign|
-      if Waiting.where(campaign_type: campaign.campaign_type, payment_type: campaign.payment_type).empty?
-        FactoryGirl.create(:waiting, campaign_type: campaign.campaign_type, payment_type: campaign.payment_type)
+      unless Waiting.exists?(campaign_type: campaign.type, payment_type: campaign.payment_type)
+        FactoryGirl.create(:waiting, campaign_type: campaign.type, payment_type: campaign.payment_type)
       end
     end
+  end
+
+  factory :instagram_campaign_service, parent: :campaign, class: "InstagramCampaignService" do
+    target_url { "https://instagram.com/p/#{Rails.application.secrets.liked_instagram_shortcode}" }
+    target  { Rails.application.secrets.liked_instagram_shortcode }
+  end
+
+  factory :instagram_liking_campaign, parent: :instagram_campaign_service, class: "InstagramLikingCampaign" do
   end
 
 end

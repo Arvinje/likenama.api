@@ -104,4 +104,53 @@ http_interactions:
         access_token provided is invalid."}}'
     http_version: 
   recorded_at: Fri, 18 Dec 2015 07:43:56 GMT
-recorded_with: VCR 3.0.0
+- request:
+    method: get
+    uri: https://api.instagram.com/v1/media/shortcode/?client_id=***REMOVED***
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Instagram Ruby Gem 1.1.6
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 400
+      message: BAD REQUEST
+    headers:
+      X-Ratelimit-Remaining:
+      - '4996'
+      Content-Language:
+      - en
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Vary:
+      - Cookie, Accept-Language
+      X-Ratelimit-Limit:
+      - '5000'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Date:
+      - Fri, 15 Apr 2016 20:05:22 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Set-Cookie:
+      - csrftoken=f7593e5a682261c239b22d57e8e0cc6c; expires=Fri, 14-Apr-2017 20:05:22
+        GMT; Max-Age=31449600; Path=/
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '88'
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"error_type":"APINotFoundError","code":400,"error_message":"invalid
+        media id"}}'
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 20:05:26 GMT
+recorded_with: VCR 3.0.1

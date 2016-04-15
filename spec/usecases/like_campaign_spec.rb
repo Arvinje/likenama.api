@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe CampaignLiking do
+RSpec.describe LikeCampaign do
 
   describe '#like!' do
+    let(:user) { create :user }
+    let(:campaign) { create :instagram_liking_campaign }
+    let(:opts) { {access_token: "aer1245"} }
+    let(:liking) { LikeCampaign.new(campaign, user, opts) }
+    before do
+      validator = double(validate: true, campaign: campaign)
+      allow(campaign.liking_validator).to receive(:new).with(campaign, user, opts).and_return(validator)
+    end
 
     context "when user successfully likes the campaign", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign }
-      let(:liking) { CampaignLiking.new(campaign, user) }
-
-      before do
-        allow(liking).to receive(:operator_response).and_return(true)
-      end
-
       it "returns true" do
         expect(liking.like!).to be true
       end
@@ -35,22 +35,17 @@ RSpec.describe CampaignLiking do
     #============================ Validations =================================#
 
     context "when user has already liked the campaign", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign }
       before do
         user.liked_campaigns << campaign
       end
 
       it "returns true" do
-        liking = CampaignLiking.new(campaign, user)
         expect(liking.like!).to be true
       end
     end
 
     context "when the campaign has ended", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, status: 'ended' }
-      let(:liking) { CampaignLiking.new(campaign, user) }
+      let(:campaign) { create :instagram_liking_campaign, status: 'ended' }
 
       it 'returns false' do
         expect(liking.like!).to be false
@@ -63,9 +58,7 @@ RSpec.describe CampaignLiking do
     end
 
     context "when campaign is still pending", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, status: 'pending' }
-      let(:liking) { CampaignLiking.new(campaign, user) }
+      let(:campaign) { create :instagram_liking_campaign, status: 'pending' }
 
       it 'returns false' do
         expect(liking.like!).to be false
@@ -81,11 +74,10 @@ RSpec.describe CampaignLiking do
       let(:user) { create :user }
 
       before do
-        campaign = create :campaign
         campaign.price = create :price, campaign_value: 10, users_share: 5
         campaign.budget = 7
         campaign.save
-        @liking = CampaignLiking.new(campaign, user)
+        @liking = LikeCampaign.new(campaign, user)
       end
 
       it 'returns false' do
@@ -101,18 +93,18 @@ RSpec.describe CampaignLiking do
     context "when the duration between each user's like is not valid", :vcr do
       before do
         @user = create :user
-        campaign = create :campaign
-        create :waiting, period: 10,
-                          campaign_type: campaign.campaign_type,
-                          payment_type: campaign.payment_type
+        campaign = create :instagram_liking_campaign
+        campaign.waiting = create :waiting, period: 10,
+                                  campaign_type: campaign.type,
+                                  payment_type: campaign.payment_type
         campaign.save
 
-        liking = CampaignLiking.new(campaign, @user)
-        allow(liking).to receive(:operator_response).and_return(true)
+        liking = LikeCampaign.new(campaign, @user)
+        allow(liking).to receive(:validator_response).and_return(true)
         liking.like!
-        campaign = create :campaign
-        @liking = CampaignLiking.new(campaign, @user)
-        allow(@liking).to receive(:operator_response).and_return(true)
+        campaign = create :instagram_liking_campaign
+        @liking = LikeCampaign.new(campaign, @user)
+        allow(@liking).to receive(:validator_response).and_return(true)
       end
 
       it 'returns false' do
@@ -128,9 +120,11 @@ RSpec.describe CampaignLiking do
     #======================== Operator Response ===============================#
 
     context "when the response from the operator is false", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign }
-      let(:liking) { CampaignLiking.new(campaign, user) }
+      before do
+        campaign.errors.add(:base, :has_not_liked)
+        validator = double(validate: false, campaign: campaign)
+        allow(campaign.liking_validator).to receive(:new).with(campaign, user, opts).and_return(validator)
+      end
 
       it 'returns false' do
         expect(liking.like!).to be false
@@ -143,15 +137,8 @@ RSpec.describe CampaignLiking do
     end
 
     #=========================== Credential Ops ===============================#
-
     context "when it's a like_getter campaign", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, payment_type: 'like_getter' }
-      let(:liking) { CampaignLiking.new(campaign, user) }
-
-      before do
-        allow(liking).to receive(:operator_response).and_return(true)
-      end
+      let(:campaign) { create :instagram_liking_campaign, payment_type: 'like_getter' }
 
       it 'returns true' do
         expect(liking.like!).to be true
@@ -167,13 +154,7 @@ RSpec.describe CampaignLiking do
     end
 
     context "when it's a money_getter campaign", :vcr do
-      let(:user) { create :user }
-      let(:campaign) { create :campaign, payment_type: 'money_getter' }
-      let(:liking) { CampaignLiking.new(campaign, user) }
-
-      before do
-        allow(liking).to receive(:operator_response).and_return(true)
-      end
+      let(:campaign) { create :instagram_liking_campaign, payment_type: 'money_getter' }
 
       it 'returns true' do
         expect(liking.like!).to be true
@@ -191,14 +172,14 @@ RSpec.describe CampaignLiking do
     context "when campaign gets its last possible like", :vcr do
       let(:user1) { create :user }
       let(:user2) { create :user }
-      let(:price) { create :price, campaign_type: 'instagram', payment_type: 'money_getter', campaign_value: 10, users_share: 5 }
-      let(:campaign) { create :campaign, campaign_type: 'instagram', payment_type: 'money_getter', budget: 17, price: price }
-      let(:liking1) { CampaignLiking.new(campaign, user1) }
-      let(:liking2) { CampaignLiking.new(campaign, user2) }
+      let(:price) { create :price, campaign_type: 'InstagramLikingCampaign', payment_type: 'money_getter', campaign_value: 10, users_share: 5 }
+      let(:campaign) { create :instagram_liking_campaign, payment_type: 'money_getter', budget: 17, price: price }
+      let(:liking1) { LikeCampaign.new(campaign, user1) }
+      let(:liking2) { LikeCampaign.new(campaign, user2) }
 
       before do
-        allow(liking1).to receive(:operator_response).and_return(true)
-        allow(liking2).to receive(:operator_response).and_return(true)
+        allow(liking1).to receive(:validator_response).and_return(true)
+        allow(liking2).to receive(:validator_response).and_return(true)
       end
 
       it 'returns true for the first like and false for the second one' do

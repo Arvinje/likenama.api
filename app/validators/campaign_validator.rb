@@ -29,7 +29,7 @@ class CampaignValidator
   #
   # @return [Price]
   def current_price
-    Price.where(campaign_type: @campaign.campaign_type,
+    Price.where(campaign_type: @campaign.type,
                 payment_type: @campaign.payment_type)
          .order(created_at: :desc).first
   end
@@ -44,16 +44,16 @@ class CampaignValidator
   end
 
   # Makes sure that user has enough credit (coin or like)
-  # before creating a campaign.
+  # before creating a campaign. Gets performed after #{financial_transactions}.
   # Adds respective errors when necessary.
   def user_has_enough_credit?
     case @campaign.payment_type
     when "money_getter"
-      if @campaign.budget > @campaign.owner.coin_credit
+      if @campaign.owner.coin_credit < 0
         @campaign.errors.add(:budget, :not_enough_credit)
       end
     when "like_getter"
-      if @campaign.budget > @campaign.owner.like_credit
+      if @campaign.owner.like_credit < 0
         @campaign.errors.add(:budget, :not_enough_credit)
       end
     end
