@@ -9,9 +9,9 @@ class Api::V1::ApiController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :handle_notfound
 
   protected
-  
+
   def handle_notfound
-    errors = { base: ["مورد درخواست‌شده یافت نشد"] }
+    errors = { base: [t('errors.messages.not_found')] }
     render json: { errors: errors }, status: 404
   end
 

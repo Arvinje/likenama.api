@@ -7,7 +7,7 @@ app/models/product.rb 4cf385ed39b02dff12f721ee6e046d752beca1e6
 app/models/manager.rb 335e2729936d3e7a4e7b26d8ab37e0e38ca53b4d
 app/models/message.rb c506137d2e27470aef56f6c9d8393dc5408b9129
 app/models/waiting.rb 64210d89757b4a9d043900a128ab74d226fc42f9
-app/models/campaign.rb 50c30b5f8ffcdd116ed41fad8cf9339fb49de60a
+app/models/campaign.rb 67b8354e0759aad65566982da7a7ecd6640a568d
 lib/api_constraints.rb d52d7980a13d8e6d01bc8ca8760f64ce6924e8a3
 app/models/key_value.rb 3aedeabc5f2268511415e5624071ae5e6f3c5427
 app/models/transaction.rb 94a6b664db9dc3169cd48ee0f0e288e5a8e6d64a
@@ -21,7 +21,7 @@ app/helpers/application_helper.rb eef3d3adce96afe8b14c19b6135323f47543d979
 app/operators/instagram_operator.rb d3715eb983f0b90cac9ea10e3d130f8e74b582ea
 app/validators/campaign_validator.rb d3566d1001f9a274461c27389c64f3cb878b23a5
 app/controllers/sessions_controller.rb 15c70d609e3a213545c1b870a8b6e8ecc9b35748
-app/controllers/api/v1/api_controller.rb 7d38149985fef732fc7bb58ea545a8acde5a8cf7
+app/controllers/api/v1/api_controller.rb 9dfa5653c7569053511070b1f05858458af66c61
 app/controllers/dashboards_controller.rb 2c5b99086a4b2e92db58d770ce1530e9ac652093
 app/serializers/api/v1/user_serializer.rb 399f3f85c009a3162a1f464665e771560da11bc5
 app/controllers/application_controller.rb 0de62089cbebed2671168a5ad30f14fafa61251b

@@ -61,7 +61,7 @@ RSpec.describe Api::V1::Campaigns::LikesController, type: :controller do
 
       it "should provide the reason of the error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
+        expect(campaign_response[:errors][:base]).to include I18n.t 'errors.messages.not_found'
       end
 
       it { should respond_with :not_found }

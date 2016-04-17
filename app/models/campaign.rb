@@ -13,7 +13,7 @@ class Campaign < ActiveRecord::Base
   has_many   :reports, dependent: :destroy
   has_many   :reporters, through: :reports, source: :user
 
-  validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'], message: "is not a valid payment_type" }
+  validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'] }
   validates :budget, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :owner, presence: true
 

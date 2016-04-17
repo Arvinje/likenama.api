@@ -42,7 +42,7 @@ RSpec.describe CreateCampaign do
         allow(creation.campaign).to receive(:creation_validator).and_return(validator)
       end
 
-      it "returns true" do
+      it "returns false" do
         expect(creation.save).to be false
       end
 
@@ -52,21 +52,23 @@ RSpec.describe CreateCampaign do
       end
     end
 
-    context "when type-specific validations are failed" do
+    context "when campaign general validations are failed" do
+      let(:params) { attributes_for(:instagram_liking_campaign, budget: 50, payment_type: "dollar_getter")
+                      .except(:type, :status, :total_likes, :target)
+                      .merge(campaign_type: "instagram_liking")
+                    }
       before do
-        campaign = creation.campaign
-        campaign.errors.add(:target_url, :wrong_instagram_url)
-        validator = double(validate: false, campaign: campaign)
+        validator = double(validate: true, campaign: creation.campaign)
         allow(creation.campaign).to receive(:creation_validator).and_return(validator)
       end
 
-      it "returns true" do
+      it "returns false" do
         expect(creation.save).to be false
       end
 
       it "has some errors on campaign instance" do
         creation.save
-        expect(creation.campaign.errors[:target_url]).to include I18n.t 'errors.messages.wrong_instagram_url'
+        expect(creation.campaign.errors[:payment_type]).to include I18n.t 'errors.messages.inclusion'
       end
     end
   end
