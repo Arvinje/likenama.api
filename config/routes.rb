@@ -1,4 +1,5 @@
 require 'api_constraints'
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
@@ -10,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   resource :management, only: [:show] do
+    authenticate :manager do
+      mount Sidekiq::Web => '/sidekiq'
+    end
     resources :users, only: [:index, :show, :update], controller: 'managements/users' do
       member do
         patch :lock

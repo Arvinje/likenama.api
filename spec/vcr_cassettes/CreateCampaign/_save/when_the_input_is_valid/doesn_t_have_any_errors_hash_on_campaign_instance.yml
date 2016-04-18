@@ -58,4 +58,53 @@ http_interactions:
         \u2708\ufe0f\ud83c\udf0d\ud83d\udcf7"}}}'
     http_version: 
   recorded_at: Fri, 15 Apr 2016 11:56:49 GMT
+- request:
+    method: get
+    uri: https://api.instagram.com/v1/media/shortcode/?client_id=***REMOVED***
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Instagram Ruby Gem 1.1.6
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 400
+      message: BAD REQUEST
+    headers:
+      X-Ratelimit-Remaining:
+      - '4995'
+      Content-Language:
+      - en
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Vary:
+      - Cookie, Accept-Language
+      X-Ratelimit-Limit:
+      - '5000'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Date:
+      - Mon, 18 Apr 2016 12:28:04 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Set-Cookie:
+      - csrftoken=ed8f0bdc7e2100545eec271a9035d6ee; expires=Mon, 17-Apr-2017 12:28:04
+        GMT; Max-Age=31449600; Path=/
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '88'
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"error_type":"APINotFoundError","code":400,"error_message":"invalid
+        media id"}}'
+    http_version: 
+  recorded_at: Mon, 18 Apr 2016 12:28:04 GMT
 recorded_with: VCR 3.0.1

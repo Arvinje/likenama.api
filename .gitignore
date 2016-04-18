@@ -17,3 +17,4 @@ doc/
 *.swp
 *~
 .DS_Store
+dump.rdb

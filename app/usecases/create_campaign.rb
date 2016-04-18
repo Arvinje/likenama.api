@@ -22,7 +22,9 @@ class CreateCampaign
 
   private
 
-  # Performs validations and saves the record
+  # Performs validations and saves the record.
+  # Enqueues a job form downloading the cover.
+  #
   # @return [Boolean] true if the operation was successful, false otherwise.
   def persist!
     begin
@@ -31,6 +33,7 @@ class CreateCampaign
         financial_transactions
         @campaign.save!
       end
+      @campaign.fetch_cover
       true
     rescue
       false

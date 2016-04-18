@@ -12,7 +12,7 @@ class InstagramPhotoValidator
     begin
       set_target!
       media = Instagram.client.media_shortcode(@campaign.target)
-      media.images.standard_resolution.url # must be added to download queue
+      media.images.standard_resolution.url
       true
     rescue
       @campaign.errors.add(:target_url, :wrong_instagram_url)

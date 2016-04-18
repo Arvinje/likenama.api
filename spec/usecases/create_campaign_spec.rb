@@ -11,6 +11,7 @@ RSpec.describe CreateCampaign do
     let(:creation) { CreateCampaign.new(params,user) }
     before do
       allow(CampaignRegistry).to receive(:campaign_for).with(params[:campaign_type]).and_return InstagramLikingCampaign
+      allow(creation.campaign).to receive(:fetch_cover).and_return(true)
     end
 
     context "when the input is valid" do

@@ -72,6 +72,9 @@ gem 'client_side_validations', :github => "DavyJonesLocker/client_side_validatio
 gem 'client_side_validations-simple_form', github: 'DavyJonesLocker/client_side_validations-simple_form', branch: 'master'
 gem 'parsi-date', '~> 0.3.1'
 gem 'public_activity', '~> 1.4', '>= 1.4.2'
+gem 'paperclip', '~> 4.3', '>= 4.3.6'
+gem 'sidekiq', '~> 4.1', '>= 4.1.1'
+gem 'sinatra', '~> 1.4', '>= 1.4.7', :require => nil
 
 gem 'rails_12factor', group: :production # Heroku ONLY
 gem 'puma'

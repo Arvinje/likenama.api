@@ -47,5 +47,7 @@ module LikeNama
     config.filter_parameters += [:access_token, :auth_token]
 
     config.autoload_paths += %W(\#{config.root}/lib)
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

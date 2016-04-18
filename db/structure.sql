@@ -148,7 +148,11 @@ CREATE TABLE campaigns (
     photo_url character varying DEFAULT ''::character varying,
     total_likes integer DEFAULT 0,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    cover_file_name character varying,
+    cover_content_type character varying,
+    cover_file_size integer,
+    cover_updated_at timestamp without time zone
 );
 
 
@@ -1045,4 +1049,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160105024546');
 INSERT INTO schema_migrations (version) VALUES ('20160105025630');
 
 INSERT INTO schema_migrations (version) VALUES ('20160116224251');
+
+INSERT INTO schema_migrations (version) VALUES ('20160418061329');
 
