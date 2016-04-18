@@ -32,6 +32,7 @@ class CreateCampaign
         raise unless creation_valid?
         financial_transactions
         @campaign.save!
+        @campaign.owner.save!
       end
       @campaign.fetch_cover
       true

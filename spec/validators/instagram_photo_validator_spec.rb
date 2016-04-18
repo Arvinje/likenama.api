@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe InstagramPhotoValidator do
 
   let(:validator) { InstagramPhotoValidator.new(campaign) }
-  describe "#validate" do
+  describe "#validate", :vcr do
     context "when it's a valid request" do
       let(:campaign) { build :instagram_liking_campaign, target_url: "http://instagram.com/p/***REMOVED***", target: nil}
 
