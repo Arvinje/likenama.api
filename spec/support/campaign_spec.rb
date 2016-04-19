@@ -23,6 +23,7 @@ RSpec.shared_examples "a campaign" do |campaign_type|
     it { is_expected.to belong_to(:owner).class_name('User') }
     it { is_expected.to belong_to(:price) }
     it { is_expected.to belong_to(:waiting) }
+    it { is_expected.to belong_to(:campaign_class) }
     it { is_expected.to have_many(:reports).dependent :destroy }
     it { is_expected.to have_many(:reporters).through(:reports).source(:user) }
   end

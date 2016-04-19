@@ -7,7 +7,7 @@ app/models/product.rb 4cf385ed39b02dff12f721ee6e046d752beca1e6
 app/models/manager.rb 335e2729936d3e7a4e7b26d8ab37e0e38ca53b4d
 app/models/message.rb c506137d2e27470aef56f6c9d8393dc5408b9129
 app/models/waiting.rb 64210d89757b4a9d043900a128ab74d226fc42f9
-app/models/campaign.rb 67b8354e0759aad65566982da7a7ecd6640a568d
+app/models/campaign.rb b4ba4b3d9d8b84a62ad76bfdd22f977709125e08
 lib/api_constraints.rb d52d7980a13d8e6d01bc8ca8760f64ce6924e8a3
 app/models/key_value.rb 3aedeabc5f2268511415e5624071ae5e6f3c5427
 app/models/transaction.rb 94a6b664db9dc3169cd48ee0f0e288e5a8e6d64a
@@ -56,3 +56,4 @@ app/controllers/api/v1/products/purchases_controller.rb 4fe206e5bf184901e6eeea18
 app/controllers/dashboards/bundles/purchases_controller.rb 937abdf4fa9e3b19506f6b817a6069b0ca1a43c0
 app/controllers/managements/products/product_details_controller.rb 95bc6d160de52eb8b0d8bdfef9eafe401e7e6ba9
 app/models/campaigns/instagram_campaigns/instagram_liking_campaign.rb 6809e94a88d818d5eb5f75344112a004a7dc0ca4
+app/models/campaign_class.rb ecd7c9f284c69b4e38589bf8304bd58434d7c21c

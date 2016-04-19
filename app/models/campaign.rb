@@ -10,6 +10,7 @@ class Campaign < ActiveRecord::Base
   belongs_to :owner, class_name: 'User'
   belongs_to :price
   belongs_to :waiting
+  belongs_to :campaign_class
   has_many   :reports, dependent: :destroy
   has_many   :reporters, through: :reports, source: :user
 

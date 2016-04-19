@@ -128,6 +128,42 @@ ALTER SEQUENCE bundles_id_seq OWNED BY bundles.id;
 
 
 --
+-- Name: campaign_classes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE campaign_classes (
+    id integer NOT NULL,
+    campaign_type character varying,
+    coin_value integer DEFAULT 0,
+    coin_user_share integer DEFAULT 0,
+    like_value integer DEFAULT 0,
+    like_user_share integer DEFAULT 0,
+    waiting integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: campaign_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE campaign_classes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: campaign_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE campaign_classes_id_seq OWNED BY campaign_classes.id;
+
+
+--
 -- Name: campaigns; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -152,7 +188,10 @@ CREATE TABLE campaigns (
     cover_file_name character varying,
     cover_content_type character varying,
     cover_file_size integer,
-    cover_updated_at timestamp without time zone
+    cover_updated_at timestamp without time zone,
+    coin_budget integer,
+    like_budget integer,
+    campaign_class_id integer
 );
 
 
@@ -626,6 +665,13 @@ ALTER TABLE ONLY bundles ALTER COLUMN id SET DEFAULT nextval('bundles_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY campaign_classes ALTER COLUMN id SET DEFAULT nextval('campaign_classes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq'::regclass);
 
 
@@ -727,6 +773,14 @@ ALTER TABLE ONLY activities
 
 ALTER TABLE ONLY bundles
     ADD CONSTRAINT bundles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: campaign_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaign_classes
+    ADD CONSTRAINT campaign_classes_pkey PRIMARY KEY (id);
 
 
 --
@@ -852,6 +906,13 @@ CREATE INDEX index_activities_on_recipient_id_and_recipient_type ON activities U
 --
 
 CREATE INDEX index_activities_on_trackable_id_and_trackable_type ON activities USING btree (trackable_id, trackable_type);
+
+
+--
+-- Name: index_campaigns_on_campaign_class_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaigns_on_campaign_class_id ON campaigns USING btree (campaign_class_id);
 
 
 --
@@ -993,6 +1054,14 @@ ALTER TABLE ONLY reports
 
 
 --
+-- Name: fk_rails_da7a08ef6e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT fk_rails_da7a08ef6e FOREIGN KEY (campaign_class_id) REFERENCES campaign_classes(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1051,4 +1120,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160105025630');
 INSERT INTO schema_migrations (version) VALUES ('20160116224251');
 
 INSERT INTO schema_migrations (version) VALUES ('20160418061329');
+
+INSERT INTO schema_migrations (version) VALUES ('20160419185432');
+
+INSERT INTO schema_migrations (version) VALUES ('20160419185447');
+
+INSERT INTO schema_migrations (version) VALUES ('20160419191526');
 
