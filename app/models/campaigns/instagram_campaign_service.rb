@@ -23,7 +23,8 @@ class InstagramCampaignService < Campaign
   # calls {CampaignCoverDownloaderJob} job to fetch the cover
   def fetch_cover
     media = Instagram.client.media_shortcode(target)
-    CampaignCoverDownloaderJob.perform_later self, media.images.standard_resolution.url
+    CampaignCoverDownloaderJob.set(wait: 10.second)
+                              .perform_later self, media.images.standard_resolution.url
   end
 
   # Returns Instagram photo url based on the target
