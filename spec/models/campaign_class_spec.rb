@@ -23,4 +23,33 @@ RSpec.describe CampaignClass, type: :model do
   describe "ActiveRecord associations" do
     it { is_expected.to have_many :campaigns }
   end
+
+  describe '#deactivate_previous_class' do
+    context "when there's a previous class with the same specs as the current one" do
+      before do
+        CampaignClass.all.each { |c| c.destroy }
+        @klass = create :instagram_liking_coin_with_waiting_class
+        create :instagram_liking_coin_with_waiting_class
+      end
+
+      it "deactivates previous record" do
+        @klass.reload
+        expect(@klass.inactive?).to be true
+      end
+    end
+
+    context "when there's not a previous class with the same specs" do
+      before do
+        CampaignClass.all.each { |c| c.destroy }
+      end
+
+      it "doesn't deactivate any previous records" do
+        @klass = create :instagram_liking_coin_class, waiting: 0
+        create :instagram_liking_coin_with_waiting_class, waiting: 5
+        @klass.reload
+        expect(@klass.active?).to be true
+      end
+    end
+  end
+
 end
