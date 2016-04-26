@@ -47,8 +47,8 @@ CREATE TYPE campaign_status AS ENUM (
 --
 
 CREATE TYPE payment_type AS ENUM (
-    'like_getter',
-    'money_getter'
+    'like',
+    'coin'
 );
 
 
@@ -134,9 +134,10 @@ ALTER SEQUENCE bundles_id_seq OWNED BY bundles.id;
 CREATE TABLE campaign_classes (
     id integer NOT NULL,
     campaign_type character varying,
-    coin_value integer DEFAULT 0,
+    payment_type payment_type,
+    status boolean DEFAULT true NOT NULL,
+    campaign_value integer DEFAULT 0,
     coin_user_share integer DEFAULT 0,
-    like_value integer DEFAULT 0,
     like_user_share integer DEFAULT 0,
     waiting integer DEFAULT 0,
     created_at timestamp without time zone NOT NULL,
@@ -169,14 +170,12 @@ ALTER SEQUENCE campaign_classes_id_seq OWNED BY campaign_classes.id;
 
 CREATE TABLE campaigns (
     id integer NOT NULL,
-    target character varying DEFAULT ''::character varying,
+    campaign_class_id integer,
     type character varying,
+    owner_id integer,
+    target character varying DEFAULT ''::character varying,
     status campaign_status,
     budget integer,
-    payment_type payment_type,
-    owner_id integer,
-    waiting_id integer,
-    price_id integer,
     description text DEFAULT ''::text,
     phone character varying DEFAULT ''::character varying,
     website character varying DEFAULT ''::character varying,
@@ -188,10 +187,7 @@ CREATE TABLE campaigns (
     cover_file_name character varying,
     cover_content_type character varying,
     cover_file_size integer,
-    cover_updated_at timestamp without time zone,
-    coin_budget integer,
-    like_budget integer,
-    campaign_class_id integer
+    cover_updated_at timestamp without time zone
 );
 
 
@@ -354,40 +350,6 @@ CREATE SEQUENCE messages_id_seq
 --
 
 ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
-
-
---
--- Name: prices; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE prices (
-    id integer NOT NULL,
-    campaign_value integer DEFAULT 0,
-    users_share integer DEFAULT 0,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    campaign_type character varying,
-    payment_type payment_type
-);
-
-
---
--- Name: prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE prices_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
 
 
 --
@@ -615,39 +577,6 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: waitings; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE waitings (
-    id integer NOT NULL,
-    period integer DEFAULT 0,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    campaign_type character varying,
-    payment_type payment_type
-);
-
-
---
--- Name: waitings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE waitings_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: waitings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE waitings_id_seq OWNED BY waitings.id;
-
-
---
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -707,13 +636,6 @@ ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY product_details ALTER COLUMN id SET DEFAULT nextval('product_details_id_seq'::regclass);
 
 
@@ -750,13 +672,6 @@ ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY waitings ALTER COLUMN id SET DEFAULT nextval('waitings_id_seq'::regclass);
 
 
 --
@@ -824,14 +739,6 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY prices
-    ADD CONSTRAINT prices_pkey PRIMARY KEY (id);
-
-
---
 -- Name: product_details_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -880,14 +787,6 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: waitings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY waitings
-    ADD CONSTRAINT waitings_pkey PRIMARY KEY (id);
-
-
---
 -- Name: index_activities_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -906,13 +805,6 @@ CREATE INDEX index_activities_on_recipient_id_and_recipient_type ON activities U
 --
 
 CREATE INDEX index_activities_on_trackable_id_and_trackable_type ON activities USING btree (trackable_id, trackable_type);
-
-
---
--- Name: index_campaigns_on_campaign_class_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_campaigns_on_campaign_class_id ON campaigns USING btree (campaign_class_id);
 
 
 --
@@ -1054,14 +946,6 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: fk_rails_da7a08ef6e; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY campaigns
-    ADD CONSTRAINT fk_rails_da7a08ef6e FOREIGN KEY (campaign_class_id) REFERENCES campaign_classes(id);
-
-
---
 -- PostgreSQL database dump complete
 --
 
@@ -1083,19 +967,9 @@ INSERT INTO schema_migrations (version) VALUES ('20150808155022');
 
 INSERT INTO schema_migrations (version) VALUES ('20150811073548');
 
-INSERT INTO schema_migrations (version) VALUES ('20150815102402');
-
-INSERT INTO schema_migrations (version) VALUES ('20150815114332');
-
-INSERT INTO schema_migrations (version) VALUES ('20150815131523');
-
 INSERT INTO schema_migrations (version) VALUES ('20150822120244');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822145356');
-
-INSERT INTO schema_migrations (version) VALUES ('20150824125110');
-
-INSERT INTO schema_migrations (version) VALUES ('20150824134029');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914201021');
 
@@ -1122,8 +996,4 @@ INSERT INTO schema_migrations (version) VALUES ('20160116224251');
 INSERT INTO schema_migrations (version) VALUES ('20160418061329');
 
 INSERT INTO schema_migrations (version) VALUES ('20160419185432');
-
-INSERT INTO schema_migrations (version) VALUES ('20160419185447');
-
-INSERT INTO schema_migrations (version) VALUES ('20160419191526');
 

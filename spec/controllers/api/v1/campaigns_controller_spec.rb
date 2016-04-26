@@ -7,7 +7,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       before do
         user = create :user
         5.times do
-          create :instagram_liking_campaign, owner: user
+          @last = create :instagram_liking_campaign, owner: user
         end
         api_authorization_header user.auth_token
         get :index
@@ -16,6 +16,15 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       it "should return 5 records from database" do
         campaigns_response = json_response[:campaigns]
         expect(campaigns_response.size).to eql 5
+      end
+
+      it "consists of its attributes" do
+        campaigns_response = json_response[:campaigns]
+        expect(campaigns_response.first[:status]).to eql @last.status
+        expect(campaigns_response.first[:payment_type]).to eql @last.campaign_class.payment_type
+        expect(campaigns_response.first[:campaign_type]).to eql @last.campaign_class
+                                                                .campaign_type.chomp("Campaign")
+                                                                .underscore
       end
 
       it { should respond_with :ok }
@@ -35,7 +44,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
 
       it "should return a 'no more campaigns' error" do
         campaign_response = json_response
-        expect(campaign_response[:errors][:base]).to include "مورد درخواست‌شده یافت نشد"
+        expect(campaign_response[:errors][:base]).to include I18n.t 'errors.messages.not_found'
       end
 
       it { should respond_with :not_found }
@@ -87,24 +96,29 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
   describe "GET #new" do
     let(:user) { create :user }
     before do
-      create :price, campaign_type: 'instagram', payment_type: 'like_getter'
-      create :price, campaign_type: 'instagram', payment_type: 'money_getter'
+      CampaignClass.all.each { |c| c.destroy }
+      create :instagram_liking_like_class
+      create :instagram_liking_coin_class
       api_authorization_header user.auth_token
       get :new
     end
 
     it "renders a json for all available prices" do
-      expect(json_response).to have_key :prices
+      expect(json_response).to have_key :campaign_classes
     end
 
-    it "renders json representation of instagram_like_getter price" do
-      prices_response = json_response[:prices]
-      expect(prices_response[0][:campaign_value]).to eql Price.instagram_like_getter.campaign_value
+    it "renders json representation of instagram_like price" do
+      prices_response = json_response[:campaign_classes]
+      expect(prices_response[0][:campaign_value]).to eql CampaignClass.where(campaign_type: "InstagramLikingCampaign",
+                  payment_type: "like")
+           .order(created_at: :desc).first.campaign_value
     end
 
-    it "renders json representation of instagram_money_getter price" do
-      prices_response = json_response[:prices]
-      expect(prices_response[1][:campaign_value]).to eql Price.instagram_money_getter.campaign_value
+    it "renders json representation of instagram_coin price" do
+      prices_response = json_response[:campaign_classes]
+      expect(prices_response[1][:campaign_value]).to eql CampaignClass.where(campaign_type: "InstagramLikingCampaign",
+                  payment_type: "coin")
+           .order(created_at: :desc).first.campaign_value
     end
 
     it { is_expected.to respond_with :ok }
@@ -114,9 +128,8 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     let(:user) { create :user }
     context "when is successfully created" do
       before do
-        create :price, campaign_type: 'InstagramLikingCampaign', payment_type: 'like_getter'
-        create :waiting, campaign_type: 'InstagramLikingCampaign', payment_type: 'like_getter'
-        campaign_attributes = attributes_for(:instagram_liking_campaign, payment_type: 'like_getter').merge({campaign_type: "instagram_liking"})
+        create :instagram_liking_like_class
+        campaign_attributes = attributes_for(:instagram_liking_campaign, payment_type: 'like').merge({campaign_type: "instagram_liking"})
         api_authorization_header user.auth_token
         post :create, { campaign: campaign_attributes }
       end

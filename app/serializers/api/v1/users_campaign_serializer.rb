@@ -5,6 +5,10 @@ class Api::V1::UsersCampaignSerializer < ActiveModel::Serializer
     object.status
   end
 
+  def payment_type
+    object.campaign_class.payment_type
+  end
+
   def campaign_type
     object.type.chomp("Campaign").underscore
   end

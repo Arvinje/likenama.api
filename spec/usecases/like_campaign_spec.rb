@@ -72,10 +72,11 @@ RSpec.describe LikeCampaign do
 
     context "when it doesn't have enough budget even for a like", :vcr do
       let(:user) { create :user }
+      let(:campaign) { create :instagram_liking_campaign, payment_type: "coin" }
 
       before do
-        campaign.price = create :price, campaign_value: 10, users_share: 5
-        campaign.budget = 7
+        campaign.campaign_class = create :instagram_liking_coin_class
+        campaign.budget = 4
         campaign.save
         @liking = LikeCampaign.new(campaign, user)
       end
@@ -94,9 +95,7 @@ RSpec.describe LikeCampaign do
       before do
         @user = create :user
         campaign = create :instagram_liking_campaign
-        campaign.waiting = create :waiting, period: 10,
-                                  campaign_type: campaign.type,
-                                  payment_type: campaign.payment_type
+        campaign.campaign_class = create :instagram_liking_coin_with_waiting_class
         campaign.save
 
         liking = LikeCampaign.new(campaign, @user)
@@ -137,43 +136,43 @@ RSpec.describe LikeCampaign do
     end
 
     #=========================== Credential Ops ===============================#
-    context "when it's a like_getter campaign", :vcr do
-      let(:campaign) { create :instagram_liking_campaign, payment_type: 'like_getter' }
+    context "when it's a like campaign", :vcr do
+      let(:campaign) { create :instagram_liking_campaign, payment_type: 'like' }
 
       it 'returns true' do
         expect(liking.like!).to be true
       end
 
       it "increases user's like_credit by campaign's users_share" do
-        expect{ liking.like! }.to change{ user.like_credit }.by campaign.price.users_share
+        expect{ liking.like! }.to change{ user.like_credit }.by campaign.campaign_class.like_user_share
       end
 
       it "decreases campaign's budget by its campaign_value"  do
-        expect{ liking.like! }.to change{ campaign.budget }.by (campaign.price.campaign_value * -1)
+        expect{ liking.like! }.to change{ campaign.budget }.by (campaign.campaign_class.campaign_value * -1)
       end
     end
 
-    context "when it's a money_getter campaign", :vcr do
-      let(:campaign) { create :instagram_liking_campaign, payment_type: 'money_getter' }
+    context "when it's a coin campaign", :vcr do
+      let(:campaign) { create :instagram_liking_campaign, payment_type: 'coin' }
 
       it 'returns true' do
         expect(liking.like!).to be true
       end
 
       it "increases user's coin_credit by campaign's users_share" do
-        expect{ liking.like! }.to change{ user.coin_credit }.by campaign.price.users_share
+        expect{ liking.like! }.to change{ user.coin_credit }.by campaign.campaign_class.coin_user_share
       end
 
       it "decreases campaign's budget by its campaign_value"  do
-        expect{ liking.like! }.to change{ campaign.budget }.by (campaign.price.campaign_value * -1)
+        expect{ liking.like! }.to change{ campaign.budget }.by (campaign.campaign_class.campaign_value * -1)
       end
     end
 
     context "when campaign gets its last possible like", :vcr do
       let(:user1) { create :user }
       let(:user2) { create :user }
-      let(:price) { create :price, campaign_type: 'InstagramLikingCampaign', payment_type: 'money_getter', campaign_value: 10, users_share: 5 }
-      let(:campaign) { create :instagram_liking_campaign, payment_type: 'money_getter', budget: 17, price: price }
+      let(:campaign_class) { create :instagram_liking_coin_class, campaign_value: 5, coin_user_share: 2 }
+      let(:campaign) { create :instagram_liking_campaign, payment_type: 'coin', budget: 7, campaign_class: campaign_class }
       let(:liking1) { LikeCampaign.new(campaign, user1) }
       let(:liking2) { LikeCampaign.new(campaign, user2) }
 

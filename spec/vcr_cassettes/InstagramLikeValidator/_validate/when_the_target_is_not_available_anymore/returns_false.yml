@@ -21,7 +21,7 @@ http_interactions:
       message: BAD REQUEST
     headers:
       X-Ratelimit-Remaining:
-      - '4996'
+      - '4989'
       Content-Language:
       - en
       Expires:
@@ -35,11 +35,11 @@ http_interactions:
       Cache-Control:
       - private, no-cache, no-store, must-revalidate
       Date:
-      - Fri, 15 Apr 2016 21:15:57 GMT
+      - Tue, 26 Apr 2016 18:23:40 GMT
       Content-Type:
       - application/json; charset=utf-8
       Set-Cookie:
-      - csrftoken=0388f438a07b400b1b571aeb43f47893; expires=Fri, 14-Apr-2017 21:15:57
+      - csrftoken=0cb8ed82cfbcca31b3a9c9a4c8e9b807; expires=Tue, 25-Apr-2017 18:23:40
         GMT; Max-Age=31449600; Path=/
       Connection:
       - keep-alive
@@ -50,5 +50,5 @@ http_interactions:
       string: '{"meta":{"error_type":"APINotFoundError","code":400,"error_message":"invalid
         media id"}}'
     http_version: 
-  recorded_at: Fri, 15 Apr 2016 21:15:56 GMT
+  recorded_at: Tue, 26 Apr 2016 18:23:40 GMT
 recorded_with: VCR 3.0.1

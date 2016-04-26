@@ -29,6 +29,7 @@ class CreateCampaign
   def persist!
     begin
       ActiveRecord::Base.transaction do
+        set_campaign_class!
         raise unless creation_valid?
         financial_transactions
         @campaign.save!
@@ -38,6 +39,16 @@ class CreateCampaign
       true
     rescue
       false
+    end
+  end
+
+  def set_campaign_class!
+    begin
+      @campaign.set_campaign_class!
+      raise "class not available" if @campaign.campaign_class.nil?
+    rescue
+      @campaign.errors.add(:base, :class_not_available)
+      raise "class not available"
     end
   end
 
@@ -60,14 +71,14 @@ class CreateCampaign
   def financial_transactions
     begin
       case @campaign.payment_type
-      when "money_getter"
+      when "coin"
         @campaign.owner.coin_credit -= @campaign.budget
-      when "like_getter"
+      when "like"
         @campaign.owner.like_credit -= @campaign.budget
       end
     rescue
       @campaign.errors.add(:budget, :not_a_number)
-      raise
+      raise "not a number"
     end
   end
 

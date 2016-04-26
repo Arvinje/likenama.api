@@ -3,7 +3,7 @@ FactoryGirl.define do
     type "InstagramLikingCampaign"
     status 'available'
     budget 1000
-    payment_type { ["like_getter", "money_getter"].sample }
+    payment_type { ["like", "coin"].sample }
     association :owner, factory: :instagram_user
     description { FFaker::Lorem.paragraph }
     phone { (rand() * 10**8).round.to_s }
@@ -11,13 +11,8 @@ FactoryGirl.define do
     address { FFaker::AddressAU.full_address }
     total_likes 0
     after(:build) do |campaign|
-      unless Price.exists?(campaign_type: campaign.type, payment_type: campaign.payment_type)
-        FactoryGirl.create(:price, campaign_type: campaign.type, payment_type: campaign.payment_type)
-      end
-    end
-    after(:build) do |campaign|
-      unless Waiting.exists?(campaign_type: campaign.type, payment_type: campaign.payment_type)
-        FactoryGirl.create(:waiting, campaign_type: campaign.type, payment_type: campaign.payment_type)
+      unless campaign.campaign_class = CampaignClass.where(campaign_type: campaign.type, payment_type: campaign.payment_type).last
+        campaign.campaign_class = FactoryGirl.create(:campaign_class, campaign_type: campaign.type, payment_type: campaign.payment_type)
       end
     end
   end

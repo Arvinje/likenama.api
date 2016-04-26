@@ -99,7 +99,7 @@ Campaigns
           "id": 1637,
           "url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram",
-          "payment_type": "money_getter",
+          "payment_type": "coin",
           "status": "درحال نمایش",
           "budget": 1000,
           "total_likes": 0
@@ -108,7 +108,7 @@ Campaigns
           "id": 1634,
           "url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram",
-          "payment_type": "money_getter",
+          "payment_type": "coin",
           "status": "درحال نمایش",
           "budget": 1000,
           "total_likes": 0
@@ -117,7 +117,7 @@ Campaigns
           "id": 1633,
           "url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram",
-          "payment_type": "like_getter",
+          "payment_type": "like",
           "status": "درحال نمایش",
           "budget": 1000,
           "total_likes": 0
@@ -154,12 +154,12 @@ Campaigns
       "prices": [
         {
           "campaign_type": "instagram",
-          "payment_type": "money_getter",
+          "payment_type": "coin",
           "campaign_value": 50
         },
         {
           "campaign_type": "instagram",
-          "payment_type": "like_getter",
+          "payment_type": "like",
           "campaign_value": 50
         }
       ]
@@ -176,7 +176,7 @@ Campaigns
   {
     "campaign": {
       "campaign_type": "instagram",   // Always the same
-      "payment_type": "money_getter", // Always the same
+      "payment_type": "coin", // Always the same
       "budget": "1000",
       "detail": {
         "url": "https://instagram.com/p/***REMOVED***",
@@ -260,7 +260,7 @@ Campaigns
       "campaign": {
         "id": 4018,
         "campaign_type": "instagram",
-        "payment_type": "money_getter",
+        "payment_type": "coin",
         "value": 20,
         "waiting": 10,
         "detail": {

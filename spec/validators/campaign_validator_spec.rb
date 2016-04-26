@@ -4,9 +4,9 @@ RSpec.describe CampaignValidator do
 
   describe "#validate" do
     context "when the requested budget is bigger than user's credit" do
-      context "when it's a money_getter campaign" do
+      context "when it's a coin campaign" do
         let(:user) { build :user, coin_credit: -1 }
-        let(:campaign) { build :campaign, payment_type: 'money_getter', owner: user, budget: 15 }
+        let(:campaign) { build :campaign, payment_type: 'coin', owner: user, budget: 15 }
         let(:validation) { CampaignValidator.new(campaign) }
         subject { validation.validate }
 
@@ -17,9 +17,9 @@ RSpec.describe CampaignValidator do
         it { is_expected.not_to be_valid }
       end
 
-      context "when it's a like_getter campaign" do
+      context "when it's a like campaign" do
         let(:user) { build :user, like_credit: -1 }
-        let(:campaign) { build :campaign, payment_type: 'like_getter', owner: user, budget: 15 }
+        let(:campaign) { build :campaign, payment_type: 'like', owner: user, budget: 15 }
         let(:validation) { CampaignValidator.new(campaign) }
         subject { validation.validate }
 
@@ -33,8 +33,8 @@ RSpec.describe CampaignValidator do
 
     context "when the requested budget is not enough even for a like" do
       let(:user) { create :user }
-      let(:price) { create :price, payment_type: 'like_getter', campaign_type: 'instagram', campaign_value: 5 }
-      let(:campaign) { build :campaign, payment_type: 'like_getter', budget: 4, price: price }
+      let(:campaign_class) { create :instagram_liking_like_class, campaign_value: 5 }
+      let(:campaign) { build :campaign, budget: 4, campaign_class: campaign_class }
       let(:validation) { CampaignValidator.new(campaign) }
       subject { validation.validate }
 

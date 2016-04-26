@@ -1,22 +1,17 @@
 class Campaign < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessor :target_url
-
-  before_create :set_price
-  before_create :set_waiting
+  attr_accessor :target_url, :payment_type, :waiting
 
   has_many :likes, dependent: :destroy
   has_many :liking_users, through: :likes, source: :user
   belongs_to :owner, class_name: 'User'
-  belongs_to :price
-  belongs_to :waiting
   belongs_to :campaign_class
   has_many   :reports, dependent: :destroy
   has_many   :reporters, through: :reports, source: :user
 
-  validates :payment_type, presence: true, inclusion: { in: ['money_getter', 'like_getter'] }
   validates :budget, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :owner, presence: true
+  validates :campaign_class, presence: true
 
   validate  { |campaign| CampaignValidator.new(campaign).validate }
 
@@ -40,16 +35,6 @@ class Campaign < ActiveRecord::Base
     }.fetch(status.to_sym) { self }
   end
 
-  # Sets the day's campaign waiting based on campaign/payment type.
-  def set_waiting
-    self.waiting = Waiting.where(campaign_type: type, payment_type: payment_type).last
-  end
-
-  # Sets the day's campaign price based on campaign/payment type.
-  def set_price
-    self.price = Price.where(campaign_type: type, payment_type: payment_type).last
-  end
-
   # Verifies a pending campaign and makes it available.
   def verify!
     available! if pending?
@@ -63,7 +48,7 @@ class Campaign < ActiveRecord::Base
     begin
       # based on the campaign_type returns the budget back to the account
       ActiveRecord::Base.transaction do
-        if payment_type == "money_getter"
+        if payment_type == "coin"
           owner.coin_credit += budget
         else
           owner.like_credit += budget
@@ -76,7 +61,10 @@ class Campaign < ActiveRecord::Base
     end
   end
 
-  def self.for_user(user) # Returns available campaigns that are not liked by the user
+  # Returns available campaigns that are not liked by the user
+  #
+  # @return [Campaign] the next campaign
+  def self.for_user(user)
     self.available.where("id not in (select campaign_id from likes where user_id = ? and status = 'available')", user.id).first
   end
 

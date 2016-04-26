@@ -19,8 +19,7 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   end
 
   def new
-    prices = Price.available_prices
-    render json: prices, each_serializer: Api::V1::PriceSerializer, root: 'prices', status: 200
+    render json: CampaignClass.active, each_serializer: Api::V1::CampaignClassSerializer, root: "campaign_classes", status: :ok
   end
 
   def create

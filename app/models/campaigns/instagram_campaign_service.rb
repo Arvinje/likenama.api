@@ -19,6 +19,20 @@ class InstagramCampaignService < Campaign
     InstagramLikeValidator
   end
 
+  # Sets a {CampaignClass} based on the request for waiting, campaign_type
+  # and payment_type.
+  def set_campaign_class!
+    self.campaign_class = if waiting == true
+                            CampaignClass.active.where(campaign_type: type,
+                                                payment_type: payment_type)
+                                         .where.not(waiting: 0).last
+                          else
+                            CampaignClass.active.where(campaign_type: type,
+                                                payment_type: payment_type,
+                                                waiting: 0).last
+                          end
+  end
+
   # Gets photo address from Instagram API and
   # calls {CampaignCoverDownloaderJob} job to fetch the cover
   def fetch_cover

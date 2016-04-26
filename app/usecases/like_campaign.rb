@@ -75,14 +75,13 @@ class LikeCampaign
   #
   # @return [Boolean]
   def credential_operations
-    case @campaign.payment_type
-    when "like_getter"
-      @user.like_credit += @campaign.price.users_share
-      @campaign.budget -= @campaign.price.campaign_value
-    when "money_getter"
-      @user.coin_credit += @campaign.price.users_share
-      @campaign.budget -= @campaign.price.campaign_value
+    case @campaign.campaign_class.payment_type
+    when "like"
+      @user.like_credit += @campaign.campaign_class.like_user_share
+    when "coin"
+      @user.coin_credit += @campaign.campaign_class.coin_user_share
     end
+    @campaign.budget -= @campaign.campaign_class.campaign_value
     check_campaigns_availability
   end
 
@@ -98,7 +97,7 @@ class LikeCampaign
     return false unless status_valid?
 
     # checks if campaign has enough budget
-    unless @campaign.price.campaign_value <= @campaign.budget
+    unless @campaign.campaign_class.campaign_value <= @campaign.budget
       @campaign.errors.add(:base, :budget_run_out)
       return false
     end
@@ -119,18 +118,22 @@ class LikeCampaign
     case @campaign.status
     when 'rejected'
       @campaign.errors.add(:base, :not_verified)
-      return false
+      false
     when 'pending'
       @campaign.errors.add(:base, :not_verified)
-      return false
+      false
     when 'check_needed'
       @campaign.errors.add(:base, :not_verified)
-      return false
+      false
     when 'ended'
       @campaign.errors.add(:base, :no_longer_available)
-      return false
+      false
+    when nil
+      @campaign.errors.add(:base, :not_verified)
+      false
+    else
+      true
     end
-    return true
   end
 
   # Checks if the duration between last like and current like is valid
@@ -139,14 +142,14 @@ class LikeCampaign
   def period_valid?
     last_like = Like.where(user: @user).order(created_at: :desc).first
     return true if last_like.nil?
-    (Time.current - last_like.created_at) > last_like.campaign.waiting.period
+    (Time.current - last_like.created_at) > last_like.campaign.campaign_class.waiting
   end
 
   # Marks the campaign unavailable if the remaining budget is not enought even for a like.
   #
   # @return [false]
   def check_campaigns_availability
-    @campaign.ended! if @campaign.budget < @campaign.price.campaign_value
+    @campaign.ended! if @campaign.budget < @campaign.campaign_class.campaign_value
   end
 
 end

@@ -1,8 +1,8 @@
 ---
 fa:
   instagram: اینستاگرام
-  money_getter: سکه
-  like_getter: لایک
+  coin: سکه
+  like: لایک
   mobiletopup: شارژ موبایل
   activerecord:
     models:
@@ -145,6 +145,7 @@ fa:
       wrong_instagram_url: آدرس تصویر اینستاگرام اشتباه است
       purchase_problem: مشکلی در خرید محصول به‌وجود آمده. لطفا دوباره تلاش کنید
       not_found: مورد درخواست‌شده یافت نشد
+      class_not_available: کلاس کمپین معتبر نیست
     template:
       body: 'موارد زیر مشکل داشت:'
       header:

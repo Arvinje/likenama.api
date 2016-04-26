@@ -4,7 +4,7 @@ RSpec.describe CreateCampaign do
 
   describe '#save', :vcr do
     let(:user) { create :user, coin_credit: 100, like_credit: 100 }
-    let(:params) { attributes_for(:instagram_liking_campaign, budget: 50, payment_type: "money_getter")
+    let(:params) { attributes_for(:instagram_liking_campaign, budget: 50, payment_type: "coin")
                     .except(:type, :status, :total_likes, :target)
                     .merge(campaign_type: "instagram_liking")
                   }
@@ -69,7 +69,7 @@ RSpec.describe CreateCampaign do
 
       it "has some errors on campaign instance" do
         creation.save
-        expect(creation.campaign.errors[:payment_type]).to include I18n.t 'errors.messages.inclusion'
+        expect(creation.campaign.errors[:base]).to include I18n.t 'errors.messages.class_not_available'
       end
     end
   end

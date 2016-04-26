@@ -31,11 +31,11 @@ http_interactions:
       Cache-Control:
       - private, no-cache, no-store, must-revalidate
       Date:
-      - Fri, 15 Apr 2016 21:15:56 GMT
+      - Tue, 26 Apr 2016 18:23:37 GMT
       Content-Type:
       - application/json; charset=utf-8
       Set-Cookie:
-      - csrftoken=0ecb306557e45d6a0f3ea6045288dfef; expires=Fri, 14-Apr-2017 21:15:56
+      - csrftoken=af185371a0b6e62d05482b5ef75b1c7b; expires=Tue, 25-Apr-2017 18:23:37
         GMT; Max-Age=31449600; Path=/
       Connection:
       - keep-alive
@@ -46,5 +46,5 @@ http_interactions:
       string: '{"meta":{"error_type":"OAuthAccessTokenException","code":400,"error_message":"The
         access_token provided is invalid."}}'
     http_version: 
-  recorded_at: Fri, 15 Apr 2016 21:15:54 GMT
+  recorded_at: Tue, 26 Apr 2016 18:23:38 GMT
 recorded_with: VCR 3.0.1
