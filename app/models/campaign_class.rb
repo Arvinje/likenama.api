@@ -10,7 +10,11 @@ class CampaignClass < ActiveRecord::Base
   validates :like_user_share, presence: true, numericality: { only_integer: true }
   validates :waiting, presence: true, numericality: { only_integer: true }
 
+  validate :values_validity
+
   enum status: { active: true, inactive: false }
+
+  private
 
   # Makes sure that there's not any class with the same specs as
   # the current class active.
@@ -25,6 +29,30 @@ class CampaignClass < ActiveRecord::Base
                                              waiting: 0).last
                 end
     last_class.inactive! unless last_class.nil?
+  end
+
+  # Validates the entered coin_user_share, like_user_share and campaign_value,
+  # so if at all times, based on the provided payment_type, its user_share would be
+  # less than campaign_value.
+  #
+  # @return [Boolean] false if there's an error.
+  def values_validity
+    begin
+      case payment_type
+      when 'coin'
+        if coin_user_share > campaign_value
+          errors.add(:coin_user_share, :must_be_less_than_campaign_value)
+          return false
+        end
+      else
+        if like_user_share > campaign_value
+          errors.add(:like_user_share, :must_be_less_than_campaign_value)
+          return false
+        end
+      end
+    rescue
+      return false
+    end
   end
 
 end

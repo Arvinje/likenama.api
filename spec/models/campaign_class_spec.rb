@@ -24,6 +24,12 @@ RSpec.describe CampaignClass, type: :model do
     it { is_expected.to have_many :campaigns }
   end
 
+  describe "Callbacks" do
+    let(:campaign_class) { create :campaign_class }
+
+    it { expect(campaign_class).to callback(:deactivate_previous_class!).before(:create) }
+  end
+
   describe '#deactivate_previous_class' do
     context "when there's a previous class with the same specs as the current one" do
       before do
@@ -48,6 +54,74 @@ RSpec.describe CampaignClass, type: :model do
         create :instagram_liking_coin_with_waiting_class, waiting: 5
         @klass.reload
         expect(@klass.active?).to be true
+      end
+    end
+  end
+
+  describe '#values_validity' do
+    context "when the payment_type is coin" do
+      let(:campaign_class) { build :instagram_liking_coin_class,
+                                   campaign_value: 10,
+                                   coin_user_share: 15 }
+
+      context "when coin_user_share is greater than campaign_value" do
+        it "adds the error to the instance" do
+          expect(campaign_class.valid?).to be false
+          expect(campaign_class.errors[:coin_user_share]).to include I18n.t 'errors.messages.must_be_less_than_campaign_value'
+        end
+      end
+
+      context "when coin_user_share is nil" do
+        let(:campaign_class) { build :instagram_liking_coin_class,
+                                     campaign_value: 10,
+                                     coin_user_share: nil }
+
+        it "adds the error to the instance" do
+          expect(campaign_class.valid?).to be false
+        end
+      end
+
+      context "when campaign_value is nil" do
+        let(:campaign_class) { build :instagram_liking_coin_class,
+                                     campaign_value: nil,
+                                     coin_user_share: 10 }
+
+        it "adds the error to the instance" do
+          expect(campaign_class.valid?).to be false
+        end
+      end
+    end
+
+    context "when the payment_type is like" do
+      let(:campaign_class) { build :instagram_liking_like_class,
+                                   campaign_value: 10,
+                                   like_user_share: 15 }
+
+      context "when like_user_share is greater than campaign_value" do
+        it "adds the error to the instance" do
+          expect(campaign_class.valid?).to be false
+          expect(campaign_class.errors[:like_user_share]).to include I18n.t 'errors.messages.must_be_less_than_campaign_value'
+        end
+      end
+
+      context "when like_user_share is nil" do
+        let(:campaign_class) { build :instagram_liking_like_class,
+                                     campaign_value: 10,
+                                     like_user_share: nil }
+
+        it "adds the error to the instance" do
+          expect(campaign_class.valid?).to be false
+        end
+      end
+
+      context "when campaign_value is nil" do
+        let(:campaign_class) { build :instagram_liking_like_class,
+                                     campaign_value: nil,
+                                     like_user_share: 10 }
+
+        it "adds the error to the instance" do
+          expect(campaign_class.valid?).to be false
+        end
       end
     end
   end
