@@ -15,12 +15,6 @@ class Campaign < ActiveRecord::Base
 
   validate  { |campaign| CampaignValidator.new(campaign).validate }
 
-  scope :available, -> { where status: 'available' }
-  scope :ended, -> { where status: 'ended' }
-  scope :pending, -> { where pending: 'pending' }
-  scope :rejected, -> { where status: 'rejected' }
-  scope :check_needed, -> { where status: 'check_needed' }
-
   enum status: { pending: 'pending', available: 'available', rejected: 'rejected',
                  ended: 'ended', check_needed: 'check_needed' }
 
@@ -73,6 +67,18 @@ class Campaign < ActiveRecord::Base
   # @return [Boolean] true if user liked the campaign, false otherwise.
   def liked_by? user
     Like.exists?(campaign: self, user: user)
+  end
+
+  def payment_type
+    @payment_type || campaign_class.payment_type
+  end
+
+  def campaign_type
+    type.chomp("Campaign").underscore
+  end
+
+  def waiting
+    @waiting || campaign_class.waiting
   end
 
 end
