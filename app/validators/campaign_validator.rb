@@ -24,21 +24,11 @@ class CampaignValidator
 
   private
 
-  # Retrieves latest campaign_class based on the provided
-  # campaign_type and payment_type.
-  #
-  # @return [CampaignClass]
-  def latest_campaign_class
-    CampaignClass.where(campaign_type: @campaign.type,
-                payment_type: @campaign.payment_type)
-         .order(created_at: :desc).first
-  end
-
   # Makes sure that campaign has enough credit
   # before creating a campaign.
   # Adds respective errors when necessary.
   def campaign_has_enough_credit?
-    if @campaign.budget < latest_campaign_class.campaign_value
+    if @campaign.budget < @campaign.campaign_class.campaign_value
       @campaign.errors.add(:budget, :need_more_budget)
     end
   end
