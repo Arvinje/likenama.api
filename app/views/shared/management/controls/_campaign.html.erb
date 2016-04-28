@@ -1,6 +1,6 @@
 <div class="col-xs-10 col-lg-6 col-xs-offset-1 col-lg-offset-3">
   <h3 class="text-center"><span class="glyphicon glyphicon-cog"></span> تنظیمات</h3>
-  <%= simple_form_for [:management, campaign] do |f| %>
+  <%= simple_form_for campaign, url: management_campaign_path do |f| %>
     <div class="btn-group btn-group-justified" role="group">
 
       <div class="btn-group" role="group">

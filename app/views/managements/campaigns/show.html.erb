@@ -8,17 +8,18 @@
         <div class="col-xs-6 col-lg-4 col-md-5">
           <div class="thumbnail">
             <%#= image_tag "2.jpeg", class: 'img-thumbnail img-responsive' %>
-            <%= image_tag @campaign.detail.photo_url, class: 'img-thumbnail img-responsive'%>
-            <%= link_to "برو به سایت", @campaign.detail.get_url, class: 'btn btn-lg btn-success', style: 'width: 100%;' %>
+            <%= image_tag @campaign.cover.url(:medium), class: 'img-thumbnail img-responsive'%>
+            <%= link_to "برو به سایت", @campaign.target_url, class: 'btn btn-lg btn-success', style: 'width: 100%;' %>
           </div>
         </div>
         <div class="col-xs-6 col-lg-8 col-md-7" id="campaign-details">
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-user"></span> <%= link_to @campaign.owner.username, management_user_path(@campaign.owner) %></h4>
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-time" style="line-height: 15px;"></span> <%= @campaign.created_at.to_parsi.strftime("%-d %B %Y در %k:%M:%S") %></h4>
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-piggy-bank" style="line-height: 15px;"></span> <%= "#{@campaign.budget} #{t(@campaign.payment_type)}" %></h4>
-          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-hourglass" style="line-height: 15px;"></span> <%= @campaign.waiting.period %> ثانیه</h4>
-          <% flags = {"درحال نمایش" => "text-success", "به‌پایان رسیده" => "text-muted", "رد شده" => "text-danger", "درحال بررسی" => "text-info"} %>
-          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span><span class="<%= flags[@campaign.status] %>"> <%= @campaign.status %></span></h4>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-hourglass" style="line-height: 15px;"></span> <%= @campaign.waiting %> ثانیه</h4>
+          <% flags = {"available" => "success", "ended" => "default",
+                      "rejected" => "danger", "pending" => "info", "check_needed" => "warning"} %>
+          <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-info-sign" style="line-height: 15px;"></span><span class="text-<%= flags[@campaign.status] %>"> <%= t "campaign_status.#{@campaign.status}" %></span></h4>
           <h4 style="font-size: 23px;"><span class="glyphicon glyphicon-thumbs-up" style="line-height: 15px;"></span> <%= @campaign.total_likes %></h4>
         </div>
 
@@ -29,12 +30,12 @@
 <div class="col-lg-12">
   <div class="row">
     <div class="col-sm-5 col-lg-offset-1">
-      <p><span style="font-size: 22px; line-height: 15px;" class="glyphicon glyphicon-align-right"></span> <%= @campaign.detail.description %></p>
+      <p><span style="font-size: 22px; line-height: 15px;" class="glyphicon glyphicon-align-right"></span> <%= @campaign.description %></p>
     </div>
     <div class="col-sm-6">
-      <h3 style="margin-top: 0px;"><span class="glyphicon glyphicon-phone-alt"></span> <%= @campaign.detail.phone %></h3>
-      <h3 style="margin-top: 0px;" class="english"><span class="glyphicon glyphicon-link"></span> <%= link_to @campaign.detail.website, @campaign.detail.website %></h3>
-      <h3 style="margin-top: 0px;"><span class="glyphicon glyphicon-map-marker"></span> <%= @campaign.detail.address %></h3>
+      <h3 style="margin-top: 0px;"><span class="glyphicon glyphicon-phone-alt"></span> <%= @campaign.phone %></h3>
+      <h3 style="margin-top: 0px;" class="english"><span class="glyphicon glyphicon-link"></span> <%= link_to @campaign.website, @campaign.website %></h3>
+      <h3 style="margin-top: 0px;"><span class="glyphicon glyphicon-map-marker"></span> <%= @campaign.address %></h3>
     </div>
   </div>
 </div>

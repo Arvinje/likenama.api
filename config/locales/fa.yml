@@ -1,6 +1,12 @@
 ---
 fa:
-  instagram: اینستاگرام
+  campaign_status:
+    available: درحال‌نمایش
+    rejected: رد‌شده
+    pending: درحال‌بررسی
+    ended: به‌پایان‌رسیده
+    check_needed: نیازمند‌بررسی
+  instagram_liking: لایک‌اینستاگرام
   coin: سکه
   like: لایک
   mobiletopup: شارژ موبایل

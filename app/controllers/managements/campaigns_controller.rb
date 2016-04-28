@@ -4,7 +4,7 @@ class Managements::CampaignsController < ApplicationController
   before_action :find_campaign, only: [:show, :update]
 
   def index
-    @campaigns = Campaign.order(created_at: :desc).page(params[:page])
+    @campaigns = Campaign.where.not(status: nil).order(created_at: :desc).page(params[:page])
   end
 
   def show
@@ -21,7 +21,7 @@ class Managements::CampaignsController < ApplicationController
       @campaign.reject!
       @campaign.create_activity :rejected, owner: current_manager
     end
-    redirect_to [:management, @campaign]
+    redirect_to management_campaign_path(@campaign)
   end
 
   private
