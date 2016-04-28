@@ -1,7 +1,7 @@
-class ProductPurchase
+class PurchaseProduct
   attr_reader :user, :purchased_detail
 
-  # Initializes a new instance of ProductPurchase
+  # Initializes a new instance of PurchaseProduct
   #
   # @param user [User] the customer
   # @param product [Product] the selected product

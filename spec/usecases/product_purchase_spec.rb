@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe ProductPurchase do
+RSpec.describe PurchaseProduct do
 
   describe "#buy" do
     context "when user purchases the product successfully" do
       let(:user) { create :user, coin_credit: 300 }
       let(:product) { create :product_with_details, price: 100 }
-      let(:purchase) { ProductPurchase.new(user,product) }
+      let(:purchase) { PurchaseProduct.new(user,product) }
 
       it "returns true" do
         expect(purchase.buy).to be true
@@ -35,7 +35,7 @@ RSpec.describe ProductPurchase do
     context "when user doesn't have enough credit" do
       let(:user) { create :user, coin_credit: 50 }
       let(:product) { create :product_with_details, price: 100 }
-      let(:purchase) { ProductPurchase.new(user,product) }
+      let(:purchase) { PurchaseProduct.new(user,product) }
 
       it "returns false" do
         expect(purchase.buy).to be false
