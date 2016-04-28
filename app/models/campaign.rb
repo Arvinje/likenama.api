@@ -78,7 +78,8 @@ class Campaign < ActiveRecord::Base
   end
 
   def waiting
-    @waiting || campaign_class.waiting
+    return campaign_class.waiting if @waiting.nil?
+    @waiting
   end
 
 end

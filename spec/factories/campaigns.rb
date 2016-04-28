@@ -10,6 +10,7 @@ FactoryGirl.define do
     website { FFaker::Internet.http_url }
     address { FFaker::AddressAU.full_address }
     total_likes 0
+    waiting false
     after(:build) do |campaign|
       unless campaign.campaign_class = CampaignClass.where(campaign_type: campaign.type, payment_type: campaign.payment_type).last
         campaign.campaign_class = FactoryGirl.create(:campaign_class, campaign_type: campaign.type, payment_type: campaign.payment_type)

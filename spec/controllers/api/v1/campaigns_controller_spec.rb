@@ -22,9 +22,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
         campaigns_response = json_response[:campaigns]
         expect(campaigns_response.first[:status]).to eql @last.status
         expect(campaigns_response.first[:payment_type]).to eql @last.campaign_class.payment_type
-        expect(campaigns_response.first[:campaign_type]).to eql @last.campaign_class
-                                                                .campaign_type.chomp("Campaign")
-                                                                .underscore
+        expect(campaigns_response.first[:campaign_type]).to eql @last.campaign_type
       end
 
       it { should respond_with :ok }
