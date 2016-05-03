@@ -16,7 +16,7 @@ class CreateCampaignClasses < ActiveRecord::Migration
     create_table :campaign_classes do |t|
       t.string  :campaign_type
       t.column  :payment_type, :payment_type
-      t.boolean :status, default: true, null: false
+      t.boolean :status, default: true
       t.integer :campaign_value, default: 0
       t.integer :coin_user_share, default: 0
       t.integer :like_user_share, default: 0
