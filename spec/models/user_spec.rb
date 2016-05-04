@@ -44,8 +44,8 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:campaigns).with_foreign_key(:owner_id) }
     it { is_expected.to have_many(:purchased_details).class_name('ProductDetail') }
     it { is_expected.to have_many(:purchased_products).through(:purchased_details).source(:product) }
-    it { is_expected.to have_many(:transactions) }
-    it { is_expected.to have_many(:purchased_bundles).through(:transactions).source(:bundle) }
+    it { is_expected.to have_many(:bundle_purchases) }
+    it { is_expected.to have_many(:purchased_bundles).through(:bundle_purchases).source(:bundle) }
     it { is_expected.to have_many(:reports).dependent :destroy }
     it { is_expected.to have_many(:reported_campaigns).through(:reports).source(:campaign) }
     it { is_expected.to have_many(:messages) }

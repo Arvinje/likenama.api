@@ -75,6 +75,11 @@ gem 'public_activity', '~> 1.4', '>= 1.4.2'
 gem 'paperclip', '~> 4.3', '>= 4.3.6'
 gem 'sidekiq', '~> 4.1', '>= 4.1.1'
 gem 'sinatra', '~> 1.4', '>= 1.4.7', :require => nil
+gem 'redis', '~> 3.3'
+gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
+gem 'redis-rails', '~> 4.0'
+gem 'redis-rack-cache', '~> 1.2', '>= 1.2.4'
+gem 'http', '~> 2.0'
 
 gem 'rails_12factor', group: :production # Heroku ONLY
 gem 'puma'

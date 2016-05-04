@@ -95,11 +95,46 @@ ALTER SEQUENCE activities_id_seq OWNED BY activities.id;
 
 
 --
+-- Name: bundle_purchases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE bundle_purchases (
+    id integer NOT NULL,
+    user_id integer,
+    bundle_id integer,
+    bazaar_purhcase_token character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: bundle_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE bundle_purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bundle_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE bundle_purchases_id_seq OWNED BY bundle_purchases.id;
+
+
+--
 -- Name: bundles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE bundles (
     id integer NOT NULL,
+    bazaar_sku character varying,
+    status boolean DEFAULT true,
     price integer DEFAULT 0,
     coins integer DEFAULT 0,
     free_coins integer DEFAULT 0,
@@ -135,7 +170,7 @@ CREATE TABLE campaign_classes (
     id integer NOT NULL,
     campaign_type character varying,
     payment_type payment_type,
-    status boolean DEFAULT true NOT NULL,
+    status boolean DEFAULT true,
     campaign_value integer DEFAULT 0,
     coin_user_share integer DEFAULT 0,
     like_user_share integer DEFAULT 0,
@@ -208,38 +243,6 @@ CREATE SEQUENCE campaigns_id_seq
 --
 
 ALTER SEQUENCE campaigns_id_seq OWNED BY campaigns.id;
-
-
---
--- Name: key_values; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE key_values (
-    id integer NOT NULL,
-    key character varying,
-    value integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: key_values_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE key_values_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: key_values_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE key_values_id_seq OWNED BY key_values.id;
 
 
 --
@@ -495,40 +498,6 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: transactions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE transactions (
-    id integer NOT NULL,
-    id_get character varying DEFAULT ''::character varying,
-    trans_id character varying DEFAULT ''::character varying,
-    user_id integer,
-    bundle_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE transactions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -587,6 +556,13 @@ ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY bundle_purchases ALTER COLUMN id SET DEFAULT nextval('bundle_purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY bundles ALTER COLUMN id SET DEFAULT nextval('bundles_id_seq'::regclass);
 
 
@@ -602,13 +578,6 @@ ALTER TABLE ONLY campaign_classes ALTER COLUMN id SET DEFAULT nextval('campaign_
 --
 
 ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY key_values ALTER COLUMN id SET DEFAULT nextval('key_values_id_seq'::regclass);
 
 
 --
@@ -664,13 +633,6 @@ ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -680,6 +642,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY activities
     ADD CONSTRAINT activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bundle_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY bundle_purchases
+    ADD CONSTRAINT bundle_purchases_pkey PRIMARY KEY (id);
 
 
 --
@@ -704,14 +674,6 @@ ALTER TABLE ONLY campaign_classes
 
 ALTER TABLE ONLY campaigns
     ADD CONSTRAINT campaigns_pkey PRIMARY KEY (id);
-
-
---
--- Name: key_values_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY key_values
-    ADD CONSTRAINT key_values_pkey PRIMARY KEY (id);
 
 
 --
@@ -771,14 +733,6 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transactions
-    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -808,10 +762,31 @@ CREATE INDEX index_activities_on_trackable_id_and_trackable_type ON activities U
 
 
 --
--- Name: index_key_values_on_key; Type: INDEX; Schema: public; Owner: -
+-- Name: index_bundle_purchases_on_bazaar_purhcase_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_key_values_on_key ON key_values USING btree (key);
+CREATE INDEX index_bundle_purchases_on_bazaar_purhcase_token ON bundle_purchases USING btree (bazaar_purhcase_token);
+
+
+--
+-- Name: index_bundle_purchases_on_bundle_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bundle_purchases_on_bundle_id ON bundle_purchases USING btree (bundle_id);
+
+
+--
+-- Name: index_bundle_purchases_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bundle_purchases_on_user_id ON bundle_purchases USING btree (user_id);
+
+
+--
+-- Name: index_bundles_on_bazaar_sku; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bundles_on_bazaar_sku ON bundles USING btree (bazaar_sku);
 
 
 --
@@ -922,6 +897,22 @@ ALTER TABLE ONLY messages
 
 
 --
+-- Name: fk_rails_5a4704a440; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY bundle_purchases
+    ADD CONSTRAINT fk_rails_5a4704a440 FOREIGN KEY (bundle_id) REFERENCES bundles(id);
+
+
+--
+-- Name: fk_rails_6547b98cae; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY bundle_purchases
+    ADD CONSTRAINT fk_rails_6547b98cae FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: fk_rails_80a4991c50; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -965,15 +956,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150725081017');
 
 INSERT INTO schema_migrations (version) VALUES ('20150808155022');
 
-INSERT INTO schema_migrations (version) VALUES ('20150811073548');
-
 INSERT INTO schema_migrations (version) VALUES ('20150822120244');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822145356');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914201021');
-
-INSERT INTO schema_migrations (version) VALUES ('20150914202028');
 
 INSERT INTO schema_migrations (version) VALUES ('20151123203138');
 
@@ -996,4 +983,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160116224251');
 INSERT INTO schema_migrations (version) VALUES ('20160418061329');
 
 INSERT INTO schema_migrations (version) VALUES ('20160419185432');
+
+INSERT INTO schema_migrations (version) VALUES ('20160503120822');
 

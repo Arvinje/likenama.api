@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
   has_many :campaigns, foreign_key: :owner_id
   has_many :purchased_details, class_name: "ProductDetail"
   has_many :purchased_products, through: :purchased_details, source: :product
-  has_many :transactions
-  has_many :purchased_bundles, through: :transactions, source: :bundle
+  has_many :bundle_purchases
+  has_many :purchased_bundles, through: :bundle_purchases, source: :bundle
   has_many :reports, dependent: :destroy
   has_many :reported_campaigns, through: :reports, source: :campaign
   has_many :messages

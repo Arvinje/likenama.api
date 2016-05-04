@@ -153,6 +153,8 @@ fa:
       not_found: مورد درخواست‌شده یافت نشد
       class_not_available: کلاس کمپین معتبر نیست
       must_be_less_than_campaign_value: باید بزرگتر از ارزش کمپین باشد
+      payment_not_valid: پرداخت ناموفق بوده‌است
+      payment_problem: مشکلی در پرداخت بوجود آمده است. درحال پیگیری آن هستیم
     template:
       body: 'موارد زیر مشکل داشت:'
       header:

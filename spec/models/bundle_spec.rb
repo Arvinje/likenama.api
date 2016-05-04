@@ -15,8 +15,8 @@ RSpec.describe Bundle, type: :model do
   end
 
   describe "ActiveRecord associations" do
-    it { is_expected.to have_many :transactions }
-    it { is_expected.to have_many(:buyers).through(:transactions).source(:user) }
+    it { is_expected.to have_many :bundle_purchases }
+    it { is_expected.to have_many(:buyers).through(:bundle_purchases).source(:user) }
   end
 
 end
