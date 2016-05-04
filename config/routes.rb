@@ -68,6 +68,9 @@ Rails.application.routes.draw do
       resources :products, only: [:index] do
         resource :purchase, only: [:create], controller: 'products/purchases'
       end
+      resources :bundles, only: [:index] do
+        resource :purchase, only: [:create], controller: 'bundles/purchases'
+      end
     end
   end
 end
