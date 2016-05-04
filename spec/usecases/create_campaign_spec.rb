@@ -13,6 +13,9 @@ RSpec.describe CreateCampaign do
       allow(CampaignRegistry).to receive(:campaign_for).with(params[:campaign_type]).and_return InstagramLikingCampaign
       allow(creation.campaign).to receive(:fetch_cover).and_return(true)
     end
+    before(:all) do
+      create :instagram_liking_coin_class
+    end
 
     context "when the input is valid" do
       before do

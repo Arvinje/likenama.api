@@ -163,6 +163,9 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
           api_authorization_header user.auth_token
           post :create, { campaign: invalid_campaign_attributes }
         end
+        before(:all) do
+          create :instagram_liking_like_class
+        end
 
         it "should render an errors json" do
           campaign_response = json_response
