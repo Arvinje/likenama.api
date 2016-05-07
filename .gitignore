@@ -19,3 +19,4 @@ doc/
 .DS_Store
 dump.rdb
 /public/system
+.yardoc
