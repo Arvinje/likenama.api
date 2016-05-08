@@ -101,20 +101,20 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
       get :new
     end
 
-    it "renders a json for all available prices" do
+    it "renders a json for all available campaign_classes" do
       expect(json_response).to have_key :campaign_classes
     end
 
     it "renders json representation of instagram_like price" do
-      prices_response = json_response[:campaign_classes]
-      expect(prices_response[0][:campaign_value]).to eql CampaignClass.where(campaign_type: "InstagramLikingCampaign",
+      campaign_classes_response = json_response[:campaign_classes]
+      expect(campaign_classes_response[0][:campaign_value]).to eql CampaignClass.where(campaign_type: "InstagramLikingCampaign",
                   payment_type: "like")
            .order(created_at: :desc).first.campaign_value
     end
 
     it "renders json representation of instagram_coin price" do
-      prices_response = json_response[:campaign_classes]
-      expect(prices_response[1][:campaign_value]).to eql CampaignClass.where(campaign_type: "InstagramLikingCampaign",
+      campaign_classes_response = json_response[:campaign_classes]
+      expect(campaign_classes_response[1][:campaign_value]).to eql CampaignClass.where(campaign_type: "InstagramLikingCampaign",
                   payment_type: "coin")
            .order(created_at: :desc).first.campaign_value
     end
@@ -126,8 +126,8 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     let(:user) { create :user }
     context "when is successfully created" do
       before do
-        create :instagram_liking_like_class
-        campaign_attributes = attributes_for(:instagram_liking_campaign, payment_type: 'like').except(:type, :total_likes, :status, :target).merge({campaign_type: "instagram_liking"})
+        cc = create :instagram_liking_like_class
+        campaign_attributes = attributes_for(:instagram_liking_campaign).except(:waiting, :payment_type, :type, :total_likes, :status, :target).merge({campaign_class_id: cc.id })
         api_authorization_header user.auth_token
         post :create, { campaign: campaign_attributes }
       end
@@ -136,35 +136,33 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     end
 
     context "when is not created" do
-      context "when campaign_type field is empty" do
+      context "when campaign_class_id is empty" do
         before do
-          invalid_campaign_attributes = attributes_for(:instagram_liking_campaign).except(:budget)
+          invalid_campaign_attributes = attributes_for(:instagram_liking_campaign).except(:waiting, :payment_type, :type, :total_likes, :status, :target, :budget)
           api_authorization_header user.auth_token
           post :create, { campaign: invalid_campaign_attributes }
         end
 
-        it "should render an errors json" do
+        it "renders an errors json" do
           campaign_response = json_response
           expect(campaign_response).to have_key :errors
         end
 
-        it "should render the json errors on why the user could not be created" do
+        it "has not found error" do
           campaign_response = json_response
-          expect(campaign_response[:errors][:budget]).to include I18n.t("errors.messages.not_a_number")
+          expect(campaign_response[:errors][:base]).to include I18n.t("errors.messages.not_found")
         end
 
-        it { should respond_with :unprocessable_entity }
+        it { should respond_with :not_found }
       end
 
-      context "when the shortcode is invalid" do
+      context "when the target is invalid" do
         before do
           user = create :user
-          invalid_campaign_attributes = attributes_for(:instagram_liking_campaign, target_url: "http://instagras.com/sdf/sdf").merge({campaign_type: "instagram_liking"})
+          cc = create :instagram_liking_like_class
+          invalid_campaign_attributes = attributes_for(:instagram_liking_campaign, target_url: "http://instagras.com/sdf/sdf").except(:waiting, :payment_type, :type, :total_likes, :status, :target).merge({campaign_class_id: cc.id })
           api_authorization_header user.auth_token
           post :create, { campaign: invalid_campaign_attributes }
-        end
-        before(:all) do
-          create :instagram_liking_like_class
         end
 
         it "should render an errors json" do

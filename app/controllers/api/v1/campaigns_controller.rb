@@ -23,7 +23,8 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   end
 
   def create
-    creation = CreateCampaign.new(campaign_params, current_user)
+    campaign_class = CampaignClass.active.find campaign_params[:campaign_class_id]
+    creation = CreateCampaign.new(campaign_params, campaign_class, current_user)
     if creation.save
       head :created
     else
@@ -47,6 +48,6 @@ class Api::V1::CampaignsController < Api::V1::ApiController
   private
 
   def campaign_params
-    params.require(:campaign).permit(:campaign_type, :payment_type, :waiting, :budget, :target_url, :description, :phone, :website, :address)
+    params.require(:campaign).permit(:campaign_class_id, :budget, :target_url, :description, :phone, :website, :address)
   end
 end

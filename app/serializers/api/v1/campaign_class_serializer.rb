@@ -1,5 +1,5 @@
 class Api::V1::CampaignClassSerializer < ActiveModel::Serializer
-  attributes :campaign_type, :payment_type, :waiting, :max_user_likes, :campaign_value, :fields
+  attributes :id, :campaign_type, :payment_type, :waiting, :max_user_likes, :campaign_value, :fields
 
   def campaign_type
     object.campaign_type.chomp("Campaign").underscore

@@ -4,17 +4,14 @@ RSpec.describe CreateCampaign do
 
   describe '#save', :vcr do
     let(:user) { create :user, coin_credit: 100, like_credit: 100 }
-    let(:params) { attributes_for(:instagram_liking_campaign, budget: 50, payment_type: "coin")
-                    .except(:type, :status, :total_likes, :target)
-                    .merge(campaign_type: "instagram_liking")
+    let(:campaign_class) { create :instagram_liking_coin_class }
+    let(:params) { attributes_for(:instagram_liking_campaign, budget: 50)
+                    .except(:payment_type, :type, :status, :total_likes, :target)
+                    .merge(campaign_class_id: campaign_class.id)
                   }
-    let(:creation) { CreateCampaign.new(params,user) }
+    let(:creation) { CreateCampaign.new(params, campaign_class,user) }
     before do
-      allow(CampaignRegistry).to receive(:campaign_for).with(params[:campaign_type]).and_return InstagramLikingCampaign
       allow(creation.campaign).to receive(:fetch_cover).and_return(true)
-    end
-    before(:all) do
-      create :instagram_liking_coin_class
     end
 
     context "when the input is valid" do
@@ -57,9 +54,9 @@ RSpec.describe CreateCampaign do
     end
 
     context "when campaign general validations are failed" do
-      let(:params) { attributes_for(:instagram_liking_campaign, budget: 50, payment_type: "dollar_getter")
-                      .except(:type, :status, :total_likes, :target)
-                      .merge(campaign_type: "instagram_liking")
+      let(:params) { attributes_for(:instagram_liking_campaign, budget: 0)
+                      .except(:payment_type, :type, :status, :total_likes, :target)
+                      .merge(campaign_class_id: campaign_class.id)
                     }
       before do
         validator = double(validate: true, campaign: creation.campaign)
@@ -72,7 +69,7 @@ RSpec.describe CreateCampaign do
 
       it "has some errors on campaign instance" do
         creation.save
-        expect(creation.campaign.errors[:base]).to include I18n.t 'errors.messages.class_not_available'
+        expect(creation.campaign.errors[:budget]).to include I18n.t 'errors.messages.need_more_budget'
       end
     end
   end

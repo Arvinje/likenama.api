@@ -7,10 +7,11 @@ class CreateCampaign
   #
   # @param params [Hash] a hash of parameters provided by controller
   # @param user [User] current_user object
-  def initialize(params, user)
-    klass = CampaignRegistry.campaign_for(params[:campaign_type])
-    @campaign = klass.new(params.except(:campaign_type))
+  def initialize(params, campaign_class, user)
+    klass = Object.const_get campaign_class.campaign_type
+    @campaign = klass.new(params.except(:campaign_class_id))
     @campaign.owner = user
+    @campaign.campaign_class = campaign_class
   end
 
   # Saves the campaign and adds errors if applicable.
@@ -29,7 +30,6 @@ class CreateCampaign
   def persist!
     begin
       ActiveRecord::Base.transaction do
-        set_campaign_class!
         raise unless creation_valid?
         financial_transactions
         @campaign.save!
@@ -39,16 +39,6 @@ class CreateCampaign
       true
     rescue
       false
-    end
-  end
-
-  def set_campaign_class!
-    begin
-      @campaign.set_campaign_class!
-      raise "class not available" if @campaign.campaign_class.nil?
-    rescue
-      @campaign.errors.add(:base, :class_not_available)
-      raise "class not available"
     end
   end
 
