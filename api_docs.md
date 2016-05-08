@@ -153,20 +153,32 @@ Campaigns
     {
       "campaign_classes": [
         {
+          "id": 1092,
           "campaign_type": "instagram_liking",
           "payment_type": "like",
+          "waiting": 0,
+          "max_user_likes": 2000,
           "campaign_value": 10,
-          "coin_user_share": 0,
-          "like_user_share": 5,
-          "waiting": 0
+          "fields": {
+            "description": false,
+            "phone": false,
+            "website": false,
+            "address": false
+          }
         },
         {
+          "id": 1093,
           "campaign_type": "instagram_liking",
           "payment_type": "coin",
+          "waiting": 15,
+          "max_user_likes": 2000,
           "campaign_value": 5,
-          "coin_user_share": 2,
-          "like_user_share": 0,
-          "waiting": 0
+          "fields": {
+            "description": true,
+            "phone": true,
+            "website": true,
+            "address": true
+          }
         }
       ]
     }
@@ -181,15 +193,13 @@ Campaigns
   ```json
   {
     "campaign": {
+      "campaign_class_id": "1215",
+      "target_url": "https://instagram.com/p/***REMOVED***",
       "budget": "1000",
-      "payment_type": "like",
-      "campaign_type": "instagram_liking",
-      "waiting": false,
-      "target_url": "https://instagram.com/p/***REMOVED***"
-      "description": "Nihil voluptate ratione aut alias voluptatem. Blanditiis quia doloribus dolorem laudantium maiores ratione natus. Asperiores sed ad est est et amet vel voluptas. Amet voluptatum possimus sit neque dicta dolor. Inventore qui voluptatem nulla pariatur ab.",
+      "description": "Ullam quam velit blanditiis hic id et. Id voluptas quae et ducimus corporis quis alias necessitatibus. Numquam omnis nulla et eos accusantium.",
       "phone": "09123456789",
-      "website": "http://haley.info",
-      "address": "5748 Craig Mills, Benalla VIC 7320",
+      "website": "http://miller.co.uk",
+      "address": "6485 Torp Rest, Palmerston NT 3825"
     }
   }
   ```
