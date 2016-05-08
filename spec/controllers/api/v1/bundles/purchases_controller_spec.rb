@@ -34,12 +34,6 @@ RSpec.describe Api::V1::Bundles::PurchasesController, type: :controller do
         post :create, { bazaar_sku: @requested_bundle.bazaar_sku, bundle: { purchase_token: 'SnIN1yvZqWkcB-QwQ' } }
       end
 
-      it "renders json for the user account" do
-        user.reload
-        bundle_response = json_response[:user]
-        expect(bundle_response[:coin_credit]).to eql user.coin_credit
-      end
-
       it { is_expected.to respond_with :created }
     end
 
