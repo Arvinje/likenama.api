@@ -6,7 +6,7 @@ FactoryGirl.define do
     payment_type { ["like", "coin"].sample }
     association :owner, factory: :instagram_user
     description { FFaker::Lorem.paragraph }
-    phone { (rand() * 10**8).round.to_s }
+    phone '09123456789'
     website { FFaker::Internet.http_url }
     address { FFaker::AddressAU.full_address }
     total_likes 0
