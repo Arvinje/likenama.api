@@ -29,6 +29,19 @@ class Campaign < ActiveRecord::Base
     }.fetch(status.to_sym) { self }
   end
 
+  # Creates a hash full of fields and their states
+  # based on the waiting state.
+  #
+  # @return [Hash]
+  def self.fields(waiting=nil)
+    Hash.new.tap do |fields|
+      fields[:description] = waiting ? true : false
+      fields[:phone] = waiting ? true : false
+      fields[:website] = waiting ? true : false
+      fields[:address] = waiting ? true : false
+    end
+  end
+
   # Verifies a pending campaign and makes it available.
   def verify!
     available! if pending?

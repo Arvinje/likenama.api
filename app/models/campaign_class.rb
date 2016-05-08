@@ -14,6 +14,15 @@ class CampaignClass < ActiveRecord::Base
 
   enum status: { active: true, inactive: false }
 
+  # Returns a hash full of fields and their states by calling
+  # {Campaign.fields}.
+  #
+  # @return [Hash]
+  def fields
+    campaign = Object.const_get campaign_type
+    campaign.fields(waiting == 0 ? false : true)
+  end
+
   private
 
   # Makes sure that there's not any class with the same specs as
