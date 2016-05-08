@@ -127,7 +127,7 @@ RSpec.describe Api::V1::CampaignsController, type: :controller do
     context "when is successfully created" do
       before do
         create :instagram_liking_like_class
-        campaign_attributes = attributes_for(:instagram_liking_campaign, payment_type: 'like').merge({campaign_type: "instagram_liking"})
+        campaign_attributes = attributes_for(:instagram_liking_campaign, payment_type: 'like').except(:type, :total_likes, :status, :target).merge({campaign_type: "instagram_liking"})
         api_authorization_header user.auth_token
         post :create, { campaign: campaign_attributes }
       end
