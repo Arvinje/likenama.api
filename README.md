@@ -5,9 +5,7 @@ Likenama
 
 ### Version 1
 
-* Implement a payment method.
 * Exception logging!
-* Check if we need to save images. => probably!
 
 ### Version 2
 

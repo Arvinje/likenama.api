@@ -96,29 +96,29 @@ Campaigns
     {
       "campaigns": [
         {
-          "id": 1637,
-          "url": "http://instagram.com/p/***REMOVED***",
-          "campaign_type": "instagram",
-          "payment_type": "coin",
-          "status": "درحال نمایش",
-          "budget": 1000,
-          "total_likes": 0
-        },
-        {
-          "id": 1634,
-          "url": "http://instagram.com/p/***REMOVED***",
-          "campaign_type": "instagram",
-          "payment_type": "coin",
-          "status": "درحال نمایش",
-          "budget": 1000,
-          "total_likes": 0
-        },
-        {
-          "id": 1633,
-          "url": "http://instagram.com/p/***REMOVED***",
-          "campaign_type": "instagram",
+          "id": 2422,
+          "target_url": "http://instagram.com/p/***REMOVED***",
+          "campaign_type": "instagram_liking",
           "payment_type": "like",
-          "status": "درحال نمایش",
+          "status": "available",
+          "budget": 1000,
+          "total_likes": 0
+        },
+        {
+          "id": 2420,
+          "target_url": "http://instagram.com/p/***REMOVED***",
+          "campaign_type": "instagram_liking",
+          "payment_type": "coin",
+          "status": "available",
+          "budget": 1000,
+          "total_likes": 0
+        },
+        {
+          "id": 2419,
+          "target_url": "http://instagram.com/p/***REMOVED***",
+          "campaign_type": "instagram_liking",
+          "payment_type": "coin",
+          "status": "available",
           "budget": 1000,
           "total_likes": 0
         }
@@ -140,7 +140,7 @@ Campaigns
     ```
   * **Status:** `404`
 
-### Getting Latest Prices
+### Getting Latest Campaign Classes
 * **Method:** `GET`
 * **Endpoint:** `/api/campaigns/new`
 * **Request Content:** `none`
@@ -151,16 +151,22 @@ Campaigns
 
     ```json
     {
-      "prices": [
+      "campaign_classes": [
         {
-          "campaign_type": "instagram",
-          "payment_type": "coin",
-          "campaign_value": 50
+          "campaign_type": "instagram_liking",
+          "payment_type": "like",
+          "campaign_value": 10,
+          "coin_user_share": 0,
+          "like_user_share": 5,
+          "waiting": 0
         },
         {
-          "campaign_type": "instagram",
-          "payment_type": "like",
-          "campaign_value": 50
+          "campaign_type": "instagram_liking",
+          "payment_type": "coin",
+          "campaign_value": 5,
+          "coin_user_share": 2,
+          "like_user_share": 0,
+          "waiting": 0
         }
       ]
     }
@@ -175,16 +181,15 @@ Campaigns
   ```json
   {
     "campaign": {
-      "campaign_type": "instagram",   // Always the same
-      "payment_type": "coin", // Always the same
       "budget": "1000",
-      "detail": {
-        "url": "https://instagram.com/p/***REMOVED***",
-        "description": "In voluptatem esse dolor qui qui et voluptatibus. Est dolores maiores dolorem molestias neque odit a velit. Blanditiis mollitia accusantium debitis adipisci omnis.",
-        "phone": "4173358",
-        "website": "http://kleinroob.com",
-        "address": "56122 Delphia Light, Burnie TAS 2601"
-      }
+      "payment_type": "like",
+      "campaign_type": "instagram_liking",
+      "waiting": false,
+      "target_url": "https://instagram.com/p/***REMOVED***"
+      "description": "Nihil voluptate ratione aut alias voluptatem. Blanditiis quia doloribus dolorem laudantium maiores ratione natus. Asperiores sed ad est est et amet vel voluptas. Amet voluptatum possimus sit neque dicta dolor. Inventore qui voluptatem nulla pariatur ab.",
+      "phone": "09123456789",
+      "website": "http://haley.info",
+      "address": "5748 Craig Mills, Benalla VIC 7320",
     }
   }
   ```
@@ -199,7 +204,7 @@ Campaigns
     ```json
     {
       "errors": {
-        "detail.url": [
+        "target_url": [
           "آدرس تصویر اینستاگرام اشتباه است"
         ]
       }
@@ -232,19 +237,6 @@ Campaigns
     }
     ```
   * **Status:** `422`
-* Failure (when no parameter respective to Instagram gets sent)
-  * **Content:**
-
-    ```json
-    {
-      "errors": {
-        "base": [
-          "اطلاعات واردشده برای ساخت کمپین کافی نیست"
-        ]
-      }
-    }
-    ```
-  * **Status:** `422`
 
 ### Next Campaign
 * **Method:** `GET`
@@ -258,19 +250,15 @@ Campaigns
     ```json
     {
       "campaign": {
-        "id": 4018,
-        "campaign_type": "instagram",
-        "payment_type": "coin",
-        "value": 20,
-        "waiting": 10,
-        "detail": {
-          "url": "https://instagram.com/p/***REMOVED***",
-          "photo_url": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11820650_383510488514384_162151818_n.jpg",
-          "description": "Fuga in quis et autem ipsa dicta atque. Vel est laudantium minima error voluptas aliquam. Omnis et velit veritatis libero aut. Ab itaque recusandae inventore aperiam debitis. Consequuntur voluptas et nam quisquam.",
-          "phone": "1786032",
-          "website": "http://swift.biz",
-          "address": "1418 Cheyenne Cliffs, Braddon ACT 3300"
-        }
+        "id": 2578,
+        "payment_type": "like",
+        "coin_user_share": 0,
+        "like_user_share": 5,
+        "waiting": 0,
+        "description": "Sunt quo molestiae a neque sapiente. Alias rem ullam iure et explicabo modi. Sunt velit nisi hic incidunt voluptas et.",
+        "phone": "09123456789",
+        "website": "http://volkman.us",
+        "address": "0260 Abshire Locks, Grafton NSW 0800"
       }
     }
     ```
@@ -297,26 +285,26 @@ Campaigns
   ```json
   {
     "like": {
-      "instagram_access_token": "***REMOVED***"
+      "access_token": "***REMOVED***"
     }
   }
   ```
 
 #### Response
-* Success (when user has liked the photo):
+* Success (when user has liked the target):
   * **Content:**
 
     ```json
     {
       "user": {
-        "uid": "2w-stzxfPAUhJdD7daN7",
+        "username": "sample_username",
         "like_credit": 20000,
-        "coin_credit": 10020
+        "coin_credit": 10002
       }
     }
     ```
   * **Status:** `200`
-* Failure (when user didn't like the photo)
+* Failure (when user didn't like the target)
   * **Content:**
 
     ```json
@@ -573,28 +561,22 @@ Bundles
     {
       "bundles": [
         {
-          "id": 54,
-          "bazaar_sku": "22861463",
-          "title": "10c bundle",
-          "price": 10000
+          "bazaar_sku": "lurline",
+          "price": 3,
+          "coins": 1,
+          "free_coins": 1
         },
         {
-          "id": 55,
-          "bazaar_sku": "28361463",
-          "title": "15c bundle",
-          "price": 5000
+          "bazaar_sku": "desiree.larson",
+          "price": 3,
+          "coins": 1,
+          "free_coins": 1
         },
         {
-          "id": 56,
-          "bazaar_sku": "28614463",
-          "title": "20c bundle",
-          "price": 40000
-        },
-        {
-          "id": 57,
-          "bazaar_sku": "28641463",
-          "title": "5c bundle",
-          "price": 1000
+          "bazaar_sku": "alene_considine",
+          "price": 3,
+          "coins": 1,
+          "free_coins": 1
         }
       ]
     }
@@ -616,14 +598,12 @@ Bundles
 
 ### Purchasing A Bundle
 * **Method:** `POST`
-* **Endpoint:** `/api/bundles/purchase`
+* **Endpoint:** `/api/bundles/[BAZAAR_SKU]/purchase`
 * **Request Content:**
 
   ```json
   {
     "bundle": {
-      "bazaar_sku": "286134463",
-      "package_name": "voluptatem",
       "purchase_token": "djhs543jcdlfhw452"
     }
   }
