@@ -131,8 +131,8 @@ class BazaarService
     validate_verification_response response
   end
 
-  # Validates Bazaar's response and assigns {@purchase}, {@consumed}, {@payload}
-  # and {@purchase_time}.
+  # Validates Bazaar's response and assigns @purchase, @consumed, @payload
+  # and @purchase_time.
   # Raises InvalidVerification if the response is not valid.
   # Retries upto 5 times to get a new access_token if the response was a 401.
   def validate_verification_response(response)
