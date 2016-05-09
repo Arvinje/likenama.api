@@ -247,6 +247,19 @@ Campaigns
     }
     ```
   * **Status:** `422`
+* Failure (when the selected campaign_class is not available)
+  * **Content:**
+
+    ```json
+    {
+      "errors": {
+        "base": [
+          "مورد درخواست‌شده یافت نشد"
+        ]
+      }
+    }
+    ```
+  * **Status:** `404`
 
 ### Next Campaign
 * **Method:** `GET`
