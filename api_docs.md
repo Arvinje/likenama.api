@@ -649,3 +649,32 @@ Bundles
     }
     ```
   * **Status:** `422`
+
+### Sending a Message
+* **Method:** `POST`
+* **Endpoint:** `/api/messages`
+* **Request Content:**
+
+  ```json
+  {
+    "message": {
+      "content": "Dignissimos quia provident similique dolores libero dolorem. Deleniti illum perferendis et veniam id nisi est. Ut tempora modi blanditiis quasi est aliquam.\nExcepturi inventore dolorum eos rem autem. Qui vitae aperiam animi optio quos veniam vero. Aut quo qui dolore sint."
+    }
+  }
+  ```
+
+#### Response
+* Success:
+  * **Content:** `none`
+  * **Status:** `201`
+* Failure (when the content length is invalid)
+  * **Content:**
+
+    ```json
+    {
+      "errors": [
+        "متن‌پیام بلند است (حداکثر 500 کاراکتر)"
+      ]
+    }
+    ```
+  * **Status:** `422`

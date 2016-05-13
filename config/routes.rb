@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       end
       resources :bundles, only: [:index]
       post 'bundles/:bazaar_sku/purchase' => 'bundles/purchases#create', as: :bundle_purchase
+      resources :messages, only: [:create]
     end
   end
 end

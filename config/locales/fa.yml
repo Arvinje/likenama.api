@@ -17,6 +17,9 @@ fa:
       user: کاربر
       campaign: کمپین
       product_type: دسته
+    attributes:
+      message:
+        content: متن‌پیام
   date:
     abbr_day_names:
     - ی
