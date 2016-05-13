@@ -6,36 +6,36 @@ RSpec.describe User, type: :model do
     before { @user = build :user }
     subject { @user }
 
-    it { should respond_to :email }
-    it { should respond_to :username }
-    it { should respond_to :password }
-    it { should respond_to :password_confirmation }
-    it { should respond_to :uid }
-    it { should respond_to :provider }
-    it { should respond_to :omni_id }
-    it { should respond_to :auth_token }
-    it { should respond_to :like_credit }
-    it { should respond_to :coin_credit }
+    it { is_expected.to respond_to :email }
+    it { is_expected.to respond_to :username }
+    it { is_expected.to respond_to :password }
+    it { is_expected.to respond_to :password_confirmation }
+    it { is_expected.to respond_to :uid }
+    it { is_expected.to respond_to :provider }
+    it { is_expected.to respond_to :omni_id }
+    it { is_expected.to respond_to :auth_token }
+    it { is_expected.to respond_to :like_credit }
+    it { is_expected.to respond_to :coin_credit }
 
   describe "ActiveModel validations" do
 
   end
-    it { should validate_presence_of :email }
-    it { should validate_presence_of :password }
-    it { should validate_presence_of :like_credit }
-    it { should validate_presence_of :coin_credit }
+    it { is_expected.to validate_presence_of :email }
+    it { is_expected.to validate_presence_of :password }
+    it { is_expected.to validate_presence_of :like_credit }
+    it { is_expected.to validate_presence_of :coin_credit }
 
-    it { should validate_numericality_of(:like_credit).only_integer }
-    it { should validate_numericality_of(:coin_credit).only_integer }
+    it { is_expected.to validate_numericality_of(:like_credit).only_integer }
+    it { is_expected.to validate_numericality_of(:coin_credit).only_integer }
 
-    it { should validate_confirmation_of :password }
+    it { is_expected.to validate_confirmation_of :password }
 
-    it { should validate_uniqueness_of(:email).case_insensitive }
-    it { should validate_uniqueness_of :auth_token }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    it { is_expected.to validate_uniqueness_of :auth_token }
 
-    it { should allow_value('example@domain.com').for :email }
+    it { is_expected.to allow_value('example@domain.com').for :email }
 
-    it { should be_valid }
+    it { is_expected.to be_valid }
   end
 
   describe "ActiveRecord associations" do
@@ -49,6 +49,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:reports).dependent :destroy }
     it { is_expected.to have_many(:reported_campaigns).through(:reports).source(:campaign) }
     it { is_expected.to have_many(:messages) }
+    it { is_expected.to have_many(:gifts).with_foreign_key('email').with_primary_key('email') }
   end
 
   describe "Callbacks" do

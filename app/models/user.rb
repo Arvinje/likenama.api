@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :reports, dependent: :destroy
   has_many :reported_campaigns, through: :reports, source: :campaign
   has_many :messages
+  has_many :gifts, foreign_key: :email, primary_key: :email
 
   validates :auth_token, uniqueness: true
   validates :like_credit, presence: true, numericality: { only_integer: true }

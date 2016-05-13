@@ -69,7 +69,8 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem "autoprefixer-rails"
 gem 'simple_form', '~> 3.2'
 gem 'client_side_validations', :github => "DavyJonesLocker/client_side_validations"
-gem 'client_side_validations-simple_form', github: 'DavyJonesLocker/client_side_validations-simple_form', branch: 'master'
+gem 'client_side_validations-simple_form', github: 'DavyJonesLocker/client_side_validations-simple_form',
+                                           branch: 'master'
 gem 'parsi-date', '~> 0.3.1'
 gem 'public_activity', '~> 1.4', '>= 1.4.2'
 gem 'paperclip', '~> 4.3', '>= 4.3.6'
@@ -80,6 +81,7 @@ gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 gem 'redis-rails', '~> 4.0'
 gem 'redis-rack-cache', '~> 1.2', '>= 1.2.4'
 gem 'http', '~> 2.0'
+gem 'email_validator', '~> 1.6'
 
 gem 'rails_12factor', group: :production # Heroku ONLY
 gem 'puma'

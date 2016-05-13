@@ -246,6 +246,41 @@ ALTER SEQUENCE campaigns_id_seq OWNED BY campaigns.id;
 
 
 --
+-- Name: gifts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE gifts (
+    id integer NOT NULL,
+    email character varying NOT NULL,
+    coin_credit integer DEFAULT 0,
+    like_credit integer DEFAULT 0,
+    duration daterange NOT NULL,
+    status boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: gifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE gifts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: gifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE gifts_id_seq OWNED BY gifts.id;
+
+
+--
 -- Name: likes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -582,6 +617,13 @@ ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY gifts ALTER COLUMN id SET DEFAULT nextval('gifts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
 
 
@@ -672,6 +714,14 @@ ALTER TABLE ONLY campaign_classes
 
 ALTER TABLE ONLY campaigns
     ADD CONSTRAINT campaigns_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: gifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY gifts
+    ADD CONSTRAINT gifts_pkey PRIMARY KEY (id);
 
 
 --
@@ -785,6 +835,13 @@ CREATE INDEX index_bundle_purchases_on_user_id ON bundle_purchases USING btree (
 --
 
 CREATE INDEX index_bundles_on_bazaar_sku ON bundles USING btree (bazaar_sku);
+
+
+--
+-- Name: index_gifts_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_gifts_on_email ON gifts USING btree (email);
 
 
 --
@@ -966,4 +1023,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160418061329');
 INSERT INTO schema_migrations (version) VALUES ('20160419185432');
 
 INSERT INTO schema_migrations (version) VALUES ('20160503120822');
+
+INSERT INTO schema_migrations (version) VALUES ('20160513074330');
 
