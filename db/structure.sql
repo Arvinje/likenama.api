@@ -327,12 +327,10 @@ ALTER SEQUENCE managers_id_seq OWNED BY managers.id;
 CREATE TABLE messages (
     id integer NOT NULL,
     user_id integer,
-    email character varying DEFAULT ''::character varying,
-    name character varying DEFAULT ''::character varying,
     content text,
+    read boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    read boolean DEFAULT false
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -818,13 +816,6 @@ CREATE UNIQUE INDEX index_managers_on_reset_password_token ON managers USING btr
 
 
 --
--- Name: index_messages_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_messages_on_user_id ON messages USING btree (user_id);
-
-
---
 -- Name: index_reports_on_campaign_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -886,14 +877,6 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 ALTER TABLE ONLY likes
     ADD CONSTRAINT fk_rails_1e09b5dabf FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_273a25a7a6; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY messages
-    ADD CONSTRAINT fk_rails_273a25a7a6 FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -975,8 +958,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151225093010');
 INSERT INTO schema_migrations (version) VALUES ('20151227070306');
 
 INSERT INTO schema_migrations (version) VALUES ('20160105024546');
-
-INSERT INTO schema_migrations (version) VALUES ('20160105025630');
 
 INSERT INTO schema_migrations (version) VALUES ('20160116224251');
 

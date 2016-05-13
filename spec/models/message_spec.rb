@@ -4,8 +4,7 @@ RSpec.describe Message, type: :model do
   before { @message = build :message }
   subject { @message }
 
-  it { is_expected.to respond_to :email }
-  it { is_expected.to respond_to :name }
+  it { is_expected.to respond_to :user }
   it { is_expected.to respond_to :content }
   it { is_expected.to respond_to :read }
 
@@ -13,7 +12,7 @@ RSpec.describe Message, type: :model do
     it { is_expected.to validate_presence_of :content }
     it { is_expected.to validate_presence_of :user }
 
-    it { is_expected.to allow_value('example@domain.com').for :email }
+    it { is_expected.to validate_length_of(:content).is_at_most(500) }
 
     it { is_expected.to be_valid }
   end
