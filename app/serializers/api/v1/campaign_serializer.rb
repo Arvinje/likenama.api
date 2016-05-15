@@ -1,5 +1,5 @@
 class Api::V1::CampaignSerializer < ActiveModel::Serializer
-  attributes :id, :payment_type, :coin_user_share, :like_user_share, :waiting, :description, :phone, :website, :address
+  attributes :id, :payment_type, :coin_user_share, :like_user_share, :waiting, :cover, :description, :phone, :website, :address
 
   def coin_user_share
     object.campaign_class.coin_user_share
@@ -12,4 +12,9 @@ class Api::V1::CampaignSerializer < ActiveModel::Serializer
   def waiting
     object.campaign_class.waiting
   end
+
+  def cover
+    'http://likenama.com' + cover.url
+  end
+
 end

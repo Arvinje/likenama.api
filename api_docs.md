@@ -278,6 +278,7 @@ Campaigns
         "coin_user_share": 0,
         "like_user_share": 5,
         "waiting": 0,
+        "cover": "http://likenama.com/system/instagram_liking_campaigns/covers/000/000/001/original/11820650_383510488514384_162151818_n.jpg?1463292759",
         "description": "Sunt quo molestiae a neque sapiente. Alias rem ullam iure et explicabo modi. Sunt velit nisi hic incidunt voluptas et.",
         "phone": "09123456789",
         "website": "http://volkman.us",
