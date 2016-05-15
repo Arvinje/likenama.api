@@ -14,6 +14,9 @@ RSpec.describe Message, type: :model do
 
     it { is_expected.to validate_length_of(:content).is_at_most(500) }
 
+    it { is_expected.to allow_value('sample@example.com').for :email }
+    it { is_expected.not_to allow_value('sample@examplecom').for :email }
+
     it { is_expected.to be_valid }
   end
 
