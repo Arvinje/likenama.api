@@ -255,7 +255,7 @@ CREATE TABLE gifts (
     coin_credit integer DEFAULT 0,
     like_credit integer DEFAULT 0,
     duration daterange NOT NULL,
-    status boolean DEFAULT false,
+    status boolean DEFAULT true,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -362,6 +362,7 @@ ALTER SEQUENCE managers_id_seq OWNED BY managers.id;
 CREATE TABLE messages (
     id integer NOT NULL,
     user_id integer,
+    email character varying,
     content text,
     read boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
