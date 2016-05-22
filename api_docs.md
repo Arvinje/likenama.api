@@ -100,7 +100,7 @@ Campaigns
           "target_url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram_liking",
           "payment_type": "like",
-          "status": "available",
+          "status": "درحال‌نمایش",
           "budget": 1000,
           "total_likes": 0
         },
@@ -109,7 +109,7 @@ Campaigns
           "target_url": "http://instagram.com/p/***REMOVED***",
           "campaign_type": "instagram_liking",
           "payment_type": "coin",
-          "status": "available",
+          "status": "رد‌شده",
           "budget": 1000,
           "total_likes": 0
         },

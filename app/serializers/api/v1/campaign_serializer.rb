@@ -14,7 +14,7 @@ class Api::V1::CampaignSerializer < ActiveModel::Serializer
   end
 
   def cover
-    'http://likenama.com' + cover.url
+    'http://likenama.com' + object.cover.url
   end
 
 end
