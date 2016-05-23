@@ -3,6 +3,7 @@ class CreateMessages < ActiveRecord::Migration
     create_table :messages do |t|
       t.references :user
       t.string     :email
+      t.string     :title
       t.text       :content
       t.boolean    :read, default: false
 

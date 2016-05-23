@@ -12,7 +12,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
   private
 
   def message_params
-    params.require(:message).permit(:email, :content)
+    params.require(:message).permit(:email, :title, :content)
   end
 
 end

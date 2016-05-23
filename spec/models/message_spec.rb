@@ -5,14 +5,19 @@ RSpec.describe Message, type: :model do
   subject { @message }
 
   it { is_expected.to respond_to :user }
+  it { is_expected.to respond_to :email }
+  it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :content }
   it { is_expected.to respond_to :read }
 
   describe "ActiveModel validations" do
-    it { is_expected.to validate_presence_of :content }
     it { is_expected.to validate_presence_of :user }
+    it { is_expected.to validate_presence_of :email }
+    it { is_expected.to validate_presence_of :title }
+    it { is_expected.to validate_presence_of :content }
 
     it { is_expected.to validate_length_of(:content).is_at_most(500) }
+    it { is_expected.to validate_length_of(:title).is_at_most(100) }
 
     it { is_expected.to allow_value('sample@example.com').for :email }
     it { is_expected.not_to allow_value('sample@examplecom').for :email }

@@ -4,6 +4,7 @@ class Message < ActiveRecord::Base
   belongs_to :user
 
   validates :email, presence: true, email: { strict_mode: true }
+  validates :title, presence: true, length: { maximum: 100 }
   validates :content, presence: true, length: { maximum: 500 }
   validates :user, presence: true
 
