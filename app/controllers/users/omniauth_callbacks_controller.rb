@@ -3,6 +3,7 @@ class Users::OmniauthCallbacksController < ApplicationController
     if request.env["HTTP_USER_AGENT"].include? "Likenama"
       user = User.from_omniauth(request.env["omniauth.auth"])
       if user.persisted?
+        user.generate_authentication_token
         user.redeem_gift!
         instagram_access_token = request.env["omniauth.auth"].credentials.token
         redirect_to session_path(anchor: "token=#{user.auth_token}#{instagram_access_token}")

@@ -51,7 +51,7 @@ RSpec.describe User, type: :model do
   describe "Callbacks" do
     let(:user) { create :user }
 
-    it { expect(user).to callback(:generate_authentication_token!).before(:validation).on(:create) }
+    it { expect(user).to callback(:generate_authentication_token).before(:validation).on(:create) }
   end
 
   describe ".from_omniauth" do
