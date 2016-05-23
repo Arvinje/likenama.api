@@ -17,9 +17,6 @@ RSpec.describe User, type: :model do
     it { is_expected.to respond_to :like_credit }
     it { is_expected.to respond_to :coin_credit }
 
-  describe "ActiveModel validations" do
-
-  end
     it { is_expected.to validate_presence_of :email }
     it { is_expected.to validate_presence_of :password }
     it { is_expected.to validate_presence_of :like_credit }
@@ -31,7 +28,6 @@ RSpec.describe User, type: :model do
     it { is_expected.to validate_confirmation_of :password }
 
     it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
-    it { is_expected.to validate_uniqueness_of :auth_token }
 
     it { is_expected.to allow_value('example@domain.com').for :email }
 
@@ -55,32 +51,18 @@ RSpec.describe User, type: :model do
   describe "Callbacks" do
     let(:user) { create :user }
 
-    it { expect(user).to callback(:generate_authentication_token!).before(:create) }
-  end
-
-  describe "#generate_authentication_token!" do
-    before do
-      @user = create :user, auth_token: "auniquetoken123"
-    end
-    it "should generate a unique token" do
-      allow(Devise).to receive(:friendly_token).and_return "auniquetoken123"
-      @user.generate_authentication_token!
-      expect(@user.auth_token).to eql "auniquetoken123"
-    end
-
-    it "should generate another token when one already has been taken" do
-      existing_user = create :user, auth_token: "auniquetoken123"
-      @user.generate_authentication_token!
-      expect(@user.auth_token).not_to eql existing_user.auth_token
-    end
+    it { expect(user).to callback(:generate_authentication_token!).before(:validation).on(:create) }
   end
 
   describe ".from_omniauth" do
     before :each do
-      class Param;attr_accessor :provider, :uid;end
+      class Param;attr_accessor :provider, :uid, :info;end
+      class Info;attr_accessor :nickname;end
       @params = Param.new
       @params.provider = "instagram"
       @params.uid = "1452336"
+      @params.info = Info.new
+      @params.info.nickname = "usrnm"
     end
 
     context "when a current user signs in" do
@@ -100,31 +82,46 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe ".get_username_from_omniauth" do
-    let(:user) { create :user }
-
-    context "when there's a nickname available" do
+  describe "#redeem_gift!" do
+    context "when there's an active gift for the user" do
       before do
-        class Param; attr_accessor :nickname; def info; self; end; end;
-        @params = Param.new
-        @params.info.nickname = "mike"
-        user.get_username_from_omniauth(@params)
+        @user = create :user
+        @gift = create :gift, email: @user.email,
+                              duration: Date.yesterday..Date.tomorrow
       end
 
-      it "assigns nickname to user's username" do
-        expect(user.username).to eql "mike"
+      it "adds gift coin_credit to the account" do
+        expect{ @user.redeem_gift! }.to change{ @user.coin_credit }.by @gift.coin_credit
+      end
+
+      it "adds gift like_credit to the account" do
+        expect{ @user.redeem_gift! }.to change{ @user.like_credit }.by @gift.like_credit
+      end
+
+      it "marks gift as redeemed" do
+        @user.redeem_gift!
+        expect(@gift.reload.redeemed?).to be true
       end
     end
 
-    context "when there isn't any nickname available" do
+    context "when there's no an active gift for the user" do
       before do
-        class Param; def info; self; end; end;
-        @params = Param.new
-        user.get_username_from_omniauth(@params)
+        @user = create :user
+        @gift = create :gift, email: @user.email,
+                              duration: 3.days.ago.to_date..Date.yesterday
       end
 
-      it "assigns nickname to user's username" do
-        expect(user.username).to eql nil
+      it "adds gift coin_credit to the account" do
+        expect{ @user.redeem_gift! }.to change{ @user.coin_credit }.by 0
+      end
+
+      it "adds gift like_credit to the account" do
+        expect{ @user.redeem_gift! }.to change{ @user.like_credit }.by 0
+      end
+
+      it "keeps gift as available" do
+        @user.redeem_gift!
+        expect(@gift.reload.available?).to be true
       end
     end
   end

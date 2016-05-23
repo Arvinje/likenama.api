@@ -7,7 +7,7 @@ class Gift < ActiveRecord::Base
   validates :like_credit, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :duration, presence: true
 
-  enum status: { redeemed: true, available: false }
+  enum status: { available: true, redeemed: false }
 
   scope :active, -> { Gift.available.where("duration @> ?::date", Date.today) }
 

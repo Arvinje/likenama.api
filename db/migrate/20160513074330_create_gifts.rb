@@ -5,7 +5,7 @@ class CreateGifts < ActiveRecord::Migration
       t.integer    :coin_credit, default: 0
       t.integer    :like_credit, default: 0
       t.daterange  :duration, null: false
-      t.boolean    :status, default: false
+      t.boolean    :status, default: true
 
       t.timestamps null: false
     end
