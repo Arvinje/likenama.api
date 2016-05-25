@@ -30,6 +30,8 @@ RSpec.describe Api::V1::Bundles::PurchasesController, type: :controller do
       before do
         3.times { create :bundle }
         @requested_bundle = create :bundle, bazaar_sku: 'buy_anti_hack_25_off'
+        purchase = double('BundlePurchase')
+        allow(purchase).to receive(:buy).and_return(true)
         api_authorization_header user.auth_token
         post :create, { bazaar_sku: @requested_bundle.bazaar_sku, bundle: { purchase_token: 'SnIN1yvZqWkcB-QwQ' } }
       end
@@ -42,6 +44,10 @@ RSpec.describe Api::V1::Bundles::PurchasesController, type: :controller do
       before do
         3.times { create :bundle }
         @requested_bundle = create :bundle, bazaar_sku: 'buy_anti_hack_25_off'
+        errors = { base: [I18n.t(:payment_not_valid)] }
+        purchase = double('BundlePurchase', user: user)
+        allow(purchase).to receive(:buy).and_return(false)
+        allow(user).to receive(:errors).and_return(errors)
         api_authorization_header user.auth_token
         post :create, { bazaar_sku: @requested_bundle.bazaar_sku, bundle: { purchase_token: 'SnIN1ybadtWkCB-QwQ' } }
       end
