@@ -44,7 +44,8 @@ class PurchaseProduct
         @purchased_detail = requested_detail
       end
       true
-    rescue
+    rescue => e
+      Rails.logger.error e
       @user.reload
       @user.errors.add(:base, :purchase_problem)
       false

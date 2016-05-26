@@ -5,8 +5,6 @@ Likenama
 
 ### Version 1
 
-* Exception logging!
-
 ### Version 2
 
 *  Devices Registration.

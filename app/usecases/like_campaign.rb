@@ -61,7 +61,8 @@ class LikeCampaign
         @campaign.save!
       end
       return true
-    rescue
+    rescue => e
+      Rails.logger.error e
       Like.find(campaign_id: @campaign.id, user_id: @user.id).destroy if has_liked?
       @campaign.errors.add(:base, :server_side_error)
       return false

@@ -20,6 +20,7 @@ class InstagramLikeValidator
         return false
       end
     rescue Instagram::BadRequest => e
+      Rails.logger.error e
       # when user has revoked the application's access or
       #   Instagram has reset the access_token.
       if e.message.include? "access_token provided is invalid"
@@ -33,6 +34,7 @@ class InstagramLikeValidator
       end
       return false
     rescue => e
+      Rails.logger.error e
       @campaign.errors.add(:base, :instagram_error)
       return false
     end

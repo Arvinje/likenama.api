@@ -17,7 +17,8 @@ class CampaignValidator
       campaign_has_enough_credit?
       user_has_enough_credit?
       @campaign
-    rescue
+    rescue => e
+      Rails.logger.error e
       return
     end
   end

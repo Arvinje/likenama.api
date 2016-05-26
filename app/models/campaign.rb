@@ -63,8 +63,8 @@ class Campaign < ActiveRecord::Base
         rejected!
         owner.save!
       end
-    rescue
-      # Exception logging!
+    rescue => e
+      Rails.logger.error e
     end
   end
 

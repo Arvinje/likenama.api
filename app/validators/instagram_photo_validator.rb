@@ -14,7 +14,8 @@ class InstagramPhotoValidator
       media = Instagram.client.media_shortcode(@campaign.target)
       media.images.standard_resolution.url
       true
-    rescue
+    rescue => e
+      Rails.logger.error e
       @campaign.errors.add(:target_url, :wrong_instagram_url)
       false
     end

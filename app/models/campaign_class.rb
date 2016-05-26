@@ -59,7 +59,8 @@ class CampaignClass < ActiveRecord::Base
           return false
         end
       end
-    rescue
+    rescue => e
+      Rails.logger.error e
       return false
     end
   end

@@ -37,7 +37,8 @@ class CreateCampaign
       end
       @campaign.fetch_cover
       true
-    rescue
+    rescue => e
+      Rails.logger.error e
       false
     end
   end
@@ -66,7 +67,8 @@ class CreateCampaign
       when "like"
         @campaign.owner.like_credit -= @campaign.budget
       end
-    rescue
+    rescue => e
+      Rails.logger.error e
       @campaign.errors.add(:budget, :not_a_number)
       raise "not a number"
     end

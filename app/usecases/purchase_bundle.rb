@@ -34,13 +34,16 @@ class PurchaseBundle
         @user.errors.add(:base, :payment_not_valid)
         false
       end
-    rescue InvalidVerification
+    rescue InvalidVerification => e
+      Rails.logger.error e
       @user.errors.add(:base, :payment_not_valid)
       false
-    rescue InvalidAuthentication
+    rescue InvalidAuthentication => e
+      Rails.logger.error e
       @user.errors.add(:base, :payment_problem)
       false
-    rescue
+    rescue => e
+      Rails.logger.error e
       @user.errors.add(:base, :payment_problem)
       false
     end
@@ -58,7 +61,8 @@ class PurchaseBundle
         @user.save!
         true
       end
-    rescue
+    rescue => e
+      Rails.logger.error e
       @user.errors.add(:base, :payment_problem)
       false
     end
